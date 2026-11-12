@@ -231,21 +231,101 @@
     }
   }
 
-  document.getElementById("sellForm").addEventListener("submit", async function(e){
-    e.preventDefault();
+ 
+document.getElementById("sellForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const button = this.querySelector('button[type="submit"]');
+  button.disabled = true;
+
+  try {
+    const { data: { user }, error: authError } = await db.auth.getUser();
+
+    if (authError || !user) {
+      showMessage("ആദ്യം Login ചെയ്യുക.");
+      return;
+    }
+
+    const seller = document.getElementById("seller").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const rawType = document.getElementById("type").value.trim();
+    const location = document.getElementById("location").value.trim();
+    const area = document.getElementById("area").value.trim();
+    const priceText = document.getElementById("price").value.trim();
+    const details = document.getElementById("details").value.trim();
     const files = [...photoInput.files];
-    const photoNames = files.map(f => f.name).join(", ") || "ഫോട്ടോ നൽകിയിട്ടില്ല";
-    const msg = `EASY DEALS - വിൽപ്പനയ്ക്കുള്ള സ്വകാര്യ അപേക്ഷ
-പേര്: ${document.getElementById("seller").value}
-ഫോൺ: ${document.getElementById("phone").value}
-തരം: ${document.getElementById("type").value}
-സ്ഥലം: ${document.getElementById("location").value}
-വിസ്തീർണം: ${document.getElementById("area").value || "നൽകിയിട്ടില്ല"}
-വില: ${document.getElementById("price").value || "ചർച്ച ചെയ്യാം"}
-വിവരങ്ങൾ: ${document.getElementById("details").value || "ഇല്ല"}
-ഫോട്ടോകൾ: ${photoNames}`;
-    await sendWhatsApp(msg, files);
-  });
+
+    let category = "";
+
+    if (/land|plot|ഭൂമി|പ്ലോട്ട്/i.test(rawType)) category = "Land";
+    else if (/house|വീട്/i.test(rawType)) category = "House";
+    else if (/flat|ഫ്ലാറ്റ്/i.test(rawType)) category = "Flat";
+    else if (/villa|വില്ല/i.test(rawType)) category = "Villa";
+    else if (/commercial|കൊമേഴ്സ്യൽ/i.test(rawType)) category = "Commercial";
+
+    if (!category) {
+      showMessage("ശരിയായ Property Type തിരഞ്ഞെടുക്കുക.");
+      return;
+    }
+
+    const price = priceText ? Number(priceText) : null;
+
+    if (priceText && (!Number.isFinite(price) || price < 0)) {
+      showMessage("ശരിയായ വില നൽകുക.");
+      return;
+    }
+
+    const imageUrls = [];
+
+    for (const file of files) {
+      if (!file.type.startsWith("image/")) continue;
+
+      const path = user.id + "/" + crypto.randomUUID() + "-" + file.name;
+
+      const { error: uploadError } = await db.storage
+        .from("property-photos")
+        .upload(path, file, {
+          contentType: file.type,
+          upsert: false
+        });
+
+      if (uploadError) throw uploadError;
+
+      const { data: publicData } = db.storage
+        .from("property-photos")
+        .getPublicUrl(path);
+
+      imageUrls.push(publicData.publicUrl);
+    }
+
+    const { error: saveError } = await db
+      .from("properties")
+      .insert({
+        owner_id: user.id,
+        title: category + " - " + location,
+        category: category,
+        description: details,
+        location: location,
+        price: price,
+        area: area || null,
+        phone: phone,
+        image_urls: imageUrls
+      });
+
+    if (saveError) throw saveError;
+
+    showMessage("വിജയകരമായി Property Save ചെയ്തു!");
+
+    this.reset();
+    document.getElementById("photoPreview").innerHTML = "";
+
+  } catch (error) {
+    showMessage("Error: " + error.message);
+  } finally {
+    button.disabled = false;
+  }
+});
+
 
   document.getElementById("buyForm").addEventListener("submit", async function(e){
     e.preventDefault();
