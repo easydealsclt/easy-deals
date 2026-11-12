@@ -271,5 +271,152 @@
     <span>Email<small>easydealsclt@gmail.com</small></span>
   </a>
 </div>
+
+<!-- EASY DEALS USER ACCOUNT -->
+<section id="account" style="padding:40px 15px;background:#eef3f8;">
+  <div style="max-width:650px;margin:auto;background:white;padding:25px;border-radius:14px;box-shadow:0 3px 15px #0001;">
+    <h2 style="text-align:center;color:#102b46;">EASY DEALS - My Account</h2>
+    <p style="text-align:center;">പുതിയ അക്കൗണ്ട് ഉണ്ടാക്കാം അല്ലെങ്കിൽ Login ചെയ്യാം.</p>
+
+    <div style="margin:20px 0;">
+      <h3>പുതിയ അക്കൗണ്ട് (Sign Up)</h3>
+      <form id="edSignup">
+        <input id="edName" type="text" placeholder="നിങ്ങളുടെ പേര്" required style="width:100%;padding:12px;margin:7px 0;box-sizing:border-box;">
+        <input id="edSignupEmail" type="email" placeholder="Email address" required style="width:100%;padding:12px;margin:7px 0;box-sizing:border-box;">
+        <input id="edSignupPassword" type="password" placeholder="Password (കുറഞ്ഞത് 8 അക്ഷരങ്ങൾ)" minlength="8" required style="width:100%;padding:12px;margin:7px 0;box-sizing:border-box;">
+        <button type="submit" style="background:#1769aa;color:white;padding:12px 20px;border:0;border-radius:7px;cursor:pointer;">Create Account</button>
+      </form>
+    </div>
+
+    <hr>
+
+    <div style="margin:20px 0;">
+      <h3>Login</h3>
+      <form id="edLogin">
+        <input id="edLoginEmail" type="email" placeholder="Email address" required style="width:100%;padding:12px;margin:7px 0;box-sizing:border-box;">
+        <input id="edLoginPassword" type="password" placeholder="Password" required style="width:100%;padding:12px;margin:7px 0;box-sizing:border-box;">
+        <button type="submit" style="background:#1769aa;color:white;padding:12px 20px;border:0;border-radius:7px;cursor:pointer;">Login</button>
+      </form>
+    </div>
+
+    <div id="edAccountStatus" role="status" aria-live="polite" style="padding:10px;margin-top:15px;color:#102b46;"></div>
+    <div id="edLoggedIn" hidden>
+      <p id="edUserEmail"></p>
+      <button id="edLogout" type="button" style="background:#b83232;color:white;padding:10px 18px;border:0;border-radius:7px;cursor:pointer;">Logout</button>
+    </div>
+  </div>
+</section>
+
+<!-- SUPABASE CONNECTION -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function () {
+  const SUPABASE_URL = "https://twlpfijvwernyzuqdqjz.supabase.co";
+
+  // ഇവിടെ നിങ്ങളുടെ Notepad-ൽ സൂക്ഷിച്ച Publishable Key Paste ചെയ്യുക.
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_5ky_7hEIf5zqAkgIt7CUVw_hJns4YpB";
+
+  const db = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+  const status = document.getElementById("edAccountStatus");
+  const loggedIn = document.getElementById("edLoggedIn");
+  const userEmail = document.getElementById("edUserEmail");
+
+  function showMessage(message) {
+    status.textContent = message;
+  }
+
+  function updateAccount(user) {
+    if (user) {
+      loggedIn.hidden = false;
+      userEmail.textContent = "Login ചെയ്തിരിക്കുന്നത്: " + user.email;
+    } else {
+      loggedIn.hidden = true;
+      userEmail.textContent = "";
+    }
+  }
+
+  document.getElementById("edSignup").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById("edName").value.trim();
+    const email = document.getElementById("edSignupEmail").value.trim();
+    const password = document.getElementById("edSignupPassword").value;
+
+    showMessage("Account സൃഷ്ടിക്കുന്നു...");
+
+    const { data, error } = await db.auth.signUp({
+      email: email,
+      password: password,
+      options: {
+        data: { display_name: name },
+        emailRedirectTo: "https://easydealsclt.netlify.app/"
+      }
+    });
+
+    if (error) {
+      showMessage("Signup Error: " + error.message);
+      return;
+    }
+
+    if (data.session) {
+      showMessage("Account വിജയകരമായി സൃഷ്ടിച്ചു!");
+      updateAccount(data.user);
+    } else {
+      showMessage("Registration വിജയിച്ചു! നിങ്ങളുടെ Email തുറന്ന് Confirmation Link ക്ലിക്ക് ചെയ്യുക.");
+    }
+  });
+
+  document.getElementById("edLogin").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const email = document.getElementById("edLoginEmail").value.trim();
+    const password = document.getElementById("edLoginPassword").value;
+
+    showMessage("Login ചെയ്യുന്നു...");
+
+    const { data, error } = await db.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
+
+    if (error) {
+      showMessage("Login Error: " + error.message);
+      return;
+    }
+
+    showMessage("Login വിജയിച്ചു!");
+    updateAccount(data.user);
+  });
+
+  document.getElementById("edLogout").addEventListener("click", async function() {
+    const { error } = await db.auth.signOut();
+
+    if (error) {
+      showMessage("Logout Error: " + error.message);
+      return;
+    }
+
+    updateAccount(null);
+    showMessage("നിങ്ങൾ വിജയകരമായി Logout ചെയ്തു.");
+  });
+
+  db.auth.getSession().then(({ data, error }) => {
+    if (error) {
+      showMessage(error.message);
+      return;
+    }
+    updateAccount(data.session?.user || null);
+  });
+
+  db.auth.onAuthStateChange((event, session) => {
+    updateAccount(session?.user || null);
+  });
+})();
+</script>
+
 </body>
 </html>
