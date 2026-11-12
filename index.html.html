@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EASY DEALS - സ്ഥലം, വീട്, ഫ്ലാറ്റ് എന്നിവ വാങ്ങാനും വിൽക്കാനും ബന്ധപ്പെടൂ.">
+  <title>EASY DEALS | Real Estate</title>
+  <style>
+    :root{--navy:#102b46;--blue:#1769aa;--gold:#f5b942;--ink:#172536;--muted:#657487;--bg:#f4f7fb;--white:#fff}
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Arial,"Noto Sans Malayalam",sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+    a{text-decoration:none;color:inherit}.wrap{width:min(1120px,92%);margin:auto}
+    header{background:var(--navy);color:white;position:sticky;top:0;z-index:10;box-shadow:0 3px 15px #0002}
+    .nav{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:10px 0}
+    .brand{font-size:25px;font-weight:900;letter-spacing:1px}.brand span{color:var(--gold)}
+    nav{display:flex;gap:9px;flex-wrap:wrap;font-size:13px}
+    nav a{display:inline-flex;align-items:center;justify-content:center;padding:7px 13px;border:1px solid #ffffff55;border-radius:999px;color:#fff;font-weight:700;white-space:nowrap;transition:background .2s,border-color .2s,transform .2s}
+    nav a:hover,nav a:focus-visible{background:#ffffff1c;border-color:var(--gold);color:var(--gold);transform:translateY(-1px)}
+    nav a:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+    .hero{background:linear-gradient(115deg,#102b46ed,#1769aacc),url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=80');background-size:cover;background-position:center;color:white;padding:76px 0 68px}
+    .hero h1{font-size:clamp(32px,5vw,54px);line-height:1.15;margin:0 0 15px}.hero p{font-size:18px;max-width:680px;color:#eaf2fa}
+    .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}.btn{border:0;border-radius:8px;padding:12px 20px;font-weight:700;cursor:pointer;display:inline-block}
+    .primary{background:var(--gold);color:#1d2b39}.secondary{background:white;color:var(--navy)}.blue{background:var(--blue);color:white}
+    section{padding:55px 0}.section-title{text-align:center;margin:0 0 8px;font-size:30px;color:var(--navy)}.sub{text-align:center;color:var(--muted);margin:0 auto 30px;max-width:720px}
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.feature,.panel,.listing{background:white;border-radius:14px;padding:22px;box-shadow:0 5px 22px #132b4610}
+    .feature h3{margin:8px 0;color:var(--navy)}.feature .emoji{font-size:30px}
+    .forms{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}.panel h3{color:var(--navy);margin-top:0}
+    label{display:block;font-size:14px;font-weight:700;margin:12px 0 5px}
+    input,select,textarea{width:100%;padding:11px 12px;border:1px solid #d5deea;border-radius:8px;font:inherit;background:#fff}
+    textarea{min-height:90px;resize:vertical}input:focus,select:focus,textarea:focus{outline:2px solid #9ac8ee;border-color:var(--blue)}
+    .hint{font-size:12px;color:var(--muted);margin-top:5px}.preview{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.preview img{width:85px;height:75px;object-fit:cover;border-radius:7px;border:1px solid #ddd}
+    .listings{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.listing{padding:0;overflow:hidden}.listing img{width:100%;height:180px;object-fit:cover;background:#e8edf3}.listing .body{padding:16px}.tag{display:inline-block;background:#e8f2fb;color:#14558a;padding:3px 9px;border-radius:20px;font-size:12px;font-weight:bold}.listing h3{margin:8px 0 4px}.price{color:#0d754c;font-weight:800}
+    .contact{background:var(--navy);color:white;text-align:center}.contact p{color:#d9e5ef}.contact .btn{margin:6px}
+    footer{background:#0a1d30;color:#c9d5e0;padding:22px 0;text-align:center;font-size:13px}
+    .notice{background:#fff8e7;border-left:4px solid var(--gold);padding:12px 15px;border-radius:6px;font-size:13px;color:#604916;margin-top:18px}
+
+    .floating-contacts{position:fixed;right:18px;bottom:88px;z-index:20;display:flex;flex-direction:column;gap:10px;max-width:calc(100vw - 24px)}
+    .floating-contact{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;color:#fff;font-size:12px;font-weight:700;line-height:1.2;box-shadow:0 4px 16px #0003;transition:transform .2s,box-shadow .2s}
+    .floating-contact:hover{transform:translateY(-2px);box-shadow:0 7px 20px #0004}
+    .floating-contact svg{width:19px;height:19px;flex:0 0 19px;fill:currentColor}
+    .floating-whatsapp{background:#20b85a}.floating-email{background:#1769aa}
+    .floating-contact small{display:block;font-size:10px;font-weight:500;opacity:1;margin-top:2px;white-space:nowrap}
+    @media(max-width:540px){
+      .floating-contacts{right:8px;bottom:14px;gap:6px}
+      .floating-contact{gap:6px;padding:6px 9px;font-size:11px;box-shadow:0 3px 12px #0003}
+      .floating-contact svg{width:17px;height:17px;flex-basis:17px}
+      .floating-contact small{font-size:9px;letter-spacing:0}
+    }
+    @media(max-width:800px){.features,.listings{grid-template-columns:1fr 1fr}.forms{grid-template-columns:1fr}}
+    @media(max-width:540px){
+      .features,.listings{grid-template-columns:1fr}
+      .nav{justify-content:center;gap:9px;padding:10px 0}
+      nav{justify-content:center;gap:6px}
+      nav a{padding:6px 10px;font-size:12px}
+      .hero{padding:55px 0}.hero p{font-size:16px}
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#home">EASY <span>DEALS</span></a>
+    <nav aria-label="Main navigation">
+      <a href="#home">ഹോം</a><a href="#sell">വിൽക്കാം</a><a href="#buy">വാങ്ങാം</a><a href="#contact">ബന്ധപ്പെടുക</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="home">
+    <div class="wrap">
+      <span class="tag">നിങ്ങളുടെ വിശ്വസ്ത റിയൽ എസ്റ്റേറ്റ് കണക്ഷൻ</span>
+      <h1>നിങ്ങളുടെ സ്വപ്നസ്ഥലം<br>ഇനി എളുപ്പത്തിൽ കണ്ടെത്താം!</h1>
+      <p>സ്ഥലം, വീട്, ഫ്ലാറ്റ് എന്നിവ വിൽക്കാനും വാങ്ങാനും EASY DEALS-ൽ നിങ്ങളുടെ ആവശ്യങ്ങൾ അറിയിക്കൂ. വാങ്ങുന്നവരെയും വിൽക്കുന്നവരെയും ഞങ്ങൾ ബന്ധിപ്പിക്കുന്നു.</p>
+      <div class="actions"><a class="btn primary" href="#sell">വിൽക്കാൻ പരസ്യം നൽകാം</a><a class="btn secondary" href="#buy">വാങ്ങാനുള്ള ആവശ്യം നൽകാം</a></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2 class="section-title">EASY DEALS എങ്ങനെ സഹായിക്കും?</h2>
+      <p class="sub">നിങ്ങളുടെ പ്രോപ്പർട്ടി വിവരങ്ങളും വാങ്ങാനുള്ള ആവശ്യങ്ങളും ഒരിടത്ത് അറിയിക്കാം.</p>
+      <div class="features">
+        <article class="feature"><div class="emoji">🏡</div><h3>പ്രോപ്പർട്ടി വിൽക്കാം</h3><p>സ്ഥലം, വീട്, ഫ്ലാറ്റ്, വില്ല എന്നിവയുടെ വിവരങ്ങളും ഫോട്ടോകളും നൽകാം.</p></article>
+        <article class="feature"><div class="emoji">🔎</div><h3>വാങ്ങാനുള്ള ആവശ്യം അറിയിക്കാം</h3><p>ഏത് സ്ഥലത്ത്, എത്ര ബജറ്റിൽ എന്താണ് വേണ്ടതെന്ന് അറിയിക്കാം.</p></article>
+        <article class="feature"><div class="emoji">🤝</div><h3>ഡീൽ ബന്ധിപ്പിക്കാം</h3><p>വാങ്ങുന്നവരെയും വിൽക്കുന്നവരെയും ബന്ധിപ്പിക്കാൻ EASY DEALS സഹായിക്കുന്നു.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#eaf0f7">
+    <div class="wrap">
+      <h2 class="section-title">സ്വകാര്യ പ്രോപ്പർട്ടി സേവനം</h2>
+      <p class="sub">നിങ്ങൾ നൽകുന്ന വിവരങ്ങളും ഫോട്ടോകളും EASY DEALS നേരിട്ട് പരിശോധിക്കും. അനുമതിയില്ലാതെ നിങ്ങളുടെ പരസ്യം വെബ്സൈറ്റിൽ പ്രസിദ്ധീകരിക്കില്ല. അനുയോജ്യരായ വാങ്ങുന്നവരെ കണ്ടെത്തി സൈറ്റ് വിസിറ്റ് ക്രമീകരിക്കാൻ ഞങ്ങൾ നിങ്ങളെ ബന്ധപ്പെടും.</p>
+    </div>
+  </section>
+
+  <section id="choose" style="background:#f4f7fb">
+    <div class="wrap">
+      <h2 class="section-title">നിങ്ങൾക്ക് എന്താണ് വേണ്ടത്?</h2>
+      <p class="sub">താഴെ നിങ്ങൾക്ക് അനുയോജ്യമായ ഒരു ഓപ്ഷൻ തിരഞ്ഞെടുക്കൂ.</p>
+      <div class="forms">
+        <div class="panel">
+          <h3>പ്രോപ്പർട്ടി വിൽക്കണം</h3>
+          <p>നിങ്ങളുടെ വീട് അല്ലെങ്കിൽ സ്ഥലം വിൽക്കാൻ വിവരങ്ങൾ നൽകൂ.</p>
+          <a class="btn blue" href="#sell">വിൽക്കാൻ ഇവിടെ ക്ലിക്ക് ചെയ്യൂ</a>
+        </div>
+        <div class="panel">
+          <h3>പ്രോപ്പർട്ടി വാങ്ങണം</h3>
+          <p>നിങ്ങൾക്ക് വേണ്ട വീട് അല്ലെങ്കിൽ സ്ഥലത്തിന്റെ വിവരങ്ങൾ നൽകൂ.</p>
+          <a class="btn blue" href="#buy">വാങ്ങാൻ ഇവിടെ ക്ലിക്ക് ചെയ്യൂ</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sell">
+    <div class="wrap">
+      <h2 class="section-title">പ്രോപ്പർട്ടി വിൽക്കണം</h2>
+      <p class="sub">നിങ്ങളുടെ വീട്, സ്ഥലം തുടങ്ങിയവയുടെ വിവരങ്ങൾ ഇവിടെ നൽകൂ. ഫോട്ടോകളും ചേർക്കാം. ഞങ്ങൾ പരിശോധിച്ചശേഷം നിങ്ങളെ ബന്ധപ്പെടും.</p>
+      <div class="panel">
+        <form id="sellForm">
+          <div class="forms">
+            <div>
+              <label for="seller">പേര് *</label><input id="seller" required placeholder="നിങ്ങളുടെ പേര്">
+              <label for="phone">ഫോൺ നമ്പർ *</label><input id="phone" required type="tel" placeholder="മൊബൈൽ നമ്പർ">
+              <label for="type">പ്രോപ്പർട്ടി തരം *</label><select id="type" required><option value="">തിരഞ്ഞെടുക്കുക</option><option>സ്ഥലം / പ്ലോട്ട്</option><option>വീട്</option><option>ഫ്ലാറ്റ്</option><option>വില്ല</option><option>കമേഴ്സ്യൽ കെട്ടിടം</option></select>
+              <label for="location">സ്ഥലം / ജില്ല *</label><input id="location" required placeholder="ഉദാ: കോഴിക്കോട്, ബാലുശ്ശേരി">
+            </div>
+            <div>
+              <label for="area">വിസ്തീർണം</label><input id="area" placeholder="ഉദാ: 10 സെന്റ് / 1500 sq.ft">
+              <label for="price">പ്രതീക്ഷിക്കുന്ന വില</label><input id="price" placeholder="ഉദാ: ₹25 ലക്ഷം">
+              <label for="photos">ഫോട്ടോകൾ തിരഞ്ഞെടുക്കുക</label><input id="photos" type="file" accept="image/*" multiple>
+              <div class="preview" id="photoPreview"></div>
+              <p class="hint">ഫോട്ടോകൾ തിരഞ്ഞെടുത്താൽ പ്രിവ്യൂ കാണാം. നിങ്ങളുടെ ഫോണിൽ Share സൗകര്യം ലഭ്യമെങ്കിൽ വിവരങ്ങളും ഫോട്ടോകളും ഒരുമിച്ച് WhatsApp-ലേക്ക് പങ്കിടാം.</p>
+            </div>
+          </div>
+          <label for="details">കൂടുതൽ വിവരങ്ങൾ</label><textarea id="details" placeholder="റോഡ് സൗകര്യം, വെള്ളം, രേഖകൾ തുടങ്ങിയ വിവരങ്ങൾ"></textarea>
+          <p><button class="btn blue" type="submit">വിൽപ്പന വിവരങ്ങൾ അയക്കുക</button></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section id="buy" style="background:#eaf0f7">
+    <div class="wrap">
+      <h2 class="section-title">പ്രോപ്പർട്ടി വാങ്ങണം</h2>
+      <p class="sub">വാങ്ങാൻ ആഗ്രഹിക്കുന്ന വീട്, സ്ഥലം തുടങ്ങിയവയുടെ ആവശ്യങ്ങൾ ഇവിടെ നൽകൂ. അനുയോജ്യമായ പ്രോപ്പർട്ടി കണ്ടെത്താൻ ഞങ്ങൾ നിങ്ങളെ സഹായിക്കും.</p>\n      <p class="sub">നിങ്ങൾക്ക് എന്താണ് വേണ്ടതെന്ന് പറയൂ. അനുയോജ്യമായ പ്രോപ്പർട്ടി കണ്ടെത്താൻ ബന്ധപ്പെടാം.</p>
+      <div class="panel">
+        <form id="buyForm">
+          <div class="forms">
+            <div>
+              <label for="buyer">പേര് *</label><input id="buyer" required placeholder="നിങ്ങളുടെ പേര്">
+              <label for="buyerPhone">ഫോൺ നമ്പർ *</label><input id="buyerPhone" required type="tel" placeholder="മൊബൈൽ നമ്പർ">
+              <label for="needType">എന്താണ് വാങ്ങേണ്ടത്? *</label><select id="needType" required><option value="">തിരഞ്ഞെടുക്കുക</option><option>സ്ഥലം / പ്ലോട്ട്</option><option>വീട്</option><option>ഫ്ലാറ്റ്</option><option>വില്ല</option><option>കമേഴ്സ്യൽ കെട്ടിടം</option></select>
+            </div>
+            <div>
+              <label for="needLocation">ആവശ്യമായ സ്ഥലം *</label><input id="needLocation" required placeholder="പ്രദേശം / ജില്ല">
+              <label for="budget">ബജറ്റ്</label><input id="budget" placeholder="ഉദാ: ₹20 - 30 ലക്ഷം">
+              <label for="needArea">ആവശ്യമായ വിസ്തീർണം</label><input id="needArea" placeholder="ഉദാ: 5 മുതൽ 10 സെന്റ് വരെ">
+            </div>
+          </div>
+          <label for="needDetails">മറ്റ് ആവശ്യങ്ങൾ</label><textarea id="needDetails" placeholder="റോഡ്, സ്കൂൾ, ആശുപത്രി എന്നിവയുടെ സമീപം വേണമോ?"></textarea>
+          <p><button class="btn blue" type="submit">വാങ്ങൽ ആവശ്യം അയക്കുക</button></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <h2>നിങ്ങളുടെ അടുത്ത ഡീൽ ഇവിടെ തുടങ്ങട്ടെ!</h2>
+      <p>വിൽക്കാനോ വാങ്ങാനോ കൂടുതൽ വിവരങ്ങൾ അറിയാനോ ഞങ്ങളെ ബന്ധപ്പെടൂ.</p>
+      <a class="btn primary" id="contactWhatsApp" href="#">WhatsApp വഴി ബന്ധപ്പെടുക</a>
+      <a class="btn secondary" href="mailto:easydealsclt@gmail.com">Email അയക്കുക</a>
+      <p class="hint" style="color:#c9d7e4">നിങ്ങളുടെ വിവരങ്ങൾ സ്വകാര്യമായി കൈകാര്യം ചെയ്യും.</p>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap">© <span id="year"></span> EASY DEALS. All rights reserved. | വാങ്ങുന്നവരെയും വിൽക്കുന്നവരെയും ബന്ധിപ്പിക്കുന്നു.</div></footer>
+
+<script>
+  // WhatsApp നമ്പർ രാജ്യകോഡോടെ നൽകണം. ഇന്ത്യയാണെങ്കിൽ ഉദാ: 919876543210
+  // നൽകിയ 10 അക്ക നമ്പറിന് ഇന്ത്യയുടെ 91 രാജ്യകോഡ് ചേർത്തിരിക്കുന്നു.
+  const WHATSAPP_NUMBER = "917289985855";
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+  const waLink = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent("Hello EASY DEALS, കൂടുതൽ വിവരങ്ങൾ അറിയണം.");
+  document.getElementById("contactWhatsApp").href = waLink;
+
+  const photoInput = document.getElementById("photos");
+  photoInput.addEventListener("change", function(){
+    const preview = document.getElementById("photoPreview");
+    preview.innerHTML = "";
+    [...this.files].forEach(file => {
+      if (!file.type.startsWith("image/")) return;
+      const img = document.createElement("img");
+      img.alt = "തിരഞ്ഞെടുത്ത ഫോട്ടോ";
+      img.src = URL.createObjectURL(file);
+      preview.appendChild(img);
+    });
+  });
+
+  function whatsappTextLink(message) {
+    return "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
+  }
+
+  async function sendWhatsApp(message, files = []) {
+    if (!WHATSAPP_NUMBER.startsWith("91") || WHATSAPP_NUMBER.length < 12) {
+      alert("WhatsApp നമ്പറിൽ ഇന്ത്യയുടെ രാജ്യകോഡ് 91 കൂടി ചേർക്കണം. ഉദാ: 919876543210. HTML ഫയലിലെ WHATSAPP_NUMBER മാറ്റുക.");
+      return;
+    }
+
+    // ഫോണിലെ Share സൗകര്യം ഫയലുകൾ സ്വീകരിക്കുന്നുവെങ്കിൽ ചിത്രങ്ങളും സന്ദേശവും ഒരുമിച്ച് പങ്കിടാം.
+    if (files.length && navigator.share && navigator.canShare) {
+      const shareData = { title: "EASY DEALS", text: message, files };
+      if (navigator.canShare({ files })) {
+        try {
+          await navigator.share(shareData);
+          return;
+        } catch (err) {
+          if (err && err.name === "AbortError") return;
+        }
+      }
+    }
+
+    // Share with files ലഭ്യമല്ലാത്ത ബ്രൗസറുകളിൽ WhatsApp സന്ദേശം തുറക്കും.
+    window.open(whatsappTextLink(message), "_blank");
+    if (files.length) {
+      alert("ഈ ബ്രൗസറിൽ ഫോട്ടോകൾ നേരിട്ട് WhatsApp-ലേക്ക് ചേർക്കാനുള്ള സൗകര്യമില്ല. WhatsApp തുറന്നാൽ ഫോട്ടോകൾ അറ്റാച്ച് ചെയ്യണം. ഫോണിലെ Chrome ഉപയോഗിച്ചാൽ ഒരുമിച്ച് Share ചെയ്യാനുള്ള സൗകര്യം ലഭിക്കാം.");
+    }
+  }
+
+  document.getElementById("sellForm").addEventListener("submit", async function(e){
+    e.preventDefault();
+    const files = [...photoInput.files];
+    const photoNames = files.map(f => f.name).join(", ") || "ഫോട്ടോ നൽകിയിട്ടില്ല";
+    const msg = `EASY DEALS - വിൽപ്പനയ്ക്കുള്ള സ്വകാര്യ അപേക്ഷ
+പേര്: ${document.getElementById("seller").value}
+ഫോൺ: ${document.getElementById("phone").value}
+തരം: ${document.getElementById("type").value}
+സ്ഥലം: ${document.getElementById("location").value}
+വിസ്തീർണം: ${document.getElementById("area").value || "നൽകിയിട്ടില്ല"}
+വില: ${document.getElementById("price").value || "ചർച്ച ചെയ്യാം"}
+വിവരങ്ങൾ: ${document.getElementById("details").value || "ഇല്ല"}
+ഫോട്ടോകൾ: ${photoNames}`;
+    await sendWhatsApp(msg, files);
+  });
+
+  document.getElementById("buyForm").addEventListener("submit", async function(e){
+    e.preventDefault();
+    const msg = `EASY DEALS - വാങ്ങാനുള്ള സ്വകാര്യ ആവശ്യം
+പേര്: ${document.getElementById("buyer").value}
+ഫോൺ: ${document.getElementById("buyerPhone").value}
+വേണ്ടത്: ${document.getElementById("needType").value}
+സ്ഥലം: ${document.getElementById("needLocation").value}
+ബജറ്റ്: ${document.getElementById("budget").value || "നൽകിയിട്ടില്ല"}
+വിസ്തീർണം: ${document.getElementById("needArea").value || "നൽകിയിട്ടില്ല"}
+മറ്റ് ആവശ്യങ്ങൾ: ${document.getElementById("needDetails").value || "ഇല്ല"}`;
+    await sendWhatsApp(msg);
+  });
+</script>
+
+<div class="floating-contacts" aria-label="നേരിട്ടുള്ള ബന്ധപ്പെടൽ">
+  <a class="floating-contact floating-whatsapp" href="https://wa.me/917289985855" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp വഴി ബന്ധപ്പെടുക: +91 72899 85855">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.08 0C5.5 0 .15 5.34.15 11.92c0 2.1.55 4.15 1.6 5.96L0 24l6.28-1.65a11.9 11.9 0 0 0 5.8 1.48h.01c6.57 0 11.92-5.35 11.92-11.92 0-3.19-1.24-6.18-3.49-8.43ZM12.09 21.8a9.9 9.9 0 0 1-5.05-1.38l-.36-.21-3.73.98 1-3.64-.24-.37a9.85 9.85 0 1 1 8.38 4.62Zm5.41-7.38c-.3-.15-1.77-.87-2.05-.97-.28-.1-.48-.15-.68.15-.2.3-.78.97-.96 1.17-.18.2-.35.22-.65.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.48-1.74-1.65-2.04-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.68-1.63-.93-2.23-.24-.58-.49-.5-.68-.51h-.58c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.08-.13-.28-.2-.58-.35Z"/></svg>
+    <span>WhatsApp<small>+91 72899 85855</small></span>
+  </a>
+  <a class="floating-contact floating-email" href="mailto:easydealsclt@gmail.com" aria-label="Email അയക്കുക: easydealsclt@gmail.com">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 4h19A2.5 2.5 0 0 1 24 6.5v11a2.5 2.5 0 0 1-2.5 2.5h-19A2.5 2.5 0 0 1 0 17.5v-11A2.5 2.5 0 0 1 2.5 4Zm9.5 8.1L21.3 6H2.7l9.3 6.1Zm0 2.4L2 7.8v9.7c0 .28.22.5.5.5h19a.5.5 0 0 0 .5-.5V7.8L12 14.5Z"/></svg>
+    <span>Email<small>easydealsclt@gmail.com</small></span>
+  </a>
+</div>
+</body>
+</html>
