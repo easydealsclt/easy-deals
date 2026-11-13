@@ -400,7 +400,7 @@ document.getElementById("sellForm").addEventListener("submit", async function(e)
     SUPABASE_URL,
     SUPABASE_PUBLISHABLE_KEY
   );
-
+window.db = db;
   const status = document.getElementById("edAccountStatus");
   const loggedIn = document.getElementById("edLoggedIn");
   const userEmail = document.getElementById("edUserEmail");
@@ -408,7 +408,7 @@ document.getElementById("sellForm").addEventListener("submit", async function(e)
   function showMessage(message) {
     status.textContent = message;
   }
-
+window.showMessage = showMessage;
   function updateAccount(user) {
     if (user) {
       loggedIn.hidden = false;
