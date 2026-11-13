@@ -566,6 +566,14 @@ async function loadPropertyListings() {
     const phone = document.createElement("p");
     phone.textContent = "ഫോൺ: " + (item.phone || "");
     card.appendChild(phone);
+    const whatsapp = document.createElement("a");
+whatsapp.href = "https://wa.me/91" + (item.phone || "").replace(/\D/g, "").replace(/^91/, "");
+whatsapp.target = "_blank";
+whatsapp.textContent = "WhatsApp വഴി ബന്ധപ്പെടുക";
+whatsapp.className = "btn primary";
+whatsapp.style.display = "inline-block";
+whatsapp.style.marginTop = "10px";
+card.appendChild(whatsapp);
 
     container.appendChild(card);
   });
