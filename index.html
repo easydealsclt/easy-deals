@@ -53,6 +53,45 @@
       nav a{padding:6px 10px;font-size:12px}
       .hero{padding:55px 0}.hero p{font-size:16px}
     }
+    /* EASY DEALS - Premium Button Animation */
+
+.nav nav a {
+  display: inline-block;
+  transition: all 0.25s ease;
+}
+
+.nav nav a:hover {
+  transform: scale(1.10);
+  background: #f5a623;
+  color: #102b45;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.20);
+}
+
+.nav nav a:active {
+  transform: scale(0.92);
+}
+
+.nav nav a.login-nav {
+  background: linear-gradient(135deg, #ffb52e, #ff7b22);
+  color: #102b45;
+  font-weight: bold;
+  border-radius: 25px;
+  padding: 10px 16px;
+  box-shadow: 0 4px 12px rgba(255,165,0,0.25);
+}
+
+.actions .btn {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.actions .btn:hover {
+  transform: scale(1.07);
+  box-shadow: 0 7px 18px rgba(0,0,0,0.20);
+}
+
+.actions .btn:active {
+  transform: scale(0.94);
+}
   </style>
 </head>
 <body>
@@ -60,7 +99,11 @@
   <div class="wrap nav">
     <a class="brand" href="#home">EASY <span>DEALS</span></a>
     <nav aria-label="Main navigation">
-      <a href="#home">ഹോം</a><a href="#sell">വിൽക്കാം</a><a href="#buy">വാങ്ങാം</a><a href="#contact">ബന്ധപ്പെടുക</a>
+     <a href="#home">ഹോം</a>
+<a href="#sell">വിൽക്കാം</a>
+<a href="#buy">വാങ്ങാം</a>
+<a href="#contact">ബന്ധപ്പെടുക</a>
+<a href="#auth" class="login-nav">Login / Register</a>
     </nav>
   </div>
 </header>
@@ -362,7 +405,7 @@ document.getElementById("sellForm").addEventListener("submit", async function(e)
 
 <!-- EASY DEALS USER ACCOUNT -->
 <section id="account" style="padding:40px 15px;background:#eef3f8;">
-  <div style="max-width:650px;margin:auto;background:white;padding:25px;border-radius:14px;box-shadow:0 3px 15px #0001;">
+ <div id="auth" style="max-width:650px;margin:auto;background:white;padding:25px;border-radius:14px;box-shadow:0 3px 15px #0001;">
     <h2 style="text-align:center;color:#102b46;">EASY DEALS - My Account</h2>
     <p style="text-align:center;">പുതിയ അക്കൗണ്ട് ഉണ്ടാക്കാം അല്ലെങ്കിൽ Login ചെയ്യാം.</p>
 
