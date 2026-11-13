@@ -223,6 +223,16 @@
       
 <div class="property-listings">
   <h2 class="section-title">ലഭ്യമായ പ്രോപ്പർട്ടികൾ</h2>
+  
+<div style="margin:15px 0;">
+  <input
+    type="text"
+    id="propertySearch"
+    placeholder="വീട്, സ്ഥലം, ഫ്ലാറ്റ് എന്നിവ തിരയുക..."
+    style="width:100%;padding:14px;border:1px solid #ccc;border-radius:10px;font-size:16px;"
+  >
+</div>
+
   <div id="propertyListings">
     <p>പരസ്യങ്ങൾ ലോഡ് ചെയ്യുന്നു...</p>
   </div>
@@ -640,7 +650,20 @@ card.appendChild(whatsapp);
   });
 }
 
-loadPropertyListings();
+
+const searchBox = document.getElementById("propertySearch");
+
+searchBox.addEventListener("input", function () {
+  const term = this.value.toLowerCase().trim();
+  const cards = document.querySelectorAll("#propertyListings > div");
+
+  cards.forEach(card => {
+    card.style.display =
+      card.textContent.toLowerCase().includes(term) ? "" : "none";
+  });
+});
+
+  loadPropertyListings();
 
 })();
 </script>
