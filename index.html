@@ -163,6 +163,14 @@
           <p><button class="btn blue" type="submit">വാങ്ങൽ ആവശ്യം അയക്കുക</button></p>
         </form>
       </div>
+      
+<div class="property-listings">
+  <h2 class="section-title">ലഭ്യമായ പ്രോപ്പർട്ടികൾ</h2>
+  <div id="propertyListings">
+    <p>പരസ്യങ്ങൾ ലോഡ് ചെയ്യുന്നു...</p>
+  </div>
+</div>
+
     </div>
   </section>
 
@@ -495,6 +503,76 @@ window.showMessage = showMessage;
   db.auth.onAuthStateChange((event, session) => {
     updateAccount(session?.user || null);
   });
+  
+// EASY DEALS - Load property advertisements
+async function loadPropertyListings() {
+  const container = document.getElementById("propertyListings");
+  if (!container) return;
+
+  container.textContent = "പരസ്യങ്ങൾ ലോഡ് ചെയ്യുന്നു...";
+
+  const { data, error } = await db
+    .from("properties")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    container.textContent = "പരസ്യങ്ങൾ ലഭ്യമല്ല: " + error.message;
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    container.textContent = "ഇപ്പോൾ പരസ്യങ്ങളൊന്നുമില്ല.";
+    return;
+  }
+
+  container.innerHTML = "";
+
+  data.forEach(item => {
+    const card = document.createElement("div");
+    card.style.cssText =
+      "background:white;padding:18px;margin:15px 0;border-radius:12px;box-shadow:0 2px 10px #ddd;";
+
+    const title = document.createElement("h3");
+    title.textContent = item.title || "പ്രോപ്പർട്ടി";
+    card.appendChild(title);
+
+    const imageUrl = Array.isArray(item.image_urls)
+      ? item.image_urls[0]
+      : item.image_urls;
+
+    if (imageUrl) {
+      const img = document.createElement("img");
+      img.src = imageUrl;
+      img.alt = item.title || "Property";
+      img.style.cssText =
+        "width:100%;max-width:350px;height:220px;object-fit:cover;border-radius:8px;";
+      card.appendChild(img);
+    }
+
+    const details = document.createElement("p");
+    details.textContent =
+      "വിഭാഗം: " + (item.category || "") +
+      " | സ്ഥലം: " + (item.location || "") +
+      " | വില: ₹" + (item.price ?? "") +
+      " | വിസ്തീർണം: " + (item.area || "");
+
+    card.appendChild(details);
+
+    const description = document.createElement("p");
+    description.textContent = item.description || "";
+    card.appendChild(description);
+
+    const phone = document.createElement("p");
+    phone.textContent = "ഫോൺ: " + (item.phone || "");
+    card.appendChild(phone);
+
+    container.appendChild(card);
+  });
+}
+
+loadPropertyListings();
+
 })();
 </script>
 
