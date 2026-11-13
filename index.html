@@ -117,7 +117,10 @@
 <a href="#sell">വിൽക്കാം</a>
 <a href="#buy">വാങ്ങാം</a>
 <a href="#contact">ബന്ധപ്പെടുക</a>
-<a href="#auth" class="login-nav">Login / Register</a>
+
+<a href="#myListings">എന്റെ പരസ്യങ്ങൾ</a>
+
+      <a href="#auth" class="login-nav">Login / Register</a>
     </nav>
   </div>
 </header>
@@ -240,6 +243,16 @@
 
     </div>
   </section>
+
+  
+<section id="myListings" class="section">
+  <div class="wrap">
+    <h2 class="section-title">എന്റെ പരസ്യങ്ങൾ</h2>
+    <div id="myListingsContainer">
+      <p>നിങ്ങളുടെ പരസ്യങ്ങൾ ഇവിടെ കാണാം.</p>
+    </div>
+  </div>
+</section>
 
   <section class="contact" id="contact">
     <div class="wrap">
@@ -662,6 +675,72 @@ searchBox.addEventListener("input", function () {
       card.textContent.toLowerCase().includes(term) ? "" : "none";
   });
 });
+
+async function loadMyListings() {
+  const container = document.getElementById("myListingsContainer");
+
+  const { data: { user }, error: authError } =
+    await db.auth.getUser();
+
+  if (authError || !user) {
+    container.textContent = "നിങ്ങളുടെ പരസ്യങ്ങൾ കാണാൻ Login ചെയ്യുക.";
+    return;
+  }
+
+  const { data, error } = await db
+    .from("properties")
+    .select("*")
+    .eq("owner_id", user.id)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    container.textContent = "പരസ്യങ്ങൾ ലഭിച്ചില്ല: " + error.message;
+    return;
+  }
+
+  container.innerHTML = "";
+
+  if (!data || data.length === 0) {
+    container.textContent = "നിങ്ങൾ ഇതുവരെ പരസ്യങ്ങൾ ചേർത്തിട്ടില്ല.";
+    return;
+  }
+
+  data.forEach(item => {
+    const card = document.createElement("div");
+    card.style.cssText =
+      "background:white;padding:15px;margin:15px 0;border-radius:12px;";
+
+    const title = document.createElement("h3");
+    title.textContent = item.title || "Property";
+    card.appendChild(title);
+
+    const imageUrl = Array.isArray(item.image_urls)
+      ? item.image_urls[0]
+      : item.image_urls;
+
+    if (imageUrl) {
+      const img = document.createElement("img");
+      img.src = imageUrl;
+      img.alt = item.title || "Property";
+      img.style.cssText = "width:100%;max-width:300px;border-radius:8px;";
+      card.appendChild(img);
+    }
+
+    const details = document.createElement("p");
+    details.textContent =
+      "സ്ഥലം: " + (item.location || "") +
+      " | വില: ₹" + (item.price || "");
+    card.appendChild(details);
+
+    container.appendChild(card);
+  });
+}
+
+const myListingsLink = document.querySelector('a[href="#myListings"]');
+
+if (myListingsLink) {
+  myListingsLink.addEventListener("click", loadMyListings);
+}
 
   loadPropertyListings();
 
