@@ -566,14 +566,18 @@ async function loadPropertyListings() {
     const phone = document.createElement("p");
     phone.textContent = "ഫോൺ: " + (item.phone || "");
     card.appendChild(phone);
-    const whatsapp = document.createElement("a");
-whatsapp.href = "https://wa.me/91" + (item.phone || "").replace(/\D/g, "").replace(/^91/, "");
+   const sellerPhone = "91" + String(item.phone || "").replace(/\D/g, "").replace(/^91/, "");
+const message = `നമസ്കാരം, ${item.title || "ഈ പ്രോപ്പർട്ടി"}യെ കുറിച്ച് കൂടുതൽ വിവരങ്ങൾ അറിയാൻ ആഗ്രഹിക്കുന്നു.`;
+
+const whatsapp = document.createElement("a");
+whatsapp.href = `https://wa.me/${sellerPhone}?text=${encodeURIComponent(message)}`;
 whatsapp.target = "_blank";
 whatsapp.textContent = "WhatsApp വഴി ബന്ധപ്പെടുക";
 whatsapp.className = "btn primary";
 whatsapp.style.display = "inline-block";
 whatsapp.style.marginTop = "10px";
 card.appendChild(whatsapp);
+
 
     container.appendChild(card);
   });
