@@ -811,7 +811,9 @@ editBtn.onclick = () => {
 
   if (option) typeSelect.value = option.value;
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
+document.getElementById("sell").scrollIntoView({
+  behavior: "smooth"
+});
 };
 
 actions.appendChild(editBtn);
