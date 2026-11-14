@@ -731,7 +731,33 @@ async function loadMyListings() {
       "സ്ഥലം: " + (item.location || "") +
       " | വില: ₹" + (item.price || "");
     card.appendChild(details);
+const actions = document.createElement("div");
 
+const deleteBtn = document.createElement("button");
+deleteBtn.textContent = "Delete / നീക്കം ചെയ്യുക";
+deleteBtn.style.cssText =
+  "background:#dc3545;color:white;padding:10px;margin:5px;border:0;border-radius:6px;";
+
+deleteBtn.onclick = async () => {
+  if (!confirm("ഈ പരസ്യം നീക്കം ചെയ്യട്ടേ?")) return;
+
+  const { error } = await db
+    .from("properties")
+    .delete()
+    .eq("id", item.id)
+    .eq("owner_id", user.id);
+
+  if (error) {
+    alert("Delete Error: " + error.message);
+    return;
+  }
+
+  alert("പരസ്യം നീക്കം ചെയ്തു!");
+  await loadMyListings();
+};
+
+actions.appendChild(deleteBtn);
+card.appendChild(actions);
     container.appendChild(card);
   });
 }
