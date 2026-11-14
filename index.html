@@ -655,8 +655,8 @@ async function loadPropertyListings() {
     card.appendChild(title);
 
     const imageUrl = Array.isArray(item.image_urls)
-      ? item.image_urls[0]
-      : item.image_urls;
+    ? item.image_urls[item.image_urls.length - 1]
+    : item.image_urls;
 
     if (imageUrl) {
       const img = document.createElement("img");
