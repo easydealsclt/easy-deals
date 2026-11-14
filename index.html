@@ -320,6 +320,7 @@
   }
 
 let editingPropertyId = null; 
+  let existingImageUrls = [];
 document.getElementById("sellForm").addEventListener("submit", async function(e) {
   e.preventDefault();
 
@@ -397,8 +398,13 @@ const propertyData = {
   phone: phone
 };
 
-if (imageUrls.length > 0 || !editingPropertyId) {
-  propertyData.image_urls = imageUrls;
+if (imageUrls.length > 0) {
+    propertyData.image_urls = [
+        ...existingImageUrls,
+        ...imageUrls
+    ];
+} else if (editingPropertyId) {
+    propertyData.image_urls = existingImageUrls;
 }
 
 let saveError;
@@ -788,7 +794,9 @@ editBtn.style.cssText =
 
 editBtn.onclick = () => {
   editingPropertyId = item.id;
-
+existingImageUrls = Array.isArray(item.image_urls)
+    ? item.image_urls
+    : [];
   document.getElementById("seller").value = item.seller || "";
   document.getElementById("phone").value = item.phone || "";
   document.getElementById("location").value = item.location || "";
