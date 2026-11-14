@@ -319,7 +319,7 @@
     }
   }
 
- 
+let editingPropertyId = null; 
 document.getElementById("sellForm").addEventListener("submit", async function(e) {
   e.preventDefault();
 
@@ -386,25 +386,49 @@ document.getElementById("sellForm").addEventListener("submit", async function(e)
       imageUrls.push(publicData.publicUrl);
     }
 
-    const { error: saveError } = await db
-      .from("properties")
-      .insert({
-        owner_id: user.id,
-        title: category + " - " + location,
-        category: category,
-        description: details,
-        location: location,
-        price: price,
-        area: area || null,
-        phone: phone,
-        image_urls: imageUrls
-      });
+   
+const propertyData = {
+  title: category + " - " + location,
+  category: category,
+  description: details,
+  location: location,
+  price: price,
+  area: area || null,
+  phone: phone
+};
+
+if (imageUrls.length > 0 || !editingPropertyId) {
+  propertyData.image_urls = imageUrls;
+}
+
+let saveError;
+
+if (editingPropertyId) {
+  const { error } = await db
+    .from("properties")
+    .update(propertyData)
+    .eq("id", editingPropertyId)
+    .eq("owner_id", user.id);
+
+  saveError = error;
+} else {
+  const { error } = await db
+    .from("properties")
+    .insert({
+      owner_id: user.id,
+      ...propertyData
+    });
+
+  saveError = error;
+}
+
 
     if (saveError) throw saveError;
 
     showMessage("വിജയകരമായി Property Save ചെയ്തു!");
 
     this.reset();
+    editingPropertyId = null;
     document.getElementById("photoPreview").innerHTML = "";
 
   } catch (error) {
@@ -756,7 +780,43 @@ deleteBtn.onclick = async () => {
   await loadMyListings();
 };
 
-actions.appendChild(deleteBtn);
+
+const editBtn = document.createElement("button");
+editBtn.textContent = "Edit / തിരുത്തുക";
+editBtn.style.cssText =
+  "background:#1769aa;color:white;padding:10px;margin:5px;border:0;border-radius:6px;";
+
+editBtn.onclick = () => {
+  editingPropertyId = item.id;
+
+  document.getElementById("seller").value = item.seller || "";
+  document.getElementById("phone").value = item.phone || "";
+  document.getElementById("location").value = item.location || "";
+  document.getElementById("area").value = item.area || "";
+  document.getElementById("price").value = item.price || "";
+  document.getElementById("details").value = item.description || "";
+
+  const typeSelect = document.getElementById("type");
+  const words = {
+    Land: "പ്ലോട്ട്",
+    House: "വീട്",
+    Flat: "ഫ്ലാറ്റ്",
+    Villa: "വില്ല",
+    Commercial: "കോമേഴ്സ്യൽ"
+  };
+
+  const option = [...typeSelect.options].find(o =>
+    o.text.includes(words[item.category] || " ")
+  );
+
+  if (option) typeSelect.value = option.value;
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+actions.appendChild(editBtn);
+
+    actions.appendChild(deleteBtn);
 card.appendChild(actions);
     container.appendChild(card);
   });
