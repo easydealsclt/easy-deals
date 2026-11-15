@@ -381,6 +381,7 @@ function renderExistingPhotos() {
     wrapper.appendChild(deleteBtn);
     preview.appendChild(wrapper);
   });
+  window.renderExistingPhotos = renderExistingPhotos;
 }
 
 document.getElementById("sellForm").addEventListener("submit", async function(e) {
