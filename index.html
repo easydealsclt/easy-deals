@@ -654,18 +654,31 @@ async function loadPropertyListings() {
     title.textContent = item.title || "പ്രോപ്പർട്ടി";
     card.appendChild(title);
 
-    const imageUrl = Array.isArray(item.image_urls)
-    ? item.image_urls[item.image_urls.length - 1]
-    : item.image_urls;
+   
+const imageUrls = Array.isArray(item.image_urls)
+  ? item.image_urls
+  : (item.image_urls ? [item.image_urls] : []);
 
-    if (imageUrl) {
-      const img = document.createElement("img");
-      img.src = imageUrl;
-      img.alt = item.title || "Property";
-      img.style.cssText =
-        "width:100%;max-width:350px;height:220px;object-fit:cover;border-radius:8px;";
-      card.appendChild(img);
-    }
+if (imageUrls.length > 0) {
+  const gallery = document.createElement("div");
+  gallery.style.cssText =
+    "display:flex;gap:8px;overflow-x:auto;width:100%;";
+
+  imageUrls.forEach((url, index) => {
+    if (!url) return;
+
+    const img = document.createElement("img");
+    img.src = url;
+    img.alt = (item.title || "Property") + " Photo " + (index + 1);
+    img.style.cssText =
+      "width:160px;height:140px;object-fit:cover;border-radius:8px;flex:0 0 160px;";
+
+    gallery.appendChild(img);
+  });
+
+  card.appendChild(gallery);
+}
+
 
     const details = document.createElement("p");
     details.textContent =
@@ -751,17 +764,31 @@ async function loadMyListings() {
     title.textContent = item.title || "Property";
     card.appendChild(title);
 
-    const imageUrl = Array.isArray(item.image_urls)
-    ? item.image_urls[item.image_urls.length - 1]
-    : item.image_urls;
+   
+const imageUrls = Array.isArray(item.image_urls)
+  ? item.image_urls
+  : (item.image_urls ? [item.image_urls] : []);
 
-    if (imageUrl) {
-      const img = document.createElement("img");
-      img.src = imageUrl;
-      img.alt = item.title || "Property";
-      img.style.cssText = "width:100%;max-width:300px;border-radius:8px;";
-      card.appendChild(img);
-    }
+if (imageUrls.length > 0) {
+  const gallery = document.createElement("div");
+  gallery.style.cssText =
+    "display:flex;gap:8px;overflow-x:auto;width:100%;";
+
+  imageUrls.forEach((url, index) => {
+    if (!url) return;
+
+    const img = document.createElement("img");
+    img.src = url;
+    img.alt = (item.title || "Property") + " Photo " + (index + 1);
+    img.style.cssText =
+      "width:160px;height:140px;object-fit:cover;border-radius:8px;flex:0 0 160px;";
+
+    gallery.appendChild(img);
+  });
+
+  card.appendChild(gallery);
+}
+
 
     const details = document.createElement("p");
     details.textContent =
