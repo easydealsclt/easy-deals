@@ -278,48 +278,62 @@
   document.getElementById("contactWhatsApp").href = waLink;
 
   const photoInput = document.getElementById("photos");
- 
-let selectedFiles = [];
+  let selectedFiles = [];
+  let editingPropertyId = null;
+  let existingImageUrls = [];
 
-photoInput.addEventListener("change", function() {
-  selectedFiles = [...this.files];
+  // Render both saved photos and newly selected photos in one preview area.
+  window.renderPhotoPreviews = function renderPhotoPreviews() {
+    const preview = document.getElementById("photoPreview");
+    if (!preview) return;
+    preview.innerHTML = "";
 
-  const preview = document.getElementById("photoPreview");
-  preview.innerHTML = "";
+    existingImageUrls.forEach((url, index) => {
+      const wrapper = document.createElement("div");
+      wrapper.style.cssText = "display:inline-flex;flex-direction:column;margin:8px;";
+      const img = document.createElement("img");
+      img.src = url;
+      img.alt = "Existing property photo " + (index + 1);
+      img.style.cssText = "width:120px;height:100px;object-fit:cover;border-radius:8px;";
+      const deleteBtn = document.createElement("button");
+      deleteBtn.type = "button";
+      deleteBtn.textContent = "Delete ×";
+      deleteBtn.style.cssText = "background:#dc2626;color:white;padding:6px;border:0;border-radius:5px;margin-top:5px;";
+      deleteBtn.addEventListener("click", () => {
+        existingImageUrls.splice(index, 1);
+        window.renderPhotoPreviews();
+      });
+      wrapper.append(img, deleteBtn);
+      preview.appendChild(wrapper);
+    });
 
-  selectedFiles.forEach((file, index) => {
-    const wrapper = document.createElement("div");
-    wrapper.style.cssText =
-      "display:inline-flex;flex-direction:column;margin:8px;";
+    selectedFiles.forEach((file, index) => {
+      const wrapper = document.createElement("div");
+      wrapper.style.cssText = "display:inline-flex;flex-direction:column;margin:8px;";
+      const img = document.createElement("img");
+      img.src = URL.createObjectURL(file);
+      img.alt = "New property photo " + (index + 1);
+      img.style.cssText = "width:120px;height:100px;object-fit:cover;border-radius:8px;";
+      const deleteBtn = document.createElement("button");
+      deleteBtn.type = "button";
+      deleteBtn.textContent = "Delete ×";
+      deleteBtn.style.cssText = "background:#dc2626;color:white;padding:6px;border:0;border-radius:5px;margin-top:5px;";
+      deleteBtn.addEventListener("click", () => {
+        selectedFiles.splice(index, 1);
+        const dt = new DataTransfer();
+        selectedFiles.forEach(f => dt.items.add(f));
+        photoInput.files = dt.files;
+        window.renderPhotoPreviews();
+      });
+      wrapper.append(img, deleteBtn);
+      preview.appendChild(wrapper);
+    });
+  };
 
-    const img = document.createElement("img");
-    img.src = URL.createObjectURL(file);
-    img.style.cssText =
-      "width:120px;height:100px;object-fit:cover;border-radius:8px;";
-
-    const deleteBtn = document.createElement("button");
-    deleteBtn.type = "button";
-    deleteBtn.textContent = "Delete ×";
-    deleteBtn.style.cssText =
-      "background:#dc2626;color:white;padding:6px;border:0;border-radius:5px;margin-top:5px;";
-
-    deleteBtn.onclick = function() {
-      selectedFiles.splice(index, 1);
-      photoInput.value = "";
-      const dt = new DataTransfer();
-      selectedFiles.forEach(file => dt.items.add(file));
-      photoInput.files = dt.files;
-      photoInput.dispatchEvent(new Event("change"));
-    };
-
-    wrapper.appendChild(img);
-    wrapper.appendChild(deleteBtn);
-    preview.appendChild(wrapper);
-  });
-});
-
-
-  function whatsappTextLink(message) {
+  photoInput.addEventListener("change", function () {
+    selectedFiles = Array.from(this.files || []);
+    window.renderPhotoPreviews();
+  });function whatsappTextLink(message) {
     return "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
   }
 
@@ -349,40 +363,6 @@ photoInput.addEventListener("change", function() {
     }
   }
 
-let editingPropertyId = null; 
-  let existingImageUrls = [];
-  
-function renderExistingPhotos() {
-  const preview = document.getElementById("photoPreview");
-  preview.innerHTML = "";
-
-  existingImageUrls.forEach((url, index) => {
-    const wrapper = document.createElement("div");
-    wrapper.style.cssText =
-      "display:inline-flex;flex-direction:column;margin:8px;";
-
-    const img = document.createElement("img");
-    img.src = url;
-    img.style.cssText =
-      "width:120px;height:100px;object-fit:cover;border-radius:8px;";
-
-    const deleteBtn = document.createElement("button");
-    deleteBtn.type = "button";
-    deleteBtn.textContent = "Delete ×";
-    deleteBtn.style.cssText =
-      "background:#dc2626;color:white;padding:6px;border:0;border-radius:5px;margin-top:5px;";
-
-    deleteBtn.onclick = function() {
-      existingImageUrls.splice(index, 1);
-      renderExistingPhotos();
-    };
-
-    wrapper.appendChild(img);
-    wrapper.appendChild(deleteBtn);
-    preview.appendChild(wrapper);
-  });
-  window.renderExistingPhotos = renderExistingPhotos;
-}
 
 document.getElementById("sellForm").addEventListener("submit", async function(e) {
   e.preventDefault();
@@ -407,7 +387,7 @@ statusBox.textContent = "പരസ്യം സമർപ്പിക്കാൻ
     const area = document.getElementById("area").value.trim();
     const priceText = document.getElementById("price").value.trim();
     const details = document.getElementById("details").value.trim();
-    const files = [...photoInput.files];
+    const files = [...selectedFiles];
 
     let category = "";
 
@@ -513,7 +493,9 @@ if (editingPropertyId) {
 
     this.reset();
     editingPropertyId = null;
-    document.getElementById("photoPreview").innerHTML = "";
+    existingImageUrls = [];
+    selectedFiles = [];
+    window.renderPhotoPreviews();
 
   } catch (error) {
   statusBox.textContent = "❌ പരസ്യം സേവ് ചെയ്യാനായില്ല: " + error.message;
@@ -899,10 +881,12 @@ editBtn.style.cssText =
 
 editBtn.onclick = () => {
   editingPropertyId = item.id;
-existingImageUrls = Array.isArray(item.image_urls)
-    ? item.image_urls
-    : [];
-  renderExistingPhotos();
+  existingImageUrls = Array.isArray(item.image_urls)
+    ? [...item.image_urls]
+    : (item.image_urls ? [item.image_urls] : []);
+  selectedFiles = [];
+  photoInput.value = "";
+  window.renderPhotoPreviews();
   document.getElementById("seller").value = item.seller || "";
   document.getElementById("phone").value = item.phone || "";
   document.getElementById("location").value = item.location || "";
@@ -924,7 +908,7 @@ existingImageUrls = Array.isArray(item.image_urls)
   );
 
   if (option) typeSelect.value = option.value;
-  renderExistingPhotos();
+  window.renderPhotoPreviews();
 
 document.getElementById("sell").scrollIntoView({
   behavior: "smooth"
