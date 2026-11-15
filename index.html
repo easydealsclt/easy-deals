@@ -433,26 +433,34 @@ statusBox.textContent = "പരസ്യം സമർപ്പിക്കാൻ
     statusBox.textContent = "ഫോട്ടോകൾ അപ്‌ലോഡ് ചെയ്യുന്നു... ദയവായി കാത്തിരിക്കൂ.";
 }
 
-    for (const file of files) {
-      if (!file.type.startsWith("image/")) continue;
+   
+const imageFiles = files.filter(file =>
+  file.type && file.type.startsWith("image/")
+);
 
-      const path = user.id + "/" + crypto.randomUUID() + "-" + file.name;
+const uploadedUrls = await Promise.all(
+  imageFiles.map(async (file) => {
+    const path = user.id + "/" +
+      crypto.randomUUID() + "-" + file.name;
 
-      const { error: uploadError } = await db.storage
-        .from("property-photos")
-        .upload(path, file, {
-          contentType: file.type,
-          upsert: false
-        });
+    const { error: uploadError } = await db.storage
+      .from("property-photos")
+      .upload(path, file, {
+        contentType: file.type,
+        upsert: false
+      });
 
-      if (uploadError) throw uploadError;
+    if (uploadError) throw uploadError;
 
-      const { data: publicData } = db.storage
-        .from("property-photos")
-        .getPublicUrl(path);
+    const { data: publicData } = db.storage
+      .from("property-photos")
+      .getPublicUrl(path);
 
-      imageUrls.push(publicData.publicUrl);
-    }
+    return publicData.publicUrl;
+  })
+);
+
+imageUrls.push(...uploadedUrls);
 
    
 const propertyData = {
