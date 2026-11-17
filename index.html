@@ -3,8 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="EASY DEALS - സ്ഥലം, വീട്, ഫ്ലാറ്റ് എന്നിവ വാങ്ങാനും വിൽക്കാനും ബന്ധപ്പെടൂ.">
-  <title>EASY DEALS | Real Estate</title>
+  <meta name="description" content="Easy Deals Kerala - A simple marketplace for buying and selling houses, flats, villas and land.">
+  <title>Easy Deals</title>
+  <meta name="theme-color" content="#102b46">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Easy Deals">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+
   <style>
     :root{--navy:#102b46;--blue:#1769aa;--gold:#f5b942;--ink:#172536;--muted:#657487;--bg:#f4f7fb;--white:#fff}
     *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Arial,"Noto Sans Malayalam",sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
@@ -28,7 +37,10 @@
     input,select,textarea{width:100%;padding:11px 12px;border:1px solid #d5deea;border-radius:8px;font:inherit;background:#fff}
     textarea{min-height:90px;resize:vertical}input:focus,select:focus,textarea:focus{outline:2px solid #9ac8ee;border-color:var(--blue)}
     .hint{font-size:12px;color:var(--muted);margin-top:5px}.preview{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.preview img{width:85px;height:75px;object-fit:cover;border-radius:7px;border:1px solid #ddd}
-    .listings{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.listing{padding:0;overflow:hidden}.listing img{width:100%;height:180px;object-fit:cover;background:#e8edf3}.listing .body{padding:16px}.tag{display:inline-block;background:#e8f2fb;color:#14558a;padding:3px 9px;border-radius:20px;font-size:12px;font-weight:bold}.listing h3{margin:8px 0 4px}.price{color:#0d754c;font-weight:800}
+    .listings{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.listing{padding:0;overflow:hidden}.listing img{width:100%;height:180px;object-fit:cover;background:#e8edf3}.listing .body{padding:16px}.tag{display:inline-block;background:#e8f2fb;color:#14558a;padding:3px 9px;border-radius:20px;font-size:12px;font-weight:bold}
+    /* Keep the hero badge clearly above the headline without overlap. */
+    .hero .wrap > .tag{display:table;width:max-content;max-width:100%;margin:-10px 0 14px;line-height:1.5;position:relative;z-index:1}
+    .hero h1{margin-top:0;clear:both}.listing h3{margin:8px 0 4px}.price{color:#0d754c;font-weight:800}
     .contact{background:var(--navy);color:white;text-align:center}.contact p{color:#d9e5ef}.contact .btn{margin:6px}
     footer{background:#0a1d30;color:#c9d5e0;padding:22px 0;text-align:center;font-size:13px}
     .notice{background:#fff8e7;border-left:4px solid var(--gold);padding:12px 15px;border-radius:6px;font-size:13px;color:#604916;margin-top:18px}
@@ -92,9 +104,6 @@
 .actions .btn:active {
   transform: scale(0.94);
 }
-     {
-  transition: all 0.25s ease;
-}
 
 .btn.blue:hover {
   transform: scale(1.07);
@@ -106,6 +115,126 @@
 .btn.blue:active {
   transform: scale(0.94);
 }
+
+    /* Compact spacing for easier mobile browsing */
+    section{padding:36px 0}
+    .section-title{font-size:27px;margin-bottom:6px}
+    .sub{margin-bottom:18px;line-height:1.5}
+    .panel,.feature{padding:18px}
+    label{margin:8px 0 4px}
+    input,select,textarea{padding:9px 11px}
+    textarea{min-height:72px}
+    .hero{padding:58px 0 50px}
+    .actions{margin-top:18px}
+    #account h2{margin:0 0 6px}
+    #auth>p{margin:6px 0 10px}
+    #auth h3{margin:10px 0 8px}
+    #auth hr{margin:12px 0}
+    footer{padding:16px 0}
+    @media(max-width:800px){section{padding:28px 0}.panel,.feature{padding:16px}}
+    @media(max-width:540px){
+      section{padding:22px 0}
+      .hero{padding:38px 0 34px}
+      .hero h1{font-size:30px;margin-bottom:10px}
+      .hero p{font-size:15px;margin:8px 0 0}
+      .actions{gap:8px;margin-top:14px}
+      .btn{padding:10px 14px}
+      .section-title{font-size:24px}
+      .sub{font-size:14px;margin-bottom:14px}
+      .panel,.feature{padding:13px;border-radius:11px}
+      label{font-size:13px;margin:7px 0 3px}
+      input,select,textarea{padding:8px 10px;font-size:14px}
+      textarea{min-height:64px}
+      #account{padding:18px 10px!important}
+      #auth{padding:14px!important}
+      #auth input{padding:9px 10px!important;margin:4px 0!important}
+      #auth button{padding:9px 14px!important}
+      #auth h2{font-size:22px}
+      #contact{padding:24px 0}
+      #contact h2{font-size:23px;margin:0 0 8px}
+      #contact p{margin:8px 0}
+    }
+
+    /* Extra compact layout: preserve controls and functionality */
+    #sell, #buy, #myListings { padding-top: 20px; padding-bottom: 20px; }
+    #sell .section-title, #buy .section-title, #myListings .section-title { margin-bottom: 4px; }
+    #sell .sub, #buy .sub { margin-bottom: 12px; }
+    #sell .panel, #buy .panel { padding: 14px; }
+    #sell .forms, #buy .forms { gap: 12px; }
+    #sell label, #buy label { margin: 6px 0 3px; }
+    #sell input, #sell select, #sell textarea,
+    #buy input, #buy select, #buy textarea { padding: 8px 10px; }
+    #sell form > p, #buy form > p { margin: 8px 0 0; }
+    #sellFormStatus { padding: 2px !important; margin: 4px 0 !important; }
+    #myListingsContainer > p { margin: 4px 0; }
+    #contact { padding: 18px 0; }
+    #contact h2 { margin: 0 0 5px; }
+    #contact p { margin: 5px 0; }
+    footer { padding: 10px 0; line-height: 1.4; }
+    #account { padding: 12px 10px !important; }
+    #auth { padding: 12px !important; }
+    #auth h2 { margin: 2px 0 5px; line-height: 1.25; }
+    #auth > p { margin: 4px 0 8px; }
+    #auth h3 { margin: 7px 0 5px; }
+    #auth hr { margin: 8px 0; }
+    #auth form input { margin: 3px 0 !important; }
+    #auth > div { margin: 7px 0 !important; }
+    #edAccountStatus { padding: 3px !important; margin-top: 6px !important; }
+    @media(max-width:540px) {
+      section { padding: 14px 0; }
+      #sell, #buy, #myListings { padding-top: 12px; padding-bottom: 12px; }
+      #sell .panel, #buy .panel { padding: 10px; }
+      #sell .forms, #buy .forms { gap: 7px; }
+      #sell label, #buy label { margin: 5px 0 2px; }
+      #sell input, #sell select, #buy input, #buy select { min-height: 36px; padding: 6px 9px; font-size: 14px; }
+      #sell textarea, #buy textarea { min-height: 54px; padding: 7px 9px; }
+      #sell .hint { margin: 3px 0; line-height: 1.35; }
+      #sellFormStatus { min-height: 0; }
+      #sell form > p, #buy form > p { margin: 5px 0 0; }
+      #buy .property-listings { margin-top: 12px; }
+      #buy .property-listings h2 { margin-bottom: 5px; }
+      #buy #propertySearch { padding: 9px !important; font-size: 14px !important; }
+      #myListings .section-title { margin-bottom: 3px; }
+      #contact { padding: 14px 0; }
+      #contact h2 { font-size: 21px; line-height: 1.3; }
+      #contact .btn { margin: 3px; padding: 8px 11px; }
+      #contact .hint { margin: 4px 0; }
+      footer { padding: 8px 0; font-size: 11px; }
+      #account { padding: 8px 8px !important; }
+      #auth { padding: 9px !important; border-radius: 10px !important; }
+      #auth h2 { font-size: 19px !important; }
+      #auth h3 { font-size: 16px; }
+      #auth form input { padding: 7px 9px !important; min-height: 36px; }
+      #auth form button { padding: 7px 12px !important; }
+    }
+
+
+    .language-toggle{border:1px solid #f5b942;background:#f5b942;color:#102b46;border-radius:999px;padding:7px 12px;font-weight:800;cursor:pointer;white-space:nowrap}
+    .market-note{display:inline-flex;gap:7px;align-items:center;background:#e9f7ef;color:#17633d;border:1px solid #c7ead5;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:700;margin:0 0 12px}
+    .filter-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:9px;margin:12px 0 16px}
+    .filter-grid input,.filter-grid select{min-width:0;min-height:43px}
+    .listing{border:1px solid #e6ebf1;box-shadow:0 4px 16px #132b460d}
+    .listing .body{padding:14px}
+    .listing .body p{margin:7px 0;font-size:14px}
+    .listing .body .btn{padding:9px 12px}
+    .listing-gallery{display:flex;gap:7px;overflow-x:auto;padding:10px 10px 0;scroll-snap-type:x mandatory}
+    .listing-gallery img{width:100%;height:175px;object-fit:cover;border-radius:9px;flex:0 0 100%;scroll-snap-align:start}
+    .free-banner{background:#fff8e7;border:1px solid #f3dfae;border-radius:12px;padding:11px 14px;color:#654c17;font-size:13px;margin:12px 0}
+    @media(max-width:640px){.filter-grid{grid-template-columns:1fr 1fr}.filter-grid input{grid-column:1/-1}.nav{gap:8px}.brand{font-size:22px}nav{width:100%}.language-toggle{padding:6px 10px}.listing-gallery img{height:190px}}
+    @media(min-width:801px){#propertyListings{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.listing{margin:0!important}}
+    #adminPanel .admin-card{border:1px solid #dce5ef;border-radius:10px;padding:14px;margin:12px 0;background:#fff}
+    #adminPanel .admin-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    #adminPanel .admin-actions button{border:0;border-radius:7px;padding:9px 12px;font-weight:700;cursor:pointer}
+    #adminPanel .admin-approve{background:#16784b;color:#fff}
+    #adminPanel .admin-reject{background:#fff0d9;color:#704400}
+    #adminPanel .admin-delete{background:#b83232;color:#fff}
+    #adminPanel .admin-meta{color:#536579;font-size:13px;overflow-wrap:anywhere}
+    #adminPanel .report-card{border:1px solid #e5c9a3;background:#fffaf2;border-radius:10px;padding:13px;margin:10px 0}
+    .report-listing-btn{display:inline-block;margin-top:9px;background:#fff0e8;color:#8b2f18;border:1px solid #f1c5b5;border-radius:7px;padding:8px 11px;font-weight:700;cursor:pointer}
+    .report-listing-btn:disabled{opacity:.55;cursor:not-allowed}
+
+    #installAppBtn{display:none;background:#f5b942;color:#102b46;border:0;border-radius:999px;padding:8px 13px;font-weight:800;cursor:pointer}
+    #installAppBtn.visible{display:inline-flex;align-items:center;justify-content:center}
   </style>
 </head>
 <body>
@@ -119,8 +248,10 @@
 <a href="#contact">ബന്ധപ്പെടുക</a>
 
 <a href="#myListings">എന്റെ പരസ്യങ്ങൾ</a>
-
+      <a href="#adminPanel" id="adminNavLink" hidden>Admin</a>
       <a href="#auth" class="login-nav">Login / Register</a>
+      <button type="button" id="installAppBtn">Install App</button>
+      <button type="button" id="languageToggle" class="language-toggle" aria-label="Switch language">English</button>
     </nav>
   </div>
 </header>
@@ -128,55 +259,17 @@
 <main>
   <section class="hero" id="home">
     <div class="wrap">
-      <span class="tag">നിങ്ങളുടെ വിശ്വസ്ത റിയൽ എസ്റ്റേറ്റ് കണക്ഷൻ</span>
-      <h1>നിങ്ങളുടെ സ്വപ്നസ്ഥലം<br>ഇനി എളുപ്പത്തിൽ കണ്ടെത്താം!</h1>
-      <p>സ്ഥലം, വീട്, ഫ്ലാറ്റ് എന്നിവ വിൽക്കാനും വാങ്ങാനും EASY DEALS-ൽ നിങ്ങളുടെ ആവശ്യങ്ങൾ അറിയിക്കൂ. വാങ്ങുന്നവരെയും വിൽക്കുന്നവരെയും ഞങ്ങൾ ബന്ധിപ്പിക്കുന്നു.</p>
-      <div class="actions"><a class="btn primary" href="#sell">വിൽക്കാൻ പരസ്യം നൽകാം</a><a class="btn secondary" href="#buy">വാങ്ങാനുള്ള ആവശ്യം നൽകാം</a></div>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap">
-      <h2 class="section-title">EASY DEALS എങ്ങനെ സഹായിക്കും?</h2>
-      <p class="sub">നിങ്ങളുടെ പ്രോപ്പർട്ടി വിവരങ്ങളും വാങ്ങാനുള്ള ആവശ്യങ്ങളും ഒരിടത്ത് അറിയിക്കാം.</p>
-      <div class="features">
-        <article class="feature"><div class="emoji">🏡</div><h3>പ്രോപ്പർട്ടി വിൽക്കാം</h3><p>സ്ഥലം, വീട്, ഫ്ലാറ്റ്, വില്ല എന്നിവയുടെ വിവരങ്ങളും ഫോട്ടോകളും നൽകാം.</p></article>
-        <article class="feature"><div class="emoji">🔎</div><h3>വാങ്ങാനുള്ള ആവശ്യം അറിയിക്കാം</h3><p>ഏത് സ്ഥലത്ത്, എത്ര ബജറ്റിൽ എന്താണ് വേണ്ടതെന്ന് അറിയിക്കാം.</p></article>
-        <article class="feature"><div class="emoji">🤝</div><h3>ഡീൽ ബന്ധിപ്പിക്കാം</h3><p>വാങ്ങുന്നവരെയും വിൽക്കുന്നവരെയും ബന്ധിപ്പിക്കാൻ EASY DEALS സഹായിക്കുന്നു.</p></article>
-      </div>
-    </div>
-  </section>
-
-  <section style="background:#eaf0f7">
-    <div class="wrap">
-      <h2 class="section-title">സ്വകാര്യ പ്രോപ്പർട്ടി സേവനം</h2>
-      <p class="sub">നിങ്ങൾ നൽകുന്ന വിവരങ്ങളും ഫോട്ടോകളും EASY DEALS നേരിട്ട് പരിശോധിക്കും. അനുമതിയില്ലാതെ നിങ്ങളുടെ പരസ്യം വെബ്സൈറ്റിൽ പ്രസിദ്ധീകരിക്കില്ല. അനുയോജ്യരായ വാങ്ങുന്നവരെ കണ്ടെത്തി സൈറ്റ് വിസിറ്റ് ക്രമീകരിക്കാൻ ഞങ്ങൾ നിങ്ങളെ ബന്ധപ്പെടും.</p>
-    </div>
-  </section>
-
-  <section id="choose" style="background:#f4f7fb">
-    <div class="wrap">
-      <h2 class="section-title">നിങ്ങൾക്ക് എന്താണ് വേണ്ടത്?</h2>
-      <p class="sub">താഴെ നിങ്ങൾക്ക് അനുയോജ്യമായ ഒരു ഓപ്ഷൻ തിരഞ്ഞെടുക്കൂ.</p>
-      <div class="forms">
-        <div class="panel">
-          <h3>പ്രോപ്പർട്ടി വിൽക്കണം</h3>
-          <p>നിങ്ങളുടെ വീട് അല്ലെങ്കിൽ സ്ഥലം വിൽക്കാൻ വിവരങ്ങൾ നൽകൂ.</p>
-          <a class="btn blue" href="#sell">വിൽക്കാൻ ഇവിടെ ക്ലിക്ക് ചെയ്യൂ</a>
-        </div>
-        <div class="panel">
-          <h3>പ്രോപ്പർട്ടി വാങ്ങണം</h3>
-          <p>നിങ്ങൾക്ക് വേണ്ട വീട് അല്ലെങ്കിൽ സ്ഥലത്തിന്റെ വിവരങ്ങൾ നൽകൂ.</p>
-          <a class="btn blue" href="#buy">വാങ്ങാൻ ഇവിടെ ക്ലിക്ക് ചെയ്യൂ</a>
-        </div>
-      </div>
+      <span class="tag">കേരളത്തിനായുള്ള പ്രോപ്പർട്ടി മാർക്കറ്റ്‌പ്ലേസ്</span>
+      <h1>വീട്, ഫ്ലാറ്റ്, സ്ഥലം<br>എളുപ്പത്തിൽ കണ്ടെത്താം!</h1>
+      <p>കേരളത്തിലെവിടെയുമുള്ള വീട്, ഫ്ലാറ്റ്, വില്ല, സ്ഥലം എന്നിവ കണ്ടെത്താനും പരസ്യം നൽകാനും ഒരു ലളിതമായ ഇടം. വാങ്ങുന്നവരെയും വിൽക്കുന്നവരെയും നേരിട്ട് ബന്ധിപ്പിക്കുന്നു.</p>
+      <div class="market-note">✓ ആദ്യഘട്ടത്തിൽ പരസ്യങ്ങൾ സൗജന്യം · Free to list</div><div class="actions"><a class="btn primary" href="#sell">വിൽക്കാൻ പരസ്യം നൽകാം</a><a class="btn secondary" href="#buy">പ്രോപ്പർട്ടി തിരയാം</a></div>
     </div>
   </section>
 
   <section id="sell">
     <div class="wrap">
       <h2 class="section-title">പ്രോപ്പർട്ടി വിൽക്കണം</h2>
-      <p class="sub">നിങ്ങളുടെ വീട്, സ്ഥലം തുടങ്ങിയവയുടെ വിവരങ്ങൾ ഇവിടെ നൽകൂ. ഫോട്ടോകളും ചേർക്കാം. ഞങ്ങൾ പരിശോധിച്ചശേഷം നിങ്ങളെ ബന്ധപ്പെടും.</p>
+      <p class="sub">വീട്, സ്ഥലം തുടങ്ങിയവയുടെ വിവരങ്ങളും ഫോട്ടോകളും ചേർക്കൂ. പരിശോധിച്ചശേഷം നിങ്ങളെ ബന്ധപ്പെടാം.</p>
       <div class="panel">
         <form id="sellForm">
           <div class="forms">
@@ -184,7 +277,7 @@
               <label for="seller">പേര് *</label><input id="seller" required placeholder="നിങ്ങളുടെ പേര്">
               <label for="phone">ഫോൺ നമ്പർ *</label><input id="phone" required type="tel" placeholder="മൊബൈൽ നമ്പർ">
               <label for="type">പ്രോപ്പർട്ടി തരം *</label><select id="type" required><option value="">തിരഞ്ഞെടുക്കുക</option><option>സ്ഥലം / പ്ലോട്ട്</option><option>വീട്</option><option>ഫ്ലാറ്റ്</option><option>വില്ല</option><option>കമേഴ്സ്യൽ കെട്ടിടം</option></select>
-              <label for="location">സ്ഥലം / ജില്ല *</label><input id="location" required placeholder="ഉദാ: കോഴിക്കോട്, ബാലുശ്ശേരി">
+              <label for="location">സ്ഥലം / ജില്ല *</label><input id="location" required placeholder="ഉദാ: കോഴിക്കോട്, ബാലുശ്ശേരി / District, Town">
             </div>
             <div>
               <label for="area">വിസ്തീർണം</label><input id="area" placeholder="ഉദാ: 10 സെന്റ് / 1500 sq.ft">
@@ -205,7 +298,7 @@
   <section id="buy" style="background:#eaf0f7">
     <div class="wrap">
       <h2 class="section-title">പ്രോപ്പർട്ടി വാങ്ങണം</h2>
-      <p class="sub">വാങ്ങാൻ ആഗ്രഹിക്കുന്ന വീട്, സ്ഥലം തുടങ്ങിയവയുടെ ആവശ്യങ്ങൾ ഇവിടെ നൽകൂ. അനുയോജ്യമായ പ്രോപ്പർട്ടി കണ്ടെത്താൻ ഞങ്ങൾ നിങ്ങളെ സഹായിക്കും.</p>\n      <p class="sub">നിങ്ങൾക്ക് എന്താണ് വേണ്ടതെന്ന് പറയൂ. അനുയോജ്യമായ പ്രോപ്പർട്ടി കണ്ടെത്താൻ ബന്ധപ്പെടാം.</p>
+      <p class="sub">വീട്, സ്ഥലം തുടങ്ങിയവയിൽ എന്താണ് വേണ്ടതെന്ന് അറിയിക്കൂ. അനുയോജ്യമായ പ്രോപ്പർട്ടി കണ്ടെത്താൻ ഞങ്ങൾ സഹായിക്കാം.</p>
       <div class="panel">
         <form id="buyForm">
           <div class="forms">
@@ -215,7 +308,7 @@
               <label for="needType">എന്താണ് വാങ്ങേണ്ടത്? *</label><select id="needType" required><option value="">തിരഞ്ഞെടുക്കുക</option><option>സ്ഥലം / പ്ലോട്ട്</option><option>വീട്</option><option>ഫ്ലാറ്റ്</option><option>വില്ല</option><option>കമേഴ്സ്യൽ കെട്ടിടം</option></select>
             </div>
             <div>
-              <label for="needLocation">ആവശ്യമായ സ്ഥലം *</label><input id="needLocation" required placeholder="പ്രദേശം / ജില്ല">
+              <label for="needLocation">ആവശ്യമായ സ്ഥലം *</label><input id="needLocation" required placeholder="പ്രദേശം / ജില്ല / District">
               <label for="budget">ബജറ്റ്</label><input id="budget" placeholder="ഉദാ: ₹20 - 30 ലക്ഷം">
               <label for="needArea">ആവശ്യമായ വിസ്തീർണം</label><input id="needArea" placeholder="ഉദാ: 5 മുതൽ 10 സെന്റ് വരെ">
             </div>
@@ -228,13 +321,15 @@
 <div class="property-listings">
   <h2 class="section-title">ലഭ്യമായ പ്രോപ്പർട്ടികൾ</h2>
   
-<div style="margin:15px 0;">
-  <input
-    type="text"
-    id="propertySearch"
-    placeholder="വീട്, സ്ഥലം, ഫ്ലാറ്റ് എന്നിവ തിരയുക..."
-    style="width:100%;padding:14px;border:1px solid #ccc;border-radius:10px;font-size:16px;"
-  >
+<div class="filter-grid" aria-label="പ്രോപ്പർട്ടി ഫിൽറ്ററുകൾ">
+  <input type="search" id="propertySearch" placeholder="പ്രദേശം, വീട്, ഫ്ലാറ്റ് എന്നിവ തിരയുക..." aria-label="Search properties">
+  <select id="categoryFilter" aria-label="Property type filter">
+    <option value="">എല്ലാ വിഭാഗങ്ങളും</option><option value="Land">സ്ഥലം / പ്ലോട്ട്</option><option value="House">വീട്</option><option value="Flat">ഫ്ലാറ്റ്</option><option value="Villa">വില്ല</option><option value="Commercial">കമേഴ്സ്യൽ</option>
+  </select>
+  <select id="districtFilter" aria-label="District filter">
+    <option value="">കേരളം മുഴുവൻ</option>
+    <option value="Thiruvananthapuram">തിരുവനന്തപുരം</option><option value="Kollam">കൊല്ലം</option><option value="Pathanamthitta">പത്തനംതിട്ട</option><option value="Alappuzha">ആലപ്പുഴ</option><option value="Kottayam">കോട്ടയം</option><option value="Idukki">ഇടുക്കി</option><option value="Ernakulam">എറണാകുളം</option><option value="Thrissur">തൃശ്ശൂർ</option><option value="Palakkad">പാലക്കാട്</option><option value="Malappuram">മലപ്പുറം</option><option value="Kozhikode">കോഴിക്കോട്</option><option value="Wayanad">വയനാട്</option><option value="Kannur">കണ്ണൂർ</option><option value="Kasaragod">കാസർഗോഡ്</option>
+  </select>
 </div>
 
   <div id="propertyListings">
@@ -251,6 +346,24 @@
     <h2 class="section-title">എന്റെ പരസ്യങ്ങൾ</h2>
     <div id="myListingsContainer">
       <p>നിങ്ങളുടെ പരസ്യങ്ങൾ ഇവിടെ കാണാം.</p>
+    </div>
+  </div>
+</section>
+
+<section id="adminPanel" hidden>
+  <div class="wrap">
+    <h2 class="section-title">Easy Deals Admin Dashboard</h2>
+    <p class="sub">Admin അക്കൗണ്ടിന് മാത്രം ലഭ്യമായ പരസ്യ നിയന്ത്രണം</p>
+    <div class="panel">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between">
+        <strong id="adminSummary">പരസ്യങ്ങൾ പരിശോധിക്കുന്നു...</strong>
+        <button type="button" class="btn blue" id="adminRefresh">Refresh</button>
+      </div>
+      <p id="adminStatus" role="status" aria-live="polite"></p>
+      <div id="adminListings"><p>Admin വിവരങ്ങൾ ലോഡ് ചെയ്യുന്നു...</p></div>
+      <hr style="margin:22px 0;border:0;border-top:1px solid #dce5ef;">
+      <h3>Reported Listings / റിപ്പോർട്ട് ചെയ്ത പരസ്യങ്ങൾ</h3>
+      <div id="adminReports"><p>Reports ലോഡ് ചെയ്യുന്നു...</p></div>
     </div>
   </div>
 </section>
@@ -274,6 +387,55 @@
   const WHATSAPP_NUMBER = "917289985855";
 
   document.getElementById("year").textContent = new Date().getFullYear();
+  // Malayalam / English interface switch. User-entered listing content is never translated.
+  const uiTranslations = {
+    "ഹോം":"Home", "വിൽക്കാം":"Sell", "വാങ്ങാം":"Buy", "ബന്ധപ്പെടുക":"Contact", "എന്റെ പരസ്യങ്ങൾ":"My Listings",
+    "നിങ്ങളുടെ അടുത്ത ഡീൽ ഇവിടെ തുടങ്ങട്ടെ!":"Your next property deal starts here!",
+    "വിൽക്കാനോ വാങ്ങാനോ കൂടുതൽ വിവരങ്ങൾ അറിയാനോ ഞങ്ങളെ ബന്ധപ്പെടൂ.":"Contact us for help with buying or selling property.",
+    "WhatsApp വഴി ബന്ധപ്പെടുക":"Contact on WhatsApp", "Email അയക്കുക":"Send Email",
+    "പ്രോപ്പർട്ടി വിൽക്കണം":"List a Property", "വീട്, സ്ഥലം തുടങ്ങിയവയുടെ വിവരങ്ങളും ഫോട്ടോകളും ചേർക്കൂ. പരിശോധിച്ചശേഷം നിങ്ങളെ ബന്ധപ്പെടാം.":"Add the property details and photos. Listings may be reviewed before they are shown publicly.",
+    "പേര് *":"Name *", "ഫോൺ നമ്പർ *":"Phone Number *", "പ്രോപ്പർട്ടി തരം *":"Property Type *", "സ്ഥലം / ജില്ല *":"Location / District *",
+    "വിസ്തീർണം":"Area", "പ്രതീക്ഷിക്കുന്ന വില":"Expected Price", "ഫോട്ടോകൾ തിരഞ്ഞെടുക്കുക":"Choose Photos", "കൂടുതൽ വിവരങ്ങൾ":"More Details",
+    "വിൽപ്പന വിവരങ്ങൾ അയക്കുക":"Submit Property", "പ്രോപ്പർട്ടി വാങ്ങണം":"Find a Property",
+    "വീട്, സ്ഥലം തുടങ്ങിയവയിൽ എന്താണ് വേണ്ടതെന്ന് അറിയിക്കൂ. അനുയോജ്യമായ പ്രോപ്പർട്ടി കണ്ടെത്താൻ ഞങ്ങൾ സഹായിക്കാം.":"Tell us what kind of property you need.",
+    "എന്താണ് വാങ്ങേണ്ടത്? *":"What do you need? *", "ആവശ്യമായ സ്ഥലം *":"Preferred Location *", "ബജറ്റ്":"Budget", "ആവശ്യമായ വിസ്തീർണം":"Required Area", "മറ്റ് ആവശ്യങ്ങൾ":"Other Requirements", "വാങ്ങൽ ആവശ്യം അയക്കുക":"Send Requirement",
+    "ലഭ്യമായ പ്രോപ്പർട്ടികൾ":"Available Properties", "എല്ലാ വിഭാഗങ്ങളും":"All Categories", "കേരളം മുഴുവൻ":"All Kerala",
+    "Login / Register":"Login / Register", "EASY DEALS - My Account":"EASY DEALS - My Account", "പുതിയ അക്കൗണ്ട് ഉണ്ടാക്കാം അല്ലെങ്കിൽ Login ചെയ്യാം.":"Create an account or log in.",
+    "പുതിയ അക്കൗണ്ട് (Sign Up)":"Create Account (Sign Up)", "Login":"Login", "Create Account":"Create Account", "Logout":"Logout",
+    "വാങ്ങുന്നവരെയും വിൽക്കുന്നവരെയും ബന്ധിപ്പിക്കുന്നു.":"Connecting property buyers and sellers across Kerala.",
+    "നിങ്ങളുടെ പരസ്യങ്ങൾ ഇവിടെ കാണാം.":"Your listings will appear here.", "നിങ്ങളുടെ വിശ്വസ്ത റിയൽ എസ്റ്റേറ്റ് കണക്ഷൻ":"Your trusted property connection",
+    "സ്ഥലം / പ്ലോട്ട്":"Land / Plot", "വീട്":"House", "ഫ്ലാറ്റ്":"Flat", "വില്ല":"Villa", "കമേഴ്സ്യൽ":"Commercial", "കമേഴ്സ്യൽ കെട്ടിടം":"Commercial Property", "തിരഞ്ഞെടുക്കുക":"Select",
+    "പരസ്യങ്ങൾ ലോഡ് ചെയ്യുന്നു...":"Loading listings...", "ഇപ്പോൾ പരസ്യങ്ങളൊന്നുമില്ല.":"No listings yet.",
+    "പരസ്യം വിജയകരമായി ചേർത്തു!":"Property listing saved successfully!", "പരസ്യം സമർപ്പിക്കാൻ തയ്യാറെടുക്കുന്നു...":"Preparing your listing...",
+    "ഫോട്ടോകൾ അപ്‌ലോഡ് ചെയ്യുന്നു... ദയവായി കാത്തിരിക്കൂ.":"Uploading photos... Please wait.", "പരസ്യം സേവ് ചെയ്യുന്നു... ദയവായി കാത്തിരിക്കൂ.":"Saving listing... Please wait.",
+    "ആദ്യം Login ചെയ്യുക.":"Please log in first.", "നിങ്ങളുടെ പരസ്യങ്ങൾ കാണാൻ Login ചെയ്യുക.":"Please log in to view your listings.",
+    "നിങ്ങൾ ഇതുവരെ പരസ്യങ്ങൾ ചേർത്തിട്ടില്ല.":"You have not added any listings yet.", "പരസ്യം നീക്കം ചെയ്തു!":"Listing deleted!",
+    "Edit / തിരുത്തുക":"Edit", "Delete / നീക്കം ചെയ്യുക":"Delete", "Admin Panel":"Admin Panel", "Easy Deals Admin Dashboard":"Easy Deals Admin Dashboard", "പരസ്യങ്ങൾ പരിശോധിക്കുന്നു...":"Checking listings...", "പരസ്യങ്ങൾ ലോഡ് ചെയ്യുന്നു...":"Loading listings...", "Admin അക്കൗണ്ടിന് മാത്രം ലഭ്യമായ പരസ്യ നിയന്ത്രണം":"Listing controls available only to the admin account", "Refresh":"Refresh"
+  };
+  const uiMalayalam = Object.fromEntries(Object.entries(uiTranslations).map(([ml,en])=>[en,ml]));
+  function setInterfaceLanguage(language) {
+    const map = language === "en" ? uiTranslations : uiMalayalam;
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    let node;
+    while ((node = walker.nextNode())) {
+      const key = node.nodeValue.trim();
+      if (map[key]) node.nodeValue = node.nodeValue.replace(key, map[key]);
+    }
+    const attrs = ["placeholder", "aria-label"];
+    document.querySelectorAll("input,textarea,select,button").forEach(el => attrs.forEach(attr => {
+      if (el.hasAttribute(attr)) { const value = el.getAttribute(attr); if (map[value]) el.setAttribute(attr,map[value]); }
+    }));
+    document.documentElement.lang = language === "en" ? "en" : "ml";
+    const toggle = document.getElementById("languageToggle");
+    if (toggle) toggle.textContent = language === "en" ? "മലയാളം" : "English";
+    localStorage.setItem("easyDealsLanguage", language);
+  }
+  document.getElementById("languageToggle").addEventListener("click", () => {
+    const current = document.documentElement.lang === "en" ? "en" : "ml";
+    setInterfaceLanguage(current === "ml" ? "en" : "ml");
+  });
+  // Language is switched on demand; default is Malayalam for Kerala users.
+
   const waLink = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent("Hello EASY DEALS, കൂടുതൽ വിവരങ്ങൾ അറിയണം.");
   document.getElementById("contactWhatsApp").href = waLink;
 
@@ -480,7 +642,8 @@ if (editingPropertyId) {
     .from("properties")
     .insert({
       owner_id: user.id,
-      ...propertyData
+      ...propertyData,
+      status: "approved"
     });
 
   saveError = error;
@@ -496,6 +659,8 @@ if (editingPropertyId) {
     existingImageUrls = [];
     selectedFiles = [];
     window.renderPhotoPreviews();
+    await loadPropertyListings();
+    await loadMyListings();
 
   } catch (error) {
   statusBox.textContent = "❌ പരസ്യം സേവ് ചെയ്യാനായില്ല: " + error.message;
@@ -531,29 +696,29 @@ if (editingPropertyId) {
 </div>
 
 <!-- EASY DEALS USER ACCOUNT -->
-<section id="account" style="padding:40px 15px;background:#eef3f8;">
- <div id="auth" style="max-width:650px;margin:auto;background:white;padding:25px;border-radius:14px;box-shadow:0 3px 15px #0001;">
-    <h2 style="text-align:center;color:#102b46;">EASY DEALS - My Account</h2>
+<section id="account" style="padding:24px 15px;background:#eef3f8;">
+ <div id="auth" style="max-width:650px;margin:auto;background:white;padding:18px;border-radius:14px;box-shadow:0 3px 15px #0001;">
+    <h2 style="text-align:center;color:#102b46;">EASY DEALS - എന്റെ അക്കൗണ്ട്</h2>
     <p style="text-align:center;">പുതിയ അക്കൗണ്ട് ഉണ്ടാക്കാം അല്ലെങ്കിൽ Login ചെയ്യാം.</p>
 
-    <div style="margin:20px 0;">
+    <div style="margin:12px 0;">
       <h3>പുതിയ അക്കൗണ്ട് (Sign Up)</h3>
       <form id="edSignup">
-        <input id="edName" type="text" placeholder="നിങ്ങളുടെ പേര്" required style="width:100%;padding:12px;margin:7px 0;box-sizing:border-box;">
-        <input id="edSignupEmail" type="email" placeholder="Email address" required style="width:100%;padding:12px;margin:7px 0;box-sizing:border-box;">
-        <input id="edSignupPassword" type="password" placeholder="Password (കുറഞ്ഞത് 8 അക്ഷരങ്ങൾ)" minlength="8" required style="width:100%;padding:12px;margin:7px 0;box-sizing:border-box;">
-        <button type="submit" style="background:#1769aa;color:white;padding:12px 20px;border:0;border-radius:7px;cursor:pointer;">Create Account</button>
+        <input id="edName" type="text" placeholder="നിങ്ങളുടെ പേര്" required style="width:100%;padding:9px 11px;margin:4px 0;box-sizing:border-box;">
+        <input id="edSignupEmail" type="email" placeholder="Email address" required style="width:100%;padding:9px 11px;margin:4px 0;box-sizing:border-box;">
+        <input id="edSignupPassword" type="password" placeholder="Password (കുറഞ്ഞത് 8 അക്ഷരങ്ങൾ)" minlength="8" required style="width:100%;padding:9px 11px;margin:4px 0;box-sizing:border-box;">
+        <button type="submit" style="background:#1769aa;color:white;padding:9px 16px;border:0;border-radius:7px;cursor:pointer;">Create Account</button>
       </form>
     </div>
 
     <hr>
 
-    <div style="margin:20px 0;">
+    <div style="margin:12px 0;">
       <h3>Login</h3>
       <form id="edLogin">
-        <input id="edLoginEmail" type="email" placeholder="Email address" required style="width:100%;padding:12px;margin:7px 0;box-sizing:border-box;">
-        <input id="edLoginPassword" type="password" placeholder="Password" required style="width:100%;padding:12px;margin:7px 0;box-sizing:border-box;">
-        <button type="submit" style="background:#1769aa;color:white;padding:12px 20px;border:0;border-radius:7px;cursor:pointer;">Login</button>
+        <input id="edLoginEmail" type="email" placeholder="Email address" required style="width:100%;padding:9px 11px;margin:4px 0;box-sizing:border-box;">
+        <input id="edLoginPassword" type="password" placeholder="Password" required style="width:100%;padding:9px 11px;margin:4px 0;box-sizing:border-box;">
+        <button type="submit" style="background:#1769aa;color:white;padding:9px 16px;border:0;border-radius:7px;cursor:pointer;">Login</button>
       </form>
     </div>
 
@@ -611,7 +776,7 @@ window.showMessage = showMessage;
       password: password,
       options: {
         data: { display_name: name },
-        emailRedirectTo: "https://easydealsclt.netlify.app/"
+        emailRedirectTo: "https://easy-deals.pages.dev/"
       }
     });
 
@@ -668,10 +833,13 @@ window.showMessage = showMessage;
       return;
     }
     updateAccount(data.session?.user || null);
+    refreshAdminPanel();
   });
 
   db.auth.onAuthStateChange((event, session) => {
     updateAccount(session?.user || null);
+    if (session?.user) loadMyListings();
+    refreshAdminPanel();
   });
   
 // EASY DEALS - Load property advertisements
@@ -699,13 +867,14 @@ async function loadPropertyListings() {
   container.innerHTML = "";
 
   data.forEach(item => {
-    const card = document.createElement("div");
-    card.style.cssText =
-      "background:white;padding:18px;margin:15px 0;border-radius:12px;box-shadow:0 2px 10px #ddd;";
+    const card = document.createElement("article");
+    card.className = "listing";
+    card.dataset.category = String(item.category || "").toLowerCase();
+    card.dataset.location = String(item.location || "").toLowerCase();
+    card.style.margin = "15px 0";
 
     const title = document.createElement("h3");
     title.textContent = item.title || "പ്രോപ്പർട്ടി";
-    card.appendChild(title);
 
    
 const imageUrls = Array.isArray(item.image_urls)
@@ -714,8 +883,7 @@ const imageUrls = Array.isArray(item.image_urls)
 
 if (imageUrls.length > 0) {
   const gallery = document.createElement("div");
-  gallery.style.cssText =
-    "display:flex;gap:8px;overflow-x:auto;width:100%;";
+  gallery.className = "listing-gallery";
 
   imageUrls.forEach((url, index) => {
     if (!url) return;
@@ -733,22 +901,25 @@ if (imageUrls.length > 0) {
 }
 
 
+    const body = document.createElement("div");
+    body.className = "body";
+    body.prepend(title);
     const details = document.createElement("p");
     details.textContent =
       "വിഭാഗം: " + (item.category || "") +
       " | സ്ഥലം: " + (item.location || "") +
-      " | വില: ₹" + (item.price ?? "") +
+      " | വില: " + (item.price != null ? "₹" + item.price : "വില ചോദിക്കുക") +
       " | വിസ്തീർണം: " + (item.area || "");
 
-    card.appendChild(details);
+    body.appendChild(details);
 
     const description = document.createElement("p");
     description.textContent = item.description || "";
-    card.appendChild(description);
+    body.appendChild(description);
 
     const phone = document.createElement("p");
     phone.textContent = "ഫോൺ: " + (item.phone || "");
-    card.appendChild(phone);
+    body.appendChild(phone);
    const sellerPhone = "91" + String(item.phone || "").replace(/\D/g, "").replace(/^91/, "");
 const message = `നമസ്കാരം, ${item.title || "ഈ പ്രോപ്പർട്ടി"}യെ കുറിച്ച് കൂടുതൽ വിവരങ്ങൾ അറിയാൻ ആഗ്രഹിക്കുന്നു.`;
 
@@ -759,25 +930,46 @@ whatsapp.textContent = "WhatsApp വഴി ബന്ധപ്പെടുക";
 whatsapp.className = "btn primary";
 whatsapp.style.display = "inline-block";
 whatsapp.style.marginTop = "10px";
-card.appendChild(whatsapp);
+body.appendChild(whatsapp);
 
+    const reportButton = document.createElement("button");
+    reportButton.type = "button";
+    reportButton.className = "report-listing-btn";
+    reportButton.textContent = "Report Ad / റിപ്പോർട്ട് ചെയ്യുക";
+    reportButton.addEventListener("click", () => reportProperty(item));
+    body.appendChild(reportButton);
 
+    card.appendChild(body);
     container.appendChild(card);
   });
 }
 
 
 const searchBox = document.getElementById("propertySearch");
-
-searchBox.addEventListener("input", function () {
-  const term = this.value.toLowerCase().trim();
-  const cards = document.querySelectorAll("#propertyListings > div");
-
-  cards.forEach(card => {
-    card.style.display =
-      card.textContent.toLowerCase().includes(term) ? "" : "none";
+const categoryFilter = document.getElementById("categoryFilter");
+const districtFilter = document.getElementById("districtFilter");
+const districtAliases = {
+  Thiruvananthapuram:["thiruvananthapuram","തിരുവനന്തപുരം","trivandrum"], Kollam:["kollam","കൊല്ലം"],
+  Pathanamthitta:["pathanamthitta","പത്തനംതിട്ട"], Alappuzha:["alappuzha","ആലപ്പുഴ","alleppey"],
+  Kottayam:["kottayam","കോട്ടയം"], Idukki:["idukki","ഇടുക്കി"], Ernakulam:["ernakulam","എറണാകുളം","kochi","കൊച്ചി"],
+  Thrissur:["thrissur","തൃശ്ശൂർ","തൃശൂര്"], Palakkad:["palakkad","പാലക്കാട്"], Malappuram:["malappuram","മലപ്പുറം"],
+  Kozhikode:["kozhikode","കോഴിക്കോട്","calicut"], Wayanad:["wayanad","വയനാട്"], Kannur:["kannur","കണ്ണൂർ","കണ്ണൂര്"], Kasaragod:["kasaragod","കാസർഗോഡ്","കാസര്‍ഗോഡ്"]
+};
+function applyPropertyFilters() {
+  const term = (searchBox.value || "").toLowerCase().trim();
+  const category = (categoryFilter.value || "").toLowerCase();
+  const district = districtFilter.value;
+  const aliases = district ? districtAliases[district] || [district.toLowerCase()] : [];
+  document.querySelectorAll("#propertyListings .listing").forEach(card => {
+    const text = card.textContent.toLowerCase();
+    const matchesTerm = !term || text.includes(term);
+    const matchesCategory = !category || card.dataset.category === category;
+    const matchesDistrict = !district || aliases.some(alias => card.dataset.location.includes(alias) || text.includes(alias));
+    card.style.display = matchesTerm && matchesCategory && matchesDistrict ? "" : "none";
   });
-});
+}
+[searchBox,categoryFilter,districtFilter].forEach(control => control.addEventListener("input",applyPropertyFilters));
+[categoryFilter,districtFilter].forEach(control => control.addEventListener("change",applyPropertyFilters));
 
 async function loadMyListings() {
   const container = document.getElementById("myListingsContainer");
@@ -887,7 +1079,8 @@ editBtn.onclick = () => {
   selectedFiles = [];
   photoInput.value = "";
   window.renderPhotoPreviews();
-  document.getElementById("seller").value = item.seller || "";
+  const savedSellerName = item.seller || item.seller_name || item.sellerName || item.name || item.full_name || item.contact_name || "";
+  document.getElementById("seller").value = savedSellerName;
   document.getElementById("phone").value = item.phone || "";
   document.getElementById("location").value = item.location || "";
   document.getElementById("area").value = item.area || "";
@@ -923,14 +1116,310 @@ card.appendChild(actions);
   });
 }
 
+
+// ADMIN DASHBOARD: Supabase role and RLS enforce access; hiding UI is not the security boundary.
+const adminSection = document.getElementById("adminPanel");
+const adminNavLink = document.getElementById("adminNavLink");
+const adminListings = document.getElementById("adminListings");
+const adminReports = document.getElementById("adminReports");
+const adminStatus = document.getElementById("adminStatus");
+const adminSummary = document.getElementById("adminSummary");
+
+async function isCurrentUserAdmin() {
+  const { data: { user }, error: userError } = await db.auth.getUser();
+  if (userError || !user) return false;
+
+  const { data: roleRow, error: roleError } = await db
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  return !roleError && roleRow?.role === "admin";
+}
+
+async function refreshAdminPanel() {
+  if (!adminSection || !adminNavLink) return;
+  const isAdmin = await isCurrentUserAdmin();
+  adminSection.hidden = !isAdmin;
+  adminNavLink.hidden = !isAdmin;
+  if (isAdmin) {
+    await Promise.all([loadAdminListings(), loadAdminReports()]);
+  }
+}
+
+async function loadAdminListings() {
+  if (!adminListings) return;
+  adminListings.textContent = "പരസ്യങ്ങൾ ലോഡ് ചെയ്യുന്നു...";
+  adminStatus.textContent = "";
+
+  const { data, error } = await db
+    .from("properties")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    adminListings.textContent = "Admin പരസ്യങ്ങൾ ലഭിച്ചില്ല: " + error.message;
+    adminSummary.textContent = "ലോഡ് ചെയ്യാനായില്ല";
+    return;
+  }
+
+  const rows = data || [];
+  const pending = rows.filter(row => row.status === "pending").length;
+  const published = rows.filter(row => row.status === "approved").length;
+  const rejected = rows.filter(row => row.status === "rejected").length;
+  adminSummary.textContent = `ആകെ ${rows.length} · Published ${published} · Pending ${pending} · Hidden ${rejected}`;
+  adminListings.innerHTML = "";
+
+  if (!rows.length) {
+    adminListings.textContent = "പരസ്യങ്ങളൊന്നുമില്ല.";
+    return;
+  }
+
+  rows.forEach(item => {
+    const card = document.createElement("article");
+    card.className = "admin-card";
+
+    const title = document.createElement("h3");
+    title.textContent = item.title || "Property";
+    card.appendChild(title);
+
+    const meta = document.createElement("p");
+    meta.className = "admin-meta";
+    meta.textContent = `സ്ഥലം: ${item.location || "—"} · വിഭാഗം: ${item.category || "—"} · വില: ${item.price ?? "നൽകിയിട്ടില്ല"} · Status: ${item.status || "—"}`;
+    card.appendChild(meta);
+
+    const contact = document.createElement("p");
+    contact.className = "admin-meta";
+    contact.textContent = `വിൽപ്പനക്കാരൻ: ${item.seller || "—"} · ഫോൺ: ${item.phone || "—"}`;
+    card.appendChild(contact);
+
+    if (item.description) {
+      const desc = document.createElement("p");
+      desc.textContent = item.description;
+      card.appendChild(desc);
+    }
+
+    const actions = document.createElement("div");
+    actions.className = "admin-actions";
+
+    const approve = document.createElement("button");
+    approve.type = "button";
+    approve.className = "admin-approve";
+    approve.textContent = "Approve / Publish";
+    approve.disabled = item.status === "approved";
+    approve.addEventListener("click", () => updateAdminProperty(item.id, { status: "approved" }, "പരസ്യം പ്രസിദ്ധീകരിച്ചു."));
+
+    const reject = document.createElement("button");
+    reject.type = "button";
+    reject.className = "admin-reject";
+    reject.textContent = "Hide / Reject";
+    reject.disabled = item.status === "rejected";
+    reject.addEventListener("click", () => updateAdminProperty(item.id, { status: "rejected" }, "പരസ്യം Hide ചെയ്തു."));
+
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "admin-delete";
+    remove.textContent = "Delete";
+    remove.addEventListener("click", async () => {
+      if (!confirm("ഈ പരസ്യം സ്ഥിരമായി Delete ചെയ്യണോ?")) return;
+      const { error: deleteError } = await db.from("properties").delete().eq("id", item.id);
+      if (deleteError) {
+        adminStatus.textContent = "Delete Error: " + deleteError.message;
+        return;
+      }
+      adminStatus.textContent = "പരസ്യം Delete ചെയ്തു.";
+      await loadAdminListings();
+      await loadPropertyListings();
+      await loadAdminReports();
+    });
+
+    actions.append(approve, reject, remove);
+    card.appendChild(actions);
+    adminListings.appendChild(card);
+  });
+}
+
+async function updateAdminProperty(id, changes, successMessage) {
+  const { error } = await db.from("properties").update(changes).eq("id", id);
+  if (error) {
+    adminStatus.textContent = "Update Error: " + error.message;
+    return;
+  }
+  adminStatus.textContent = successMessage;
+  await loadAdminListings();
+  await loadPropertyListings();
+  await loadAdminReports();
+}
+
+async function reportProperty(item) {
+  const { data: { user }, error: authError } = await db.auth.getUser();
+  if (authError || !user) {
+    alert("പരസ്യം Report ചെയ്യാൻ ആദ്യം Login ചെയ്യണം. Please log in to report a listing.");
+    return;
+  }
+  if (user.id === item.owner_id) {
+    alert("നിങ്ങളുടെ സ്വന്തം പരസ്യം Report ചെയ്യാൻ കഴിയില്ല.");
+    return;
+  }
+
+  const reason = prompt("ഈ പരസ്യം Report ചെയ്യാനുള്ള കാരണം എഴുതുക (ഉദാ: തെറ്റായ വിവരം / വ്യാജ പരസ്യം / തെറ്റായ ഫോൺ നമ്പർ):");
+  if (reason === null) return;
+  const cleanReason = reason.trim();
+  if (cleanReason.length < 4) {
+    alert("ദയവായി Report ചെയ്യാനുള്ള കാരണം കുറച്ചുകൂടി വിശദമായി എഴുതുക.");
+    return;
+  }
+
+  const { error } = await db.from("property_reports").insert({
+    property_id: item.id,
+    reporter_id: user.id,
+    reason: cleanReason
+  });
+
+  if (error) {
+    if (error.code === "23505") {
+      alert("ഈ പരസ്യം നിങ്ങൾ ഇതിനകം Report ചെയ്തിട്ടുണ്ട്.");
+    } else {
+      alert("Report അയക്കാനായില്ല: " + error.message);
+    }
+    return;
+  }
+  alert("Report ലഭിച്ചു. Easy Deals ടീം പരിശോധിക്കും. നന്ദി.");
+}
+
+async function loadAdminReports() {
+  if (!adminReports) return;
+  adminReports.textContent = "Reports ലോഡ് ചെയ്യുന്നു...";
+
+  const { data, error } = await db
+    .from("property_reports")
+    .select("id, property_id, reporter_id, reason, status, created_at, properties(title, location, status)")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    adminReports.textContent = "Reports ലഭിച്ചില്ല: " + error.message + " (ആവശ്യമായ SQL setup ചെയ്തിട്ടുണ്ടോ പരിശോധിക്കുക.)";
+    return;
+  }
+
+  const reports = data || [];
+  adminReports.innerHTML = "";
+  if (!reports.length) {
+    adminReports.textContent = "ഇപ്പോൾ Reports ഒന്നുമില്ല.";
+    return;
+  }
+
+  reports.forEach(report => {
+    const card = document.createElement("article");
+    card.className = "report-card";
+
+    const heading = document.createElement("strong");
+    heading.textContent = report.properties?.title || ("Property ID: " + report.property_id);
+    card.appendChild(heading);
+
+    const detail = document.createElement("p");
+    detail.className = "admin-meta";
+    detail.textContent = `കാരണം: ${report.reason} · സ്ഥലം: ${report.properties?.location || "—"} · Report Status: ${report.status}`;
+    card.appendChild(detail);
+
+    const actions = document.createElement("div");
+    actions.className = "admin-actions";
+
+    const reviewed = document.createElement("button");
+    reviewed.type = "button";
+    reviewed.className = "admin-approve";
+    reviewed.textContent = "Mark Reviewed";
+    reviewed.disabled = report.status === "reviewed";
+    reviewed.addEventListener("click", () => updateReportStatus(report.id, "reviewed"));
+
+    const actioned = document.createElement("button");
+    actioned.type = "button";
+    actioned.className = "admin-reject";
+    actioned.textContent = "Resolved";
+    actioned.disabled = report.status === "resolved";
+    actioned.addEventListener("click", () => updateReportStatus(report.id, "resolved"));
+
+    const hide = document.createElement("button");
+    hide.type = "button";
+    hide.className = "admin-delete";
+    hide.textContent = "Hide Reported Ad";
+    hide.addEventListener("click", async () => {
+      if (!confirm("ഈ Report ചെയ്ത പരസ്യം പൊതുജനങ്ങളിൽ നിന്ന് Hide ചെയ്യണോ?")) return;
+      await updateAdminProperty(report.property_id, { status: "rejected" }, "Report ചെയ്ത പരസ്യം Hide ചെയ്തു.");
+      await updateReportStatus(report.id, "resolved");
+    });
+
+    actions.append(reviewed, actioned, hide);
+    card.appendChild(actions);
+    adminReports.appendChild(card);
+  });
+}
+
+async function updateReportStatus(reportId, status) {
+  const { error } = await db
+    .from("property_reports")
+    .update({ status })
+    .eq("id", reportId);
+
+  if (error) {
+    adminStatus.textContent = "Report update Error: " + error.message;
+    return;
+  }
+  adminStatus.textContent = "Report status അപ്ഡേറ്റ് ചെയ്തു.";
+  await loadAdminReports();
+}
+
+document.getElementById("adminRefresh")?.addEventListener("click", refreshAdminPanel);
+
 const myListingsLink = document.querySelector('a[href="#myListings"]');
 
 if (myListingsLink) {
   myListingsLink.addEventListener("click", loadMyListings);
 }
 
-  loadPropertyListings();
+  // Make these functions available to page-level form handlers.
+  window.loadPropertyListings = loadPropertyListings;
+  window.loadMyListings = loadMyListings;
+  window.refreshAdminPanel = refreshAdminPanel;
 
+  loadPropertyListings();
+  refreshAdminPanel();
+
+})();
+</script>
+
+
+<script>
+// Easy Deals PWA: basic install support and a small offline app-shell cache.
+(() => {
+  const installButton = document.getElementById('installAppBtn');
+  let installPrompt = null;
+  window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    installPrompt = event;
+    installButton?.classList.add('visible');
+  });
+  installButton?.addEventListener('click', async () => {
+    if (!installPrompt) {
+      alert('Android Chrome: Browser menu (⋮) → Install app / Add to Home screen. iPhone Safari: Share → Add to Home Screen.');
+      return;
+    }
+    installPrompt.prompt();
+    await installPrompt.userChoice;
+    installPrompt = null;
+    installButton.classList.remove('visible');
+  });
+  window.addEventListener('appinstalled', () => {
+    installPrompt = null;
+    installButton?.classList.remove('visible');
+  });
+  if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js').catch((error) => {
+        console.warn('Easy Deals offline setup could not start:', error);
+      });
+    });
+  }
 })();
 </script>
 
