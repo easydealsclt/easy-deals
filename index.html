@@ -696,9 +696,45 @@
   };
 
   photoInput.addEventListener("change", function () {
-    selectedFiles = Array.from(this.files || []);
+    const chosen = Array.from(this.files || []).filter(file => file.type && file.type.startsWith("image/"));
+    const remaining = Math.max(0, 4 - existingImageUrls.length);
+    if (chosen.length > remaining) {
+      alert(`ഒരു പരസ്യത്തിൽ പരമാവധി 4 ഫോട്ടോകൾ മാത്രം ചേർക്കാം. ഇപ്പോൾ ${existingImageUrls.length} ഫോട്ടോ നിലവിലുണ്ട്; ഇനി ${remaining} എണ്ണം മാത്രം ചേർക്കാം.`);
+    }
+    selectedFiles = chosen.slice(0, remaining);
+    const transfer = new DataTransfer();
+    selectedFiles.forEach(file => transfer.items.add(file));
+    this.files = transfer.files;
     window.renderPhotoPreviews();
-  });function whatsappTextLink(message) {
+  });
+
+  // Resize large phone photos in the browser before sending them to Storage.
+  // If the browser cannot decode/convert a format, keep the original file.
+  async function preparePropertyImage(file) {
+    try {
+      const bitmap = await createImageBitmap(file);
+      const maxEdge = 1600;
+      const scale = Math.min(1, maxEdge / Math.max(bitmap.width, bitmap.height));
+      if (scale === 1 && file.size <= 600 * 1024) {
+        bitmap.close && bitmap.close();
+        return file;
+      }
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.max(1, Math.round(bitmap.width * scale));
+      canvas.height = Math.max(1, Math.round(bitmap.height * scale));
+      const context = canvas.getContext("2d", { alpha: false });
+      context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+      bitmap.close && bitmap.close();
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", 0.82));
+      if (!blob) return file;
+      const baseName = (file.name || "property-photo").replace(/\.[^.]+$/, "");
+      return new File([blob], baseName + ".jpg", { type: "image/jpeg", lastModified: Date.now() });
+    } catch (error) {
+      return file;
+    }
+  }
+
+  function whatsappTextLink(message) {
     return "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
   }
 
@@ -762,6 +798,9 @@ statusBox.textContent = "പരസ്യം സമർപ്പിക്കുന
     const priceText = document.getElementById("price").value.trim();
     const details = document.getElementById("details").value.trim();
     const files = [...selectedFiles];
+    if (existingImageUrls.length + files.length > 4) {
+      throw new Error("ഒരു പരസ്യത്തിൽ പരമാവധി 4 ഫോട്ടോകൾ മാത്രം അനുവദിക്കും.");
+    }
 
     let category = "";
 
@@ -784,39 +823,45 @@ statusBox.textContent = "പരസ്യം സമർപ്പിക്കുന
     }
 
     const imageUrls = [];
-    if (files.length > 0) {
-    statusBox.textContent = "ഫോട്ടോകൾ അപ്‌ലോഡ് ചെയ്യുന്നു... ദയവായി കാത്തിരിക്കൂ.";
-}
-
-   
-const imageFiles = files.filter(file =>
-  file.type && file.type.startsWith("image/")
-);
-
-for (let i = 0; i < imageFiles.length; i++) {
-  const file = imageFiles[i];
-  statusBox.textContent = `ഫോട്ടോ ${i + 1}/${imageFiles.length} അപ്‌ലോഡ് ചെയ്യുന്നു...`;
-
-  const safeFileName = (file.name || "photo").replace(/[^a-zA-Z0-9._-]/g, "_");
-  const path = user.id + "/" + crypto.randomUUID() + "-" + safeFileName;
-
-  const { error: uploadError } = await window.db.storage
-    .from("property-photos")
-    .upload(path, file, {
-      contentType: file.type || "image/jpeg",
-      upsert: false
-    });
-
-  if (uploadError) {
-    throw new Error(`ഫോട്ടോ ${i + 1} അപ്‌ലോഡ് ചെയ്യാനായില്ല: ${uploadError.message}`);
-  }
-
-  const { data: publicData } = window.db.storage
-    .from("property-photos")
-    .getPublicUrl(path);
-
-  imageUrls.push(publicData.publicUrl);
-}
+    const imageFiles = files.filter(file => file.type && file.type.startsWith("image/"));
+    if (imageFiles.length !== files.length) {
+      throw new Error("ചിത്ര ഫയലുകൾ മാത്രം അപ്‌ലോഡ് ചെയ്യുക.");
+    }
+    if (imageFiles.length > 0) {
+      statusBox.textContent = `ഫോട്ടോകൾ തയ്യാറാക്കുന്നു... 0/${imageFiles.length}`;
+      const preparedFiles = await Promise.all(imageFiles.map(preparePropertyImage));
+      let nextIndex = 0;
+      let completed = 0;
+      let uploadFailure = null;
+      const uploadWorker = async () => {
+        while (nextIndex < preparedFiles.length && !uploadFailure) {
+          const index = nextIndex++;
+          const file = preparedFiles[index];
+          try {
+            const safeFileName = (file.name || "photo.jpg").replace(/[^a-zA-Z0-9._-]/g, "_");
+            const path = user.id + "/" + crypto.randomUUID() + "-" + safeFileName;
+            const { error: uploadError } = await window.db.storage
+              .from("property-photos")
+              .upload(path, file, {
+                contentType: file.type || "image/jpeg",
+                upsert: false
+              });
+            if (uploadError) throw uploadError;
+            const { data: publicData } = window.db.storage
+              .from("property-photos")
+              .getPublicUrl(path);
+            if (!publicData || !publicData.publicUrl) throw new Error("ഫോട്ടോ URL ലഭിച്ചില്ല.");
+            imageUrls[index] = publicData.publicUrl;
+            completed++;
+            statusBox.textContent = `ഫോട്ടോകൾ അപ്‌ലോഡ് ചെയ്യുന്നു... ${completed}/${imageFiles.length}`;
+          } catch (error) {
+            uploadFailure = new Error(`ഫോട്ടോ ${index + 1} അപ്‌ലോഡ് ചെയ്യാനായില്ല: ${error.message || error}`);
+          }
+        }
+      };
+      await Promise.all(Array.from({ length: Math.min(2, preparedFiles.length) }, uploadWorker));
+      if (uploadFailure) throw uploadFailure;
+    }
 
    
 const propertyData = {
@@ -874,8 +919,8 @@ if (contactSaveError) throw new Error("പരസ്യം സേവ് ചെയ
     existingImageUrls = [];
     selectedFiles = [];
     window.renderPhotoPreviews();
-    await loadPropertyListings();
-    await loadMyListings();
+    // The database save is complete. Refresh screens without delaying the success state.
+    Promise.allSettled([loadPropertyListings(), loadMyListings()]);
 
   } catch (error) {
   statusBox.textContent = "❌ പരസ്യം സേവ് ചെയ്യാനായില്ല: " + error.message;
