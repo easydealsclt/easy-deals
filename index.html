@@ -264,8 +264,7 @@
       html{scroll-padding-top:190px}
       #home, #sell, #buy, #contact, #myListings, #account, #adminPanel { scroll-margin-top: 190px; }
     }
-    #installAppBtn{display:none;background:#f5b942;color:#102b46;border:0;border-radius:999px;padding:8px 13px;font-weight:800;cursor:pointer}
-    #installAppBtn.visible{display:inline-flex;align-items:center;justify-content:center}
+    #installAppBtn{display:inline-flex;align-items:center;justify-content:center;background:#f5b942;color:#102b46;border:0;border-radius:999px;padding:8px 13px;font-weight:800;cursor:pointer}
   \n    /* Listing action buttons: matching premium hover/zoom interaction */\n    .listing .body button.btn.primary,\n    .listing .body .report-listing-btn {\n      display: inline-block; cursor: pointer; transform-origin: center;\n      transition: transform .22s ease, background-color .22s ease, color .22s ease,\n                  box-shadow .22s ease, border-color .22s ease;\n      will-change: transform;\n    }\n    .listing .body button.btn.primary:hover,\n    .listing .body button.btn.primary:focus-visible {\n      transform: scale(1.06); background: #f5a623; color: #102b45;\n      box-shadow: 0 7px 18px rgba(0,0,0,.20); outline: none;\n    }\n    .listing .body .report-listing-btn:hover,\n    .listing .body .report-listing-btn:focus-visible {\n      transform: scale(1.045); background: #ffe1d8; border-color: #f28b70;\n      color: #8f2415; box-shadow: 0 6px 15px rgba(0,0,0,.14); outline: none;\n    }\n    .listing .body button.btn.primary:active,\n    .listing .body .report-listing-btn:active { transform: scale(.96); }\n    @media (prefers-reduced-motion: reduce) {\n      .listing .body button.btn.primary, .listing .body .report-listing-btn { transition: none; }\n    }\n
 
     /* EASY DEALS: consistent hover, focus and press effects for all action buttons */
@@ -736,7 +735,7 @@ document.getElementById("sellForm").addEventListener("submit", async function(e)
   const button = this.querySelector('button[type="submit"]');
   button.disabled = true;
   const statusBox = document.getElementById("sellFormStatus");
-statusBox.textContent = "Login പരിശോധിക്കുന്നു...";
+statusBox.textContent = "പരസ്യം സമർപ്പിക്കുന്നു...";
 
   try {
     // Read the saved Supabase session first. This avoids an unnecessary
@@ -745,20 +744,13 @@ statusBox.textContent = "Login പരിശോധിക്കുന്നു..."
       throw new Error("Database connection ലഭ്യമല്ല. പേജ് അടച്ച് വീണ്ടും തുറക്കുക.");
     }
 
-    const sessionResult = await Promise.race([
-      window.db.auth.getSession(),
-      new Promise((_, reject) => {
-        setTimeout(() => reject(new Error(
-          "Login പരിശോധിക്കാൻ സമയം കഴിഞ്ഞു. ഇന്റർനെറ്റ് പരിശോധിച്ച് ആപ്പ് വീണ്ടും തുറക്കുക."
-        )), 15000);
-      })
-    ]);
+    // Use the user already loaded by the account UI / auth-state listener.
+    // Do not call getSession() again here: some mobile WebViews can stall
+    // while Supabase's auth lock is already being used during app startup.
+    const user = window.easyDealsCurrentUser || null;
 
-    const { data: { session }, error: authError } = sessionResult;
-    const user = session?.user;
-
-    if (authError || !user) {
-      statusBox.textContent = "Login കാലാവധി കഴിഞ്ഞു. വീണ്ടും Login ചെയ്ത് പരസ്യം ചേർക്കുക.";
+    if (!user) {
+      statusBox.textContent = "Login നില പരിശോധിക്കാനായില്ല. ദയവായി Logout ചെയ്ത് വീണ്ടും Login ചെയ്യുക.";
       return;
     }
 
@@ -1033,6 +1025,7 @@ window.db = db;
   }
 window.showMessage = showMessage;
   function updateAccount(user) {
+    window.easyDealsCurrentUser = user || null;
     if (user) {
       loggedIn.hidden = false;
       userEmail.textContent = "Login ചെയ്തിരിക്കുന്നത്: " + user.email;
@@ -1739,8 +1732,12 @@ if (myListingsLink) {
     installButton?.classList.add('visible');
   });
   installButton?.addEventListener('click', async () => {
+    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+      alert('Easy Deals ഇതിനകം ഇൻസ്റ്റാൾ ചെയ്തിട്ടുണ്ട്.');
+      return;
+    }
     if (!installPrompt) {
-      alert('Android Chrome: Browser menu (⋮) → Install app / Add to Home screen. iPhone Safari: Share → Add to Home Screen.');
+      alert('Android Chrome-ൽ ⋮ തുറന്ന് Install app അല്ലെങ്കിൽ Add to Home screen തിരഞ്ഞെടുക്കുക.');
       return;
     }
     installPrompt.prompt();
