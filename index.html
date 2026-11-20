@@ -464,6 +464,16 @@
     <div class="wrap">
       <h2 class="section-title">പ്രോപ്പർട്ടി വിൽക്കണം</h2>
       <p class="sub">വീട്, സ്ഥലം തുടങ്ങിയവയുടെ വിവരങ്ങളും ഫോട്ടോകളും ചേർക്കൂ. പരിശോധിച്ചശേഷം നിങ്ങളെ ബന്ധപ്പെടാം.</p>
+      <div class="notice" role="note" style="margin:0 0 14px;line-height:1.65;">
+        <strong>📢 പ്രധാന അറിയിപ്പ് / IMPORTANT NOTICE</strong><br>
+        പരസ്യം ചേർക്കുന്നതിന് മുമ്പ് ദയവായി രജിസ്റ്റർ ചെയ്ത് Login ചെയ്യുക.<br>
+        പുതിയ അക്കൗണ്ട് രജിസ്റ്റർ ചെയ്താൽ നിങ്ങളുടെ ഇമെയിലിലേക്ക് Verification Link അയയ്ക്കുന്നതാണ്.
+        Inbox-ൽ ഇമെയിൽ കാണുന്നില്ലെങ്കിൽ Spam / Junk ഫോൾഡറും പരിശോധിക്കുക.
+        Verification Link തുറന്ന് അക്കൗണ്ട് സ്ഥിരീകരിച്ചശേഷം Login ചെയ്ത് പരസ്യം ചേർക്കാം.
+        <hr style="border:0;border-top:1px solid #e6d5ad;margin:8px 0;">
+        Please register and log in before posting an advertisement.
+        A verification link will be sent to your email address. If you cannot find it in your Inbox, please check your Spam / Junk folder. Verify your email, then log in to post your advertisement.
+      </div>
       <div class="panel">
         <form id="sellForm">
           <div class="forms">
@@ -726,13 +736,29 @@ document.getElementById("sellForm").addEventListener("submit", async function(e)
   const button = this.querySelector('button[type="submit"]');
   button.disabled = true;
   const statusBox = document.getElementById("sellFormStatus");
-statusBox.textContent = "പരസ്യം സമർപ്പിക്കാൻ തയ്യാറെടുക്കുന്നു...";
+statusBox.textContent = "Login പരിശോധിക്കുന്നു...";
 
   try {
-    const { data: { user }, error: authError } = await db.auth.getUser();
+    // Read the saved Supabase session first. This avoids an unnecessary
+    // Auth user-verification request that may stall in some mobile WebViews.
+    if (!window.db) {
+      throw new Error("Database connection ലഭ്യമല്ല. പേജ് അടച്ച് വീണ്ടും തുറക്കുക.");
+    }
+
+    const sessionResult = await Promise.race([
+      window.db.auth.getSession(),
+      new Promise((_, reject) => {
+        setTimeout(() => reject(new Error(
+          "Login പരിശോധിക്കാൻ സമയം കഴിഞ്ഞു. ഇന്റർനെറ്റ് പരിശോധിച്ച് ആപ്പ് വീണ്ടും തുറക്കുക."
+        )), 15000);
+      })
+    ]);
+
+    const { data: { session }, error: authError } = sessionResult;
+    const user = session?.user;
 
     if (authError || !user) {
-      showMessage("ആദ്യം Login ചെയ്യുക.");
+      statusBox.textContent = "Login കാലാവധി കഴിഞ്ഞു. വീണ്ടും Login ചെയ്ത് പരസ്യം ചേർക്കുക.";
       return;
     }
 
@@ -775,29 +801,30 @@ const imageFiles = files.filter(file =>
   file.type && file.type.startsWith("image/")
 );
 
-const uploadedUrls = await Promise.all(
-  imageFiles.map(async (file) => {
-    const path = user.id + "/" +
-      crypto.randomUUID() + "-" + file.name;
+for (let i = 0; i < imageFiles.length; i++) {
+  const file = imageFiles[i];
+  statusBox.textContent = `ഫോട്ടോ ${i + 1}/${imageFiles.length} അപ്‌ലോഡ് ചെയ്യുന്നു...`;
 
-    const { error: uploadError } = await db.storage
-      .from("property-photos")
-      .upload(path, file, {
-        contentType: file.type,
-        upsert: false
-      });
+  const safeFileName = (file.name || "photo").replace(/[^a-zA-Z0-9._-]/g, "_");
+  const path = user.id + "/" + crypto.randomUUID() + "-" + safeFileName;
 
-    if (uploadError) throw uploadError;
+  const { error: uploadError } = await window.db.storage
+    .from("property-photos")
+    .upload(path, file, {
+      contentType: file.type || "image/jpeg",
+      upsert: false
+    });
 
-    const { data: publicData } = db.storage
-      .from("property-photos")
-      .getPublicUrl(path);
+  if (uploadError) {
+    throw new Error(`ഫോട്ടോ ${i + 1} അപ്‌ലോഡ് ചെയ്യാനായില്ല: ${uploadError.message}`);
+  }
 
-    return publicData.publicUrl;
-  })
-);
+  const { data: publicData } = window.db.storage
+    .from("property-photos")
+    .getPublicUrl(path);
 
-imageUrls.push(...uploadedUrls);
+  imageUrls.push(publicData.publicUrl);
+}
 
    
 const propertyData = {
@@ -824,14 +851,14 @@ let saveError;
 
 let savedPropertyId = editingPropertyId;
 if (editingPropertyId) {
-  const { error } = await db
+  const { error } = await window.db
     .from("properties")
     .update(propertyData)
     .eq("id", editingPropertyId)
     .eq("owner_id", user.id);
   saveError = error;
 } else {
-  const { data: insertedProperty, error } = await db
+  const { data: insertedProperty, error } = await window.db
     .from("properties")
     .insert({ owner_id: user.id, ...propertyData, status: "approved" })
     .select("id")
