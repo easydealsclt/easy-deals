@@ -765,6 +765,17 @@
   }
 
 
+// Prevent mobile browsers from leaving the form in a permanent loading state.
+function easyDealsWithTimeout(promise, label, milliseconds = 25000) {
+  let timer;
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => {
+      timer = setTimeout(() => reject(new Error(label + " സമയപരിധി കഴിഞ്ഞു. ഇന്റർനെറ്റ് പരിശോധിച്ച് വീണ്ടും ശ്രമിക്കുക.")), milliseconds);
+    })
+  ]).finally(() => clearTimeout(timer));
+}
+
 document.getElementById("sellForm").addEventListener("submit", async function(e) {
   e.preventDefault();
 
@@ -780,15 +791,17 @@ statusBox.textContent = "പരസ്യം സമർപ്പിക്കുന
       throw new Error("Database connection ലഭ്യമല്ല. പേജ് അടച്ച് വീണ്ടും തുറക്കുക.");
     }
 
-    // Use the user already loaded by the account UI / auth-state listener.
-    // Do not call getSession() again here: some mobile WebViews can stall
-    // while Supabase's auth lock is already being used during app startup.
-    const user = window.easyDealsCurrentUser || null;
-
+    // Prefer the account UI session, then safely re-check Supabase if needed.
+    let user = window.easyDealsCurrentUser || null;
     if (!user) {
-      statusBox.textContent = "Login നില പരിശോധിക്കാനായില്ല. ദയവായി Logout ചെയ്ത് വീണ്ടും Login ചെയ്യുക.";
-      return;
+      statusBox.textContent = "Login പരിശോധിക്കുന്നു...";
+      const sessionResult = await easyDealsWithTimeout(
+        window.db.auth.getSession(), "Login പരിശോധിക്കൽ", 15000
+      );
+      user = sessionResult?.data?.session?.user || null;
+      window.easyDealsCurrentUser = user;
     }
+    if (!user) throw new Error("ദയവായി ആദ്യം Login ചെയ്യുക. ശേഷം വീണ്ടും ശ്രമിക്കുക.");
 
     const seller = document.getElementById("seller").value.trim();
     const phone = document.getElementById("phone").value.trim();
@@ -808,18 +821,16 @@ statusBox.textContent = "പരസ്യം സമർപ്പിക്കുന
     else if (/house|വീട്/i.test(rawType)) category = "House";
     else if (/flat|ഫ്ലാറ്റ്/i.test(rawType)) category = "Flat";
     else if (/villa|വില്ല/i.test(rawType)) category = "Villa";
-    else if (/commercial|കൊമേഴ്സ്യൽ/i.test(rawType)) category = "Commercial";
+    else if (/commercial|കമേഴ്സ്യൽ|കൊമേഴ്സ്യൽ/i.test(rawType)) category = "Commercial";
 
     if (!category) {
-      showMessage("ശരിയായ Property Type തിരഞ്ഞെടുക്കുക.");
-      return;
+      throw new Error("ശരിയായ Property Type തിരഞ്ഞെടുക്കുക.");
     }
 
     const price = priceText ? Number(priceText) : null;
 
     if (priceText && (!Number.isFinite(price) || price < 0)) {
-      showMessage("ശരിയായ വില നൽകുക.");
-      return;
+      throw new Error("ശരിയായ വില നൽകുക.");
     }
 
     const imageUrls = [];
@@ -829,7 +840,9 @@ statusBox.textContent = "പരസ്യം സമർപ്പിക്കുന
     }
     if (imageFiles.length > 0) {
       statusBox.textContent = `ഫോട്ടോകൾ തയ്യാറാക്കുന്നു... 0/${imageFiles.length}`;
-      const preparedFiles = await Promise.all(imageFiles.map(preparePropertyImage));
+      const preparedFiles = await easyDealsWithTimeout(
+        Promise.all(imageFiles.map(preparePropertyImage)), "ഫോട്ടോ തയ്യാറാക്കൽ", 30000
+      );
       let nextIndex = 0;
       let completed = 0;
       let uploadFailure = null;
@@ -840,12 +853,16 @@ statusBox.textContent = "പരസ്യം സമർപ്പിക്കുന
           try {
             const safeFileName = (file.name || "photo.jpg").replace(/[^a-zA-Z0-9._-]/g, "_");
             const path = user.id + "/" + crypto.randomUUID() + "-" + safeFileName;
-            const { error: uploadError } = await window.db.storage
-              .from("property-photos")
-              .upload(path, file, {
-                contentType: file.type || "image/jpeg",
-                upsert: false
-              });
+            statusBox.textContent = `ഫോട്ടോ ${index + 1}/${preparedFiles.length} അപ്‌ലോഡ് ചെയ്യുന്നു...`;
+            const { error: uploadError } = await easyDealsWithTimeout(
+              window.db.storage
+                .from("property-photos")
+                .upload(path, file, {
+                  contentType: file.type || "image/jpeg",
+                  upsert: false
+                }),
+              `ഫോട്ടോ ${index + 1} അപ്‌ലോഡ്`, 45000
+            );
             if (uploadError) throw uploadError;
             const { data: publicData } = window.db.storage
               .from("property-photos")
@@ -888,18 +905,19 @@ let saveError;
 
 let savedPropertyId = editingPropertyId;
 if (editingPropertyId) {
-  const { error } = await window.db
-    .from("properties")
-    .update(propertyData)
-    .eq("id", editingPropertyId)
-    .eq("owner_id", user.id);
+  const { error } = await easyDealsWithTimeout(
+    window.db.from("properties").update(propertyData)
+      .eq("id", editingPropertyId).eq("owner_id", user.id),
+    "പരസ്യ വിവരങ്ങൾ സേവ് ചെയ്യൽ", 25000
+  );
   saveError = error;
 } else {
-  const { data: insertedProperty, error } = await window.db
-    .from("properties")
-    .insert({ owner_id: user.id, ...propertyData, status: "approved" })
-    .select("id")
-    .single();
+  const { data: insertedProperty, error } = await easyDealsWithTimeout(
+    window.db.from("properties")
+      .insert({ owner_id: user.id, ...propertyData, status: "approved" })
+      .select("id").single(),
+    "പരസ്യം ഡാറ്റാബേസിൽ സേവ് ചെയ്യൽ", 25000
+  );
   saveError = error;
   savedPropertyId = insertedProperty?.id || null;
 }
@@ -907,9 +925,12 @@ if (editingPropertyId) {
 if (saveError) throw saveError;
 if (!savedPropertyId) throw new Error("Property ID ലഭിച്ചില്ല. വീണ്ടും ശ്രമിക്കുക.");
 
-const { error: contactSaveError } = await db
-  .from("property_contacts")
-  .upsert({ property_id: savedPropertyId, owner_id: user.id, phone }, { onConflict: "property_id" });
+statusBox.textContent = "ഫോൺ വിവരങ്ങൾ സേവ് ചെയ്യുന്നു...";
+const { error: contactSaveError } = await easyDealsWithTimeout(
+  window.db.from("property_contacts")
+    .upsert({ property_id: savedPropertyId, owner_id: user.id, phone }, { onConflict: "property_id" }),
+  "ഫോൺ വിവരങ്ങൾ സേവ് ചെയ്യൽ", 20000
+);
 if (contactSaveError) throw new Error("പരസ്യം സേവ് ചെയ്തു, പക്ഷേ ഫോൺ വിവരങ്ങൾ സേവ് ആയില്ല: " + contactSaveError.message);
 
    statusBox.textContent = "✅ പരസ്യം വിജയകരമായി ചേർത്തു!";
@@ -923,7 +944,7 @@ if (contactSaveError) throw new Error("പരസ്യം സേവ് ചെയ
     Promise.allSettled([loadPropertyListings(), loadMyListings()]);
 
   } catch (error) {
-  statusBox.textContent = "❌ പരസ്യം സേവ് ചെയ്യാനായില്ല: " + error.message;
+  statusBox.textContent = "❌ പരസ്യം സേവ് ചെയ്യാനായില്ല: " + (error?.message || "അറിയാത്ത പിശക്. വീണ്ടും ശ്രമിക്കുക.");
   } finally {
     button.disabled = false;
   }
