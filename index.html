@@ -708,29 +708,48 @@
     window.renderPhotoPreviews();
   });
 
-  // Resize large phone photos in the browser before sending them to Storage.
-  // If the browser cannot decode/convert a format, keep the original file.
+  // Compress every selected property photo on the device before upload.
+  // The bucket limit is 10 MB per object; keep a safety margin below that.
   async function preparePropertyImage(file) {
+    const maxUploadBytes = 9 * 1024 * 1024;
+    let bitmap;
     try {
-      const bitmap = await createImageBitmap(file);
-      const maxEdge = 1600;
-      const scale = Math.min(1, maxEdge / Math.max(bitmap.width, bitmap.height));
-      if (scale === 1 && file.size <= 600 * 1024) {
-        bitmap.close && bitmap.close();
-        return file;
+      if (typeof createImageBitmap !== "function") {
+        throw new Error("ഈ ബ്രൗസറിൽ ഫോട്ടോ തയ്യാറാക്കാനുള്ള സൗകര്യം ലഭ്യമല്ല. Chrome-ൽ വീണ്ടും ശ്രമിക്കുക.");
       }
-      const canvas = document.createElement("canvas");
-      canvas.width = Math.max(1, Math.round(bitmap.width * scale));
-      canvas.height = Math.max(1, Math.round(bitmap.height * scale));
-      const context = canvas.getContext("2d", { alpha: false });
-      context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
-      bitmap.close && bitmap.close();
-      const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", 0.82));
-      if (!blob) return file;
+      bitmap = await createImageBitmap(file);
+      let maxEdge = 1600;
+      let quality = 0.82;
+      let blob = null;
+
+      // Try progressively smaller dimensions/quality until the result is safely
+      // below the Supabase bucket's 10 MB per-photo limit.
+      for (let attempt = 0; attempt < 7; attempt++) {
+        const scale = Math.min(1, maxEdge / Math.max(bitmap.width, bitmap.height));
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.max(1, Math.round(bitmap.width * scale));
+        canvas.height = Math.max(1, Math.round(bitmap.height * scale));
+        const context = canvas.getContext("2d", { alpha: false });
+        if (!context) throw new Error("ഫോട്ടോ കംപ്രസ് ചെയ്യാൻ കഴിഞ്ഞില്ല.");
+        context.fillStyle = "#ffffff";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+        blob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", quality));
+        if (!blob) throw new Error("ഫോട്ടോ JPEG ആക്കാൻ കഴിഞ്ഞില്ല.");
+        if (blob.size <= maxUploadBytes) break;
+        maxEdge = Math.round(maxEdge * 0.78);
+        quality = Math.max(0.48, quality - 0.07);
+      }
+
+      if (!blob || blob.size > maxUploadBytes) {
+        throw new Error("ഈ ഫോട്ടോ 9 MB-ൽ താഴെയാക്കാൻ കഴിഞ്ഞില്ല. മറ്റൊരു ഫോട്ടോ തിരഞ്ഞെടുക്കുക.");
+      }
       const baseName = (file.name || "property-photo").replace(/\.[^.]+$/, "");
       return new File([blob], baseName + ".jpg", { type: "image/jpeg", lastModified: Date.now() });
     } catch (error) {
-      return file;
+      throw new Error((file.name || "ഫോട്ടോ") + " തയ്യാറാക്കാൻ കഴിഞ്ഞില്ല: " + (error?.message || "ഫോട്ടോ തുറക്കാനായില്ല."));
+    } finally {
+      if (bitmap && bitmap.close) bitmap.close();
     }
   }
 
@@ -843,6 +862,10 @@ statusBox.textContent = "പരസ്യം സമർപ്പിക്കുന
       const preparedFiles = await easyDealsWithTimeout(
         Promise.all(imageFiles.map(preparePropertyImage)), "ഫോട്ടോ തയ്യാറാക്കൽ", 30000
       );
+      const oversizedPrepared = preparedFiles.findIndex(file => file.size > 9 * 1024 * 1024);
+      if (oversizedPrepared !== -1) {
+        throw new Error(`ഫോട്ടോ ${oversizedPrepared + 1} ഇപ്പോഴും വലുതാണ്. വീണ്ടും ചെറിയ ഫോട്ടോ തിരഞ്ഞെടുക്കുക.`);
+      }
       let nextIndex = 0;
       let completed = 0;
       let uploadFailure = null;
