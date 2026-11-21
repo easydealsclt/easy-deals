@@ -233,6 +233,14 @@
     }
 
 
+
+    /* Login / Register opens as an in-place responsive modal */
+    #account { display:none; position:fixed; inset:0; z-index:9999; overflow-y:auto; align-items:center; justify-content:center; padding:18px!important; background:rgba(8,22,38,.68)!important; }
+    #account.account-modal-open { display:flex; }
+    #account #auth { width:min(650px,100%); max-height:calc(100vh - 36px); overflow-y:auto; box-sizing:border-box; }
+    #accountClose { float:right; border:0; border-radius:8px; background:#e8eef5; color:#102b46; padding:7px 11px; font-size:20px; cursor:pointer; }
+    @media(max-width:540px){ #account{padding:10px!important} #account #auth{max-height:calc(100vh - 20px)} }
+
     .language-toggle{border:1px solid #f5b942;background:#f5b942;color:#102b46;border-radius:999px;padding:7px 12px;font-weight:800;cursor:pointer;white-space:nowrap}
     .market-note{display:inline-flex;gap:7px;align-items:center;background:#e9f7ef;color:#17633d;border:1px solid #c7ead5;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:700;margin:0 0 12px}
     .filter-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:9px;margin:12px 0 16px}
@@ -846,11 +854,8 @@ statusBox.textContent = "പരസ്യം സമർപ്പിക്കുന
       throw new Error("ശരിയായ Property Type തിരഞ്ഞെടുക്കുക.");
     }
 
-    const price = priceText ? Number(priceText) : null;
-
-    if (priceText && (!Number.isFinite(price) || price < 0)) {
-      throw new Error("ശരിയായ വില നൽകുക.");
-    }
+    // Keep the seller's price exactly as entered (e.g. 12 ലക്ഷം / 14 കോടി).
+    const price = priceText || null;
 
     const imageUrls = [];
     const imageFiles = files.filter(file => file.type && file.type.startsWith("image/"));
@@ -1064,6 +1069,7 @@ Property ID: ${propertyContext?.id || "നൽകിയിട്ടില്ല"}
 <!-- EASY DEALS USER ACCOUNT -->
 <section id="account" style="padding:24px 15px;background:#eef3f8;">
  <div id="auth" style="max-width:650px;margin:auto;background:white;padding:18px;border-radius:14px;box-shadow:0 3px 15px #0001;">
+    <button type="button" id="accountClose" aria-label="Close login panel">×</button>
     <h2 style="text-align:center;color:#102b46;">EASY DEALS - എന്റെ അക്കൗണ്ട്</h2>
     <p style="text-align:center;">പുതിയ അക്കൗണ്ട് ഉണ്ടാക്കാം അല്ലെങ്കിൽ Login ചെയ്യാം.</p>
 
@@ -1118,6 +1124,23 @@ window.db = db;
     status.textContent = message;
   }
 window.showMessage = showMessage;
+
+  const accountPanel = document.getElementById("account");
+  const accountClose = document.getElementById("accountClose");
+  document.querySelectorAll(".login-nav").forEach(link => {
+    link.addEventListener("click", event => {
+      event.preventDefault();
+      accountPanel.classList.add("account-modal-open");
+      document.getElementById("edLoginEmail").focus();
+    });
+  });
+  accountClose.addEventListener("click", () => accountPanel.classList.remove("account-modal-open"));
+  accountPanel.addEventListener("click", event => {
+    if (event.target === accountPanel) accountPanel.classList.remove("account-modal-open");
+  });
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") accountPanel.classList.remove("account-modal-open");
+  });
   function updateAccount(user) {
     window.easyDealsCurrentUser = user || null;
     if (user) {
@@ -1275,7 +1298,7 @@ if (imageUrls.length > 0) {
     details.textContent =
       "വിഭാഗം: " + (item.category || "") +
       " | സ്ഥലം: " + (item.location || "") +
-      " | വില: " + (item.price != null ? "₹" + item.price : "വില ചോദിക്കുക") +
+      " | വില: " + (item.price != null && item.price !== "" ? item.price : "വില ചോദിക്കുക") +
       " | വിസ്തീർണം: " + (item.area || "");
 
     body.appendChild(details);
@@ -1423,7 +1446,7 @@ if (imageUrls.length > 0) {
     const details = document.createElement("p");
     details.textContent =
       "സ്ഥലം: " + (item.location || "") +
-      " | വില: ₹" + (item.price || "");
+      " | വില: " + (item.price || "");
     card.appendChild(details);
 const actions = document.createElement("div");
 
