@@ -1129,6 +1129,15 @@ Property ID: ${propertyContext?.id || "നൽകിയിട്ടില്ല"}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (function () {
+  // Keep the reset-flow marker before Supabase processes and cleans callback parameters.
+  const recoveryRedirect = (() => {
+    const query = new URLSearchParams(window.location.search);
+    const hash = new URLSearchParams((window.location.hash || "").replace(/^#/, ""));
+    return query.get("recovery") === "1" ||
+      query.get("type") === "recovery" ||
+      hash.get("type") === "recovery";
+  })();
+
   const SUPABASE_URL = "https://twlpfijvwernyzuqdqjz.supabase.co";
 
   // ഇവിടെ നിങ്ങളുടെ Notepad-ൽ സൂക്ഷിച്ച Publishable Key Paste ചെയ്യുക.
@@ -1185,7 +1194,7 @@ window.showMessage = showMessage;
     const email = document.getElementById("edResetEmail").value.trim();
     showMessage("Reset link അയക്കുന്നു...");
     const { error } = await db.auth.resetPasswordForEmail(email, {
-      redirectTo: "https://easy-deals.pages.dev/"
+      redirectTo: "https://easy-deals.pages.dev/?recovery=1"
     });
     if (error) {
       showMessage("Reset Error: " + error.message);
@@ -1322,12 +1331,15 @@ window.showMessage = showMessage;
       return;
     }
     updateAccount(data.session?.user || null);
+    if (recoveryRedirect && data.session?.user) {
+      showPasswordRecoveryForm();
+    }
     refreshAdminPanel();
   });
 
   db.auth.onAuthStateChange((event, session) => {
     updateAccount(session?.user || null);
-    if (event === "PASSWORD_RECOVERY") {
+    if (event === "PASSWORD_RECOVERY" || (recoveryRedirect && session?.user)) {
       showPasswordRecoveryForm();
     }
     if (session?.user) loadMyListings();
