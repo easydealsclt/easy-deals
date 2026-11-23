@@ -272,7 +272,8 @@
       html{scroll-padding-top:190px}
       #home, #sell, #buy, #contact, #myListings, #account, #adminPanel { scroll-margin-top: 190px; }
     }
-    #installAppBtn{display:inline-flex;align-items:center;justify-content:center;background:#f5b942;color:#102b46;border:0;border-radius:999px;padding:8px 13px;font-weight:800;cursor:pointer}
+    #installAppBtn{display:none;align-items:center;justify-content:center;background:#f5b942;color:#102b46;border:0;border-radius:999px;padding:8px 13px;font-weight:800;cursor:pointer}
+    #installAppBtn.visible{display:inline-flex}
   \n    /* Listing action buttons: matching premium hover/zoom interaction */\n    .listing .body button.btn.primary,\n    .listing .body .report-listing-btn {\n      display: inline-block; cursor: pointer; transform-origin: center;\n      transition: transform .22s ease, background-color .22s ease, color .22s ease,\n                  box-shadow .22s ease, border-color .22s ease;\n      will-change: transform;\n    }\n    .listing .body button.btn.primary:hover,\n    .listing .body button.btn.primary:focus-visible {\n      transform: scale(1.06); background: #f5a623; color: #102b45;\n      box-shadow: 0 7px 18px rgba(0,0,0,.20); outline: none;\n    }\n    .listing .body .report-listing-btn:hover,\n    .listing .body .report-listing-btn:focus-visible {\n      transform: scale(1.045); background: #ffe1d8; border-color: #f28b70;\n      color: #8f2415; box-shadow: 0 6px 15px rgba(0,0,0,.14); outline: none;\n    }\n    .listing .body button.btn.primary:active,\n    .listing .body .report-listing-btn:active { transform: scale(.96); }\n    @media (prefers-reduced-motion: reduce) {\n      .listing .body button.btn.primary, .listing .body .report-listing-btn { transition: none; }\n    }\n
 
     /* EASY DEALS: consistent hover, focus and press effects for all action buttons */
@@ -1092,6 +1093,28 @@ Property ID: ${propertyContext?.id || "നൽകിയിട്ടില്ല"}
         <input id="edLoginPassword" type="password" placeholder="Password" required style="width:100%;padding:9px 11px;margin:4px 0;box-sizing:border-box;">
         <button type="submit" style="background:#1769aa;color:white;padding:9px 16px;border:0;border-radius:7px;cursor:pointer;">Login</button>
       </form>
+      <p style="margin:8px 0 0;text-align:left;">
+        <button type="button" id="edForgotPasswordBtn" style="border:0;background:transparent;color:#1769aa;text-decoration:underline;padding:4px 0;cursor:pointer;font-weight:700;">Forgot Password? / പാസ്‌വേഡ് മറന്നോ?</button>
+      </p>
+    </div>
+
+    <div id="edPasswordReset" hidden style="margin:12px 0;padding:14px;background:#f4f7fb;border-radius:10px;">
+      <h3>Reset Password / പാസ്‌വേഡ് വീണ്ടെടുക്കുക</h3>
+      <p style="margin:5px 0 10px;">രജിസ്റ്റർ ചെയ്ത Email വിലാസം നൽകുക. പാസ്‌വേഡ് മാറ്റാനുള്ള ലിങ്ക് ഇമെയിലിൽ അയക്കും.</p>
+      <form id="edPasswordResetForm">
+        <input id="edResetEmail" type="email" placeholder="Registered email address" required style="width:100%;padding:9px 11px;margin:4px 0;box-sizing:border-box;">
+        <button type="submit" style="background:#1769aa;color:white;padding:9px 16px;border:0;border-radius:7px;cursor:pointer;">Send Reset Link</button>
+        <button type="button" id="edResetBack" style="background:#e8eef5;color:#102b46;padding:9px 16px;border:0;border-radius:7px;cursor:pointer;margin-left:6px;">Back to Login</button>
+      </form>
+    </div>
+
+    <div id="edNewPasswordPanel" hidden style="margin:12px 0;padding:14px;background:#f4f7fb;border-radius:10px;">
+      <h3>Set New Password / പുതിയ പാസ്‌വേഡ്</h3>
+      <form id="edNewPasswordForm">
+        <input id="edNewPassword" type="password" minlength="8" autocomplete="new-password" placeholder="New password (at least 8 characters)" required style="width:100%;padding:9px 11px;margin:4px 0;box-sizing:border-box;">
+        <input id="edConfirmNewPassword" type="password" minlength="8" autocomplete="new-password" placeholder="Confirm new password" required style="width:100%;padding:9px 11px;margin:4px 0;box-sizing:border-box;">
+        <button type="submit" style="background:#1769aa;color:white;padding:9px 16px;border:0;border-radius:7px;cursor:pointer;">Save New Password</button>
+      </form>
     </div>
 
     <div id="edAccountStatus" role="status" aria-live="polite" style="padding:10px;margin-top:15px;color:#102b46;"></div>
@@ -1125,8 +1148,82 @@ window.db = db;
   }
 window.showMessage = showMessage;
 
+  const signupForm = document.getElementById("edSignup");
+  const loginForm = document.getElementById("edLogin");
+  const resetPanel = document.getElementById("edPasswordReset");
+  const newPasswordPanel = document.getElementById("edNewPasswordPanel");
+
+  function showPasswordRecoveryForm() {
+    signupForm.hidden = true;
+    loginForm.hidden = true;
+    resetPanel.hidden = true;
+    newPasswordPanel.hidden = false;
+    accountPanel.classList.add("account-modal-open");
+    showMessage("പുതിയ പാസ്‌വേഡ് നൽകുക.");
+  }
+
+  document.getElementById("edForgotPasswordBtn").addEventListener("click", () => {
+    document.getElementById("edResetEmail").value =
+      document.getElementById("edLoginEmail").value.trim();
+    signupForm.hidden = true;
+    loginForm.hidden = true;
+    resetPanel.hidden = false;
+    newPasswordPanel.hidden = true;
+    showMessage("രജിസ്റ്റർ ചെയ്ത Email വിലാസം നൽകുക.");
+  });
+
+  document.getElementById("edResetBack").addEventListener("click", () => {
+    resetPanel.hidden = true;
+    newPasswordPanel.hidden = true;
+    signupForm.hidden = false;
+    loginForm.hidden = false;
+    showMessage("");
+  });
+
+  document.getElementById("edPasswordResetForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const email = document.getElementById("edResetEmail").value.trim();
+    showMessage("Reset link അയക്കുന്നു...");
+    const { error } = await db.auth.resetPasswordForEmail(email, {
+      redirectTo: "https://easy-deals.pages.dev/"
+    });
+    if (error) {
+      showMessage("Reset Error: " + error.message);
+      return;
+    }
+    showMessage("പാസ്‌വേഡ് മാറ്റാനുള്ള ലിങ്ക് നിങ്ങളുടെ ഇമെയിലിലേക്ക് അയച്ചിട്ടുണ്ട്. Inbox / Spam പരിശോധിക്കുക.");
+  });
+
+  document.getElementById("edNewPasswordForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const password = document.getElementById("edNewPassword").value;
+    const confirmPassword = document.getElementById("edConfirmNewPassword").value;
+    if (password.length < 8) {
+      showMessage("പുതിയ പാസ്‌വേഡ് കുറഞ്ഞത് 8 അക്ഷരങ്ങളെങ്കിലും വേണം.");
+      return;
+    }
+    if (password !== confirmPassword) {
+      showMessage("രണ്ട് പാസ്‌വേഡുകളും ഒരുപോലെയല്ല. വീണ്ടും പരിശോധിക്കുക.");
+      return;
+    }
+    showMessage("പുതിയ പാസ്‌വേഡ് സേവ് ചെയ്യുന്നു...");
+    const { data, error } = await db.auth.updateUser({ password });
+    if (error) {
+      showMessage("Password Update Error: " + error.message);
+      return;
+    }
+    updateAccount(data.user);
+    newPasswordPanel.hidden = true;
+    signupForm.hidden = false;
+    loginForm.hidden = false;
+    showMessage("പാസ്‌വേഡ് വിജയകരമായി മാറ്റി. ഇനി പുതിയ പാസ്‌വേഡ് ഉപയോഗിച്ച് Login ചെയ്യാം.");
+  });
+
   const accountPanel = document.getElementById("account");
   const accountClose = document.getElementById("accountClose");
+  function closeAccountPanel() {
+    accountPanel.classList.remove("account-modal-open");
+  }
   document.querySelectorAll(".login-nav").forEach(link => {
     link.addEventListener("click", event => {
       event.preventDefault();
@@ -1134,7 +1231,7 @@ window.showMessage = showMessage;
       document.getElementById("edLoginEmail").focus();
     });
   });
-  accountClose.addEventListener("click", () => accountPanel.classList.remove("account-modal-open"));
+  accountClose.addEventListener("click", closeAccountPanel);
   accountPanel.addEventListener("click", event => {
     if (event.target === accountPanel) accountPanel.classList.remove("account-modal-open");
   });
@@ -1178,6 +1275,7 @@ window.showMessage = showMessage;
     if (data.session) {
       showMessage("Account വിജയകരമായി സൃഷ്ടിച്ചു!");
       updateAccount(data.user);
+      closeAccountPanel();
     } else {
       showMessage("Registration വിജയിച്ചു! നിങ്ങളുടെ Email തുറന്ന് Confirmation Link ക്ലിക്ക് ചെയ്യുക.");
     }
@@ -1203,6 +1301,7 @@ window.showMessage = showMessage;
 
     showMessage("Login വിജയിച്ചു!");
     updateAccount(data.user);
+    closeAccountPanel();
   });
 
   document.getElementById("edLogout").addEventListener("click", async function() {
@@ -1228,6 +1327,9 @@ window.showMessage = showMessage;
 
   db.auth.onAuthStateChange((event, session) => {
     updateAccount(session?.user || null);
+    if (event === "PASSWORD_RECOVERY") {
+      showPasswordRecoveryForm();
+    }
     if (session?.user) loadMyListings();
     refreshAdminPanel();
   });
@@ -1843,18 +1945,33 @@ if (myListingsLink) {
 (() => {
   const installButton = document.getElementById('installAppBtn');
   let installPrompt = null;
+
+  // An installed PWA opened from its home-screen icon runs in standalone
+  // mode. Do not show an install prompt inside that installed app.
+  const isRunningAsInstalledApp = () =>
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.matchMedia('(display-mode: fullscreen)').matches ||
+    window.navigator.standalone === true;
+
+  if (installButton && !isRunningAsInstalledApp()) {
+    // Show the manual-install help on browsers (such as iOS Safari) that
+    // do not dispatch beforeinstallprompt.
+    installButton.classList.add('visible');
+  }
+
   window.addEventListener('beforeinstallprompt', (event) => {
     event.preventDefault();
+    if (isRunningAsInstalledApp()) return;
     installPrompt = event;
     installButton?.classList.add('visible');
   });
   installButton?.addEventListener('click', async () => {
-    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
-      alert('Easy Deals ഇതിനകം ഇൻസ്റ്റാൾ ചെയ്തിട്ടുണ്ട്.');
+    if (isRunningAsInstalledApp()) {
+      installButton.classList.remove('visible');
       return;
     }
     if (!installPrompt) {
-      alert('Android Chrome-ൽ ⋮ തുറന്ന് Install app അല്ലെങ്കിൽ Add to Home screen തിരഞ്ഞെടുക്കുക.');
+      alert('Android Chrome-ൽ ⋮ തുറന്ന് Install app അല്ലെങ്കിൽ Add to Home screen തിരഞ്ഞെടുക്കുക. iPhone-ൽ Share → Add to Home Screen തിരഞ്ഞെടുക്കുക.');
       return;
     }
     installPrompt.prompt();
