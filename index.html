@@ -1090,7 +1090,10 @@ Property ID: ${propertyContext?.id || "നൽകിയിട്ടില്ല"}
       <h3>Login</h3>
       <form id="edLogin">
         <input id="edLoginEmail" type="email" placeholder="Email address" required style="width:100%;padding:9px 11px;margin:4px 0;box-sizing:border-box;">
-        <input id="edLoginPassword" type="password" placeholder="Password" required style="width:100%;padding:9px 11px;margin:4px 0;box-sizing:border-box;">
+        <div class="ed-password-field" style="position:relative;width:100%;">
+          <input id="edLoginPassword" type="password" placeholder="Password" autocomplete="current-password" required style="width:100%;padding:9px 44px 9px 11px;margin:4px 0;box-sizing:border-box;">
+          <button type="button" id="edToggleLoginPassword" aria-label="Show password" aria-pressed="false" title="Show password" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:transparent;padding:6px;cursor:pointer;font-size:19px;line-height:1;color:#526477;">👁</button>
+        </div>
         <button type="submit" style="background:#1769aa;color:white;padding:9px 16px;border:0;border-radius:7px;cursor:pointer;">Login</button>
       </form>
       <p style="margin:8px 0 0;text-align:left;">
@@ -1290,6 +1293,18 @@ window.showMessage = showMessage;
     }
   });
 
+  // Show/hide the login password only when the user taps the eye icon.
+  document.getElementById("edToggleLoginPassword").addEventListener("click", function() {
+    const passwordInput = document.getElementById("edLoginPassword");
+    const isHidden = passwordInput.type === "password";
+    passwordInput.type = isHidden ? "text" : "password";
+    this.textContent = isHidden ? "🙈" : "👁";
+    this.setAttribute("aria-label", isHidden ? "Hide password" : "Show password");
+    this.setAttribute("aria-pressed", isHidden ? "true" : "false");
+    this.title = isHidden ? "Hide password" : "Show password";
+    passwordInput.focus();
+  });
+
   document.getElementById("edLogin").addEventListener("submit", async function(e) {
     e.preventDefault();
 
@@ -1307,6 +1322,16 @@ window.showMessage = showMessage;
       showMessage("Login Error: " + error.message);
       return;
     }
+
+    // Clear the password immediately after a successful login.
+    const loginPasswordInput = document.getElementById("edLoginPassword");
+    loginPasswordInput.value = "";
+    loginPasswordInput.type = "password";
+    const passwordToggle = document.getElementById("edToggleLoginPassword");
+    passwordToggle.textContent = "👁";
+    passwordToggle.setAttribute("aria-label", "Show password");
+    passwordToggle.setAttribute("aria-pressed", "false");
+    passwordToggle.title = "Show password";
 
     showMessage("Login വിജയിച്ചു!");
     updateAccount(data.user);
