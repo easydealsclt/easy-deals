@@ -1339,15 +1339,23 @@ window.showMessage = showMessage;
   });
 
   document.getElementById("edLogout").addEventListener("click", async function() {
+    this.disabled = true;
     const { error } = await db.auth.signOut();
 
     if (error) {
       showMessage("Logout Error: " + error.message);
+      this.disabled = false;
       return;
     }
 
     updateAccount(null);
     showMessage("നിങ്ങൾ വിജയകരമായി Logout ചെയ്തു.");
+
+    // Briefly show the successful logout message, then close the full account modal.
+    window.setTimeout(() => {
+      closeAccountPanel();
+      this.disabled = false;
+    }, 1200);
   });
 
   db.auth.getSession().then(({ data, error }) => {
