@@ -429,6 +429,57 @@
       #edLogout { transition: none; }
     }
 
+    /* Subtle attention glow for Login / Register; never flashes or hides the button. */
+    @keyframes easyDealsLoginGlow {
+      0%, 100% { box-shadow: 0 4px 12px rgba(255,165,0,.22); }
+      50% { box-shadow: 0 5px 17px rgba(255,190,55,.48), 0 0 0 3px rgba(255,190,55,.12); }
+    }
+    .nav nav a.login-nav { animation: easyDealsLoginGlow 2.8s ease-in-out infinite; }
+    @media (prefers-reduced-motion: reduce) {
+      .nav nav a.login-nav { animation: none; }
+    }
+
+  
+
+    /* Header contact links match the standard navigation buttons. */
+    .nav nav a.nav-contact,
+    .nav nav a.nav-contact.whatsapp,
+    .nav nav a.nav-contact.email {
+      background: transparent !important;
+      border: 1px solid #ffffff55 !important;
+      color: #fff !important;
+      box-shadow: none !important;
+      filter: none;
+    }
+    .nav nav a.nav-contact:hover,
+    .nav nav a.nav-contact:focus-visible,
+    .nav nav a.nav-contact.whatsapp:hover,
+    .nav nav a.nav-contact.email:hover {
+      background: #ffffff1c !important;
+      border-color: var(--gold) !important;
+      color: var(--gold) !important;
+      transform: translateY(-1px);
+      box-shadow: none !important;
+      outline: none;
+    }
+    .nav nav a.nav-contact:active { transform: scale(.95); }
+
+    /* Gentle attention glow for Install App; keep its existing teal look. */
+    @keyframes easyDealsInstallGlow {
+      0%, 100% { box-shadow: 0 4px 12px rgba(20,126,113,.25), 0 0 0 0 rgba(53,183,165,0); }
+      50% { box-shadow: 0 5px 16px rgba(20,126,113,.38), 0 0 12px 3px rgba(53,183,165,.42); }
+    }
+    #installAppBtn.visible {
+      animation: easyDealsInstallGlow 2.8s ease-in-out infinite;
+    }
+    #installAppBtn:hover,
+    #installAppBtn:focus-visible {
+      animation-play-state: paused;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #installAppBtn.visible { animation: none; }
+    }
+
   </style>
 </head>
 <body>
@@ -599,57 +650,144 @@
   const WHATSAPP_NUMBER = "917289985855";
 
   document.getElementById("year").textContent = new Date().getFullYear();
-  // Malayalam / English interface switch. User-entered listing content is never translated.
+  // Malayalam / English interface switch. Translate interface labels only;
+  // user-entered property names, descriptions, locations and contact details stay as entered.
   const uiTranslations = {
     "പ്രോപ്പർട്ടി വാങ്ങാനും വിൽക്കാനും എളുപ്പവഴി":"An easy place to buy and sell property",
     "വീട്, ഫ്ലാറ്റ്, സ്ഥലം":"Houses, flats and land",
-    "നിങ്ങളുടെ പ്രോപ്പർട്ടി വിൽക്കാനും ഇഷ്ടമുള്ള പ്രോപ്പർട്ടി വാങ്ങാനും ഒരിടം. വാങ്ങുന്നവരെയും വിൽക്കുന്നവരെയും നേരിട്ട് ബന്ധിപ്പിക്കുന്നു.":"A place to sell your property and buy the property you like. Connecting buyers and sellers directly.",
+    "എല്ലാം ഇവിടെ കണ്ടെത്താം!":"Find everything here!",
+    "വിൽക്കാൻ പരസ്യം നൽകാം":"Post an Ad to Sell",
+    "പ്രോപ്പർട്ടി തിരയാം":"Browse Properties",
+    "നിങ്ങളുടെ പ്രോപ്പർട്ടി വിൽക്കാനും ഇഷ്ടമുള്ള പ്രോപ്പർട്ടി വാങ്ങാനും ഒരിടം. വാങ്ങുന്നവരെയും വിൽക്കുന്നവരെയും നേരിട്ട് ബന്ധിപ്പിക്കുന്നു.":"A place to sell your property and buy the property you like.",
     "ഹോം":"Home", "വിൽക്കാം":"Sell", "വാങ്ങാം":"Buy", "ബന്ധപ്പെടുക":"Contact", "എന്റെ പരസ്യങ്ങൾ":"My Listings",
-    "നിങ്ങളുടെ അടുത്ത ഡീൽ ഇവിടെ തുടങ്ങട്ടെ!":"Your next property deal starts here!",
-    "വിൽക്കാനോ വാങ്ങാനോ കൂടുതൽ വിവരങ്ങൾ അറിയാനോ ഞങ്ങളെ ബന്ധപ്പെടൂ.":"Contact us for help with buying or selling property.",
+    "നിങ്ങളുടെ അടുത്ത ഡീൽ ഇവിടെ തുടങ്ങട്ടെ!":"Your next deal starts here!",
+    "വിൽക്കാനോ വാങ്ങാനോ കൂടുതൽ വിവരങ്ങൾ അറിയാനോ ഞങ്ങളെ ബന്ധപ്പെടൂ.":"Contact us for help with buying or selling.",
     "WhatsApp വഴി ബന്ധപ്പെടുക":"Contact on WhatsApp", "Email അയക്കുക":"Send Email",
-    "പ്രോപ്പർട്ടി വിൽക്കണം":"List a Property", "വീട്, സ്ഥലം തുടങ്ങിയവയുടെ വിവരങ്ങളും ഫോട്ടോകളും ചേർക്കൂ. പരിശോധിച്ചശേഷം നിങ്ങളെ ബന്ധപ്പെടാം.":"Add the property details and photos. Listings may be reviewed before they are shown publicly.",
+    "പ്രോപ്പർട്ടി വിൽക്കണം":"List a Property", "വീട്, സ്ഥലം തുടങ്ങിയവയുടെ വിവരങ്ങളും ഫോട്ടോകളും ചേർക്കൂ. പരിശോധിച്ചശേഷം നിങ്ങളെ ബന്ധപ്പെടാം.":"Add property details and photos. We will contact you after review.",
     "പേര് *":"Name *", "ഫോൺ നമ്പർ *":"Phone Number *", "പ്രോപ്പർട്ടി തരം *":"Property Type *", "സ്ഥലം / ജില്ല *":"Location / District *",
     "വിസ്തീർണം":"Area", "പ്രതീക്ഷിക്കുന്ന വില":"Expected Price", "ഫോട്ടോകൾ തിരഞ്ഞെടുക്കുക":"Choose Photos", "കൂടുതൽ വിവരങ്ങൾ":"More Details",
     "വിൽപ്പന വിവരങ്ങൾ അയക്കുക":"Submit Property", "പ്രോപ്പർട്ടി വാങ്ങണം":"Find a Property",
-    "വീട്, സ്ഥലം തുടങ്ങിയവയിൽ എന്താണ് വേണ്ടതെന്ന് അറിയിക്കൂ. അനുയോജ്യമായ പ്രോപ്പർട്ടി കണ്ടെത്താൻ ഞങ്ങൾ സഹായിക്കാം.":"Tell us what kind of property you need.",
-    "എന്താണ് വാങ്ങേണ്ടത്? *":"What do you need? *", "വാങ്ങാൻ ഉദ്ദേശിക്കുന്ന ഏരിയ *":"Area you want to buy in *", "ബജറ്റ്":"Budget", "ആവശ്യമായ വിസ്തീർണം":"Required Area", "മറ്റ് ആവശ്യങ്ങൾ":"Other Requirements", "വാങ്ങൽ ആവശ്യം അയക്കുക":"Send Requirement",
+    "വീട്, സ്ഥലം തുടങ്ങിയവയിൽ എന്താണ് വേണ്ടതെന്ന് അറിയിക്കൂ. അനുയോജ്യമായ പ്രോപ്പർട്ടി കണ്ടെത്താൻ ഞങ്ങൾ സഹായിക്കാം.":"Tell us what kind of property you need. We will help find a suitable property.",
+    "എന്താണ് വാങ്ങേണ്ടത്? *":"What do you need? *", "വാങ്ങാൻ ഉദ്ദേശിക്കുന്ന ഏരിയ *":"Preferred Location *", "ബജറ്റ്":"Budget", "ആവശ്യമായ വിസ്തീർണം":"Required Area", "മറ്റ് ആവശ്യങ്ങൾ":"Other Requirements", "വാങ്ങൽ ആവശ്യം അയക്കുക":"Send Requirement",
     "ലഭ്യമായ പ്രോപ്പർട്ടികൾ":"Available Properties", "എല്ലാ വിഭാഗങ്ങളും":"All Categories", "കേരളം മുഴുവൻ":"All Kerala",
-    "Login / Register":"Login / Register", "EASY DEALS - My Account":"EASY DEALS - My Account", "പുതിയ അക്കൗണ്ട് ഉണ്ടാക്കാം അല്ലെങ്കിൽ Login ചെയ്യാം.":"Create an account or log in.",
-    "പുതിയ അക്കൗണ്ട് (Sign Up)":"Create Account (Sign Up)", "Login":"Login", "Create Account":"Create Account", "Logout":"Logout",
-    "വാങ്ങുന്നവരെയും വിൽക്കുന്നവരെയും ബന്ധിപ്പിക്കുന്നു.":"Connecting property buyers and sellers across Kerala.",
+    "Login / Register":"Login / Register", "EASY DEALS - My Account":"EASY DEALS - My Account", "EASY DEALS - എന്റെ അക്കൗണ്ട്":"EASY DEALS - My Account",
+    "പുതിയ അക്കൗണ്ട് ഉണ്ടാക്കാം അല്ലെങ്കിൽ Login ചെയ്യാം.":"Create an account or log in.",
+    "പുതിയ അക്കൗണ്ട് (Sign Up)":"Create Account (Sign Up)", "പുതിയ അക്കൗണ്ട്":"Create Account", "Login":"Login", "Create Account":"Create Account", "Logout":"Logout",
+    "നിങ്ങളുടെ പേര്":"Your Name", "മൊബൈൽ നമ്പർ":"Mobile Number", "ഉദാ: കോഴിക്കോട്, ബാലുശ്ശേരി / District, Town":"e.g. Kozhikode, Balussery / District, Town",
+    "ഉദാ: 10 സെന്റ് / 1500 sq.ft":"e.g. 10 cents / 1500 sq.ft", "ഉദാ: ₹25 ലക്ഷം":"e.g. ₹25 lakh",
+    "റോഡ് സൗകര്യം, വെള്ളം, രേഖകൾ തുടങ്ങിയ വിവരങ്ങൾ":"Road access, water, documents and other details",
+    "പ്രദേശം / ജില്ല / District":"Area / District", "ഉദാ: ₹20 - 30 ലക്ഷം":"e.g. ₹20 - 30 lakh",
+    "ഉദാ: 5 മുതൽ 10 സെന്റ് വരെ":"e.g. 5 to 10 cents", "റോഡ്, സ്കൂൾ, ആശുപത്രി എന്നിവയുടെ സമീപം വേണമോ?":"Do you prefer to be near a road, school or hospital?",
+    "വാങ്ങുന്നവരെയും വിൽക്കുന്നവരെയും ബന്ധിപ്പിക്കുന്നു.":"Connecting property buyers and sellers.",
     "നിങ്ങളുടെ പരസ്യങ്ങൾ ഇവിടെ കാണാം.":"Your listings will appear here.", "നിങ്ങളുടെ വിശ്വസ്ത റിയൽ എസ്റ്റേറ്റ് കണക്ഷൻ":"Your trusted property connection",
-    "സ്ഥലം / പ്ലോട്ട്":"Land / Plot", "വീട്":"House", "ഫ്ലാറ്റ്":"Flat", "വില്ല":"Villa", "കമേഴ്സ്യൽ":"Commercial", "കമേഴ്സ്യൽ കെട്ടിടം":"Commercial Property", "തിരഞ്ഞെടുക്കുക":"Select",
+    "സ്ഥലം / പ്ലോട്ട്":"Land / Plot", "വീട്":"House", "ഫ്ലാറ്റ്":"Flat", "വില്ല":"Villa", "കമേഴ്സ്യൽ":"Commercial", "കമേഴ്സ്യൽ കെട്ടിടം":"Commercial Building", "തിരഞ്ഞെടുക്കുക":"Select",
     "പരസ്യങ്ങൾ ലോഡ് ചെയ്യുന്നു...":"Loading listings...", "ഇപ്പോൾ പരസ്യങ്ങളൊന്നുമില്ല.":"No listings yet.",
-    "പരസ്യം വിജയകരമായി ചേർത്തു!":"Property listing saved successfully!", "പരസ്യം സമർപ്പിക്കാൻ തയ്യാറെടുക്കുന്നു...":"Preparing your listing...",
+    "പരസ്യം വിജയകരമായി ചേർത്തു!":"Listing added successfully!", "പരസ്യം സമർപ്പിക്കാൻ തയ്യാറെടുക്കുന്നു...":"Preparing your listing...",
     "ഫോട്ടോകൾ അപ്‌ലോഡ് ചെയ്യുന്നു... ദയവായി കാത്തിരിക്കൂ.":"Uploading photos... Please wait.", "പരസ്യം സേവ് ചെയ്യുന്നു... ദയവായി കാത്തിരിക്കൂ.":"Saving listing... Please wait.",
     "ആദ്യം Login ചെയ്യുക.":"Please log in first.", "നിങ്ങളുടെ പരസ്യങ്ങൾ കാണാൻ Login ചെയ്യുക.":"Please log in to view your listings.",
     "നിങ്ങൾ ഇതുവരെ പരസ്യങ്ങൾ ചേർത്തിട്ടില്ല.":"You have not added any listings yet.", "പരസ്യം നീക്കം ചെയ്തു!":"Listing deleted!",
-    "Edit / തിരുത്തുക":"Edit", "Delete / നീക്കം ചെയ്യുക":"Delete", "Admin Panel":"Admin Panel", "Easy Deals Admin Dashboard":"Easy Deals Admin Dashboard", "പരസ്യങ്ങൾ പരിശോധിക്കുന്നു...":"Checking listings...", "പരസ്യങ്ങൾ ലോഡ് ചെയ്യുന്നു...":"Loading listings...", "Admin അക്കൗണ്ടിന് മാത്രം ലഭ്യമായ പരസ്യ നിയന്ത്രണം":"Listing controls available only to the admin account", "Refresh":"Refresh"
+    "Edit / തിരുത്തുക":"Edit", "Delete / നീക്കം ചെയ്യുക":"Delete", "Admin Panel":"Admin Panel", "Easy Deals Admin Dashboard":"Easy Deals Admin Dashboard",
+    "പരസ്യങ്ങൾ പരിശോധിക്കുന്നു...":"Checking listings...", "പരസ്യങ്ങൾ ലോഡ് ചെയ്യുന്നു...":"Loading listings...", "Admin അക്കൗണ്ടിന് മാത്രം ലഭ്യമായ പരസ്യ നിയന്ത്രണം":"Listing controls available only to the admin account", "Refresh":"Refresh",
+    "വില ചോദിക്കുക":"Ask for price", "Easy Deals വഴി ബന്ധപ്പെടുക":"Contact through Easy Deals", "Report Ad / റിപ്പോർട്ട് ചെയ്യുക":"Report Ad",
+    "അക്കൗണ്ട് സ്ഥിരീകരിച്ചശേഷം Login ചെയ്ത് പരസ്യം ചേർക്കാം.":"Verify your account, then log in to post an advertisement.",
+    "പരസ്യം ചേർക്കുന്നതിന് മുമ്പ് ദയവായി രജിസ്റ്റർ ചെയ്ത് Login ചെയ്യുക.":"Please register and log in before posting an advertisement.",
+    "പുതിയ അക്കൗണ്ട് രജിസ്റ്റർ ചെയ്താൽ നിങ്ങളുടെ ഇമെയിലിലേക്ക് Verification Link അയയ്ക്കുന്നതാണ്.":"A verification link will be sent to your email address after registration.",
+    "Inbox-ൽ ഇമെയിൽ കാണുന്നില്ലെങ്കിൽ Spam / Junk ഫോൾഡറും പരിശോധിക്കുക.":"If you cannot find the email in your Inbox, check your Spam / Junk folder.",
+    "Verification Link തുറന്ന് അക്കൗണ്ട് സ്ഥിരീകരിച്ചശേഷം Login ചെയ്ത് പരസ്യം ചേർക്കാം.":"Open the verification link to confirm your account, then log in to post your advertisement.",
+    "IMPORTANT NOTICE":"IMPORTANT NOTICE", "പ്രധാന അറിയിപ്പ് / IMPORTANT NOTICE":"IMPORTANT NOTICE",
+    "Forgot Password? / പാസ്‌വേഡ് മറന്നോ?":"Forgot Password?",
+    "Reset Password / പാസ്‌വേഡ് വീണ്ടെടുക്കുക":"Reset Password",
+    "രജിസ്റ്റർ ചെയ്ത Email വിലാസം നൽകുക. പാസ്‌വേഡ് മാറ്റാനുള്ള ലിങ്ക് ഇമെയിലിൽ അയക്കും.":"Enter your registered email address. A password reset link will be sent to your email.",
+    "Set New Password / പുതിയ പാസ്‌വേഡ്":"Set New Password",
+    "EASY DEALS - എന്റെ അക്കൗണ്ട്":"EASY DEALS - My Account",
+    "Login ചെയ്തിരിക്കുന്നത്: ":"Logged in as: ",
+    "ഫോട്ടോകൾ തയ്യാറാക്കുന്നു... ":"Preparing photos... ", "ഫോട്ടോ ":"Photo ", "അപ്‌ലോഡ് ചെയ്യുന്നു...":" uploading...",
+    "ഫോൺ വിവരങ്ങൾ സേവ് ചെയ്യുന്നു...":"Saving phone details...",
+    "നിങ്ങളുടെ ആവശ്യം സുരക്ഷിതമായി സേവ് ചെയ്യുന്നു...":"Saving your requirement securely...",
+    "നിങ്ങളുടെ ആവശ്യം ഡാറ്റാബേസിൽ സേവ് ചെയ്തു. WhatsApp തുറക്കുന്നു; Send അമർത്തി സന്ദേശം അയക്കൂ.":"Your requirement has been saved. WhatsApp is opening; press Send to send the message.",
+    "വിൽപ്പന വിവരങ്ങൾ അയക്കുക":"Submit Property", "വാങ്ങൽ ആവശ്യം അയക്കുക":"Send Requirement",
+    "Admin വിവരങ്ങൾ ലോഡ് ചെയ്യുന്നു...":"Loading admin information...",
+    "Reports ലോഡ് ചെയ്യുന്നു...":"Loading reports...", "ഇപ്പോൾ Reports ഒന്നുമില്ല.":"No reports yet.",
+    "പരസ്യങ്ങളൊന്നുമില്ല.":"No listings found.", "ലോഡ് ചെയ്യാനായില്ല":"Could not load",
+    "പരസ്യം പ്രസിദ്ധീകരിച്ചു.":"Listing published.", "പരസ്യം Hide ചെയ്തു.":"Listing hidden.",
+    "Report ചെയ്ത പരസ്യം Hide ചെയ്തു.":"Reported listing hidden.", "Report status അപ്ഡേറ്റ് ചെയ്തു.":"Report status updated.",
+    "കേരളം മുഴുവൻ":"All Kerala",
+    "തിരുവനന്തപുരം":"Thiruvananthapuram", "കൊല്ലം":"Kollam", "പത്തനംതിട്ട":"Pathanamthitta",
+    "ആലപ്പുഴ":"Alappuzha", "കോട്ടയം":"Kottayam", "ഇടുക്കി":"Idukki",
+    "എറണാകുളം":"Ernakulam", "തൃശ്ശൂർ":"Thrissur", "പാലക്കാട്":"Palakkad",
+    "മലപ്പുറം":"Malappuram", "കോഴിക്കോട്":"Kozhikode", "വയനാട്":"Wayanad",
+    "കണ്ണൂർ":"Kannur", "കാസർഗോഡ്":"Kasaragod",
+    "പ്രദേശം, വീട്, ഫ്ലാറ്റ് എന്നിവ തിരയുക...":"Search area, house, flat...",
+    "ഫോട്ടോകൾ തിരഞ്ഞെടുത്താൽ പ്രിവ്യൂ കാണാം.":"A preview appears after you select photos.",
+    "നിങ്ങളുടെ ഫോണിൽ Share സൗകര്യം ലഭ്യമെങ്കിൽ വിവരങ്ങളും ഫോട്ടോകളും ഒരുമിച്ച് WhatsApp-ലേക്ക് പങ്കിടാം.":"If your phone supports sharing, you can share details and photos together on WhatsApp.",
+    "നിങ്ങളുടെ വിവരങ്ങൾ സ്വകാര്യമായി കൈകാര്യം ചെയ്യും.":"Your information will be handled privately.",
+    "വാടക":"Rent", "വാടകയ്ക്ക്":"For Rent"
   };
   const uiMalayalam = Object.fromEntries(Object.entries(uiTranslations).map(([ml,en])=>[en,ml]));
-  function setInterfaceLanguage(language) {
+  const uiPrefixes = {
+    "വിഭാഗം: ":"Category: ", "സ്ഥലം: ":"Location: ", "വില: ":"Price: ", "വിസ്തീർണം: ":"Area: ",
+    "വിൽപ്പനക്കാരൻ: ":"Seller: ", "ഫോൺ: ":"Phone: ", "കാരണം: ":"Reason: ", "Report Status: ":"Report Status: ",
+    "ആകെ ":"Total ", "പരസ്യങ്ങൾ ലഭ്യമല്ല: ":"Listings unavailable: ", "പരസ്യങ്ങൾ ലഭിച്ചില്ല: ":"Could not load listings: ",
+    "ഉടമയുടെ ഫോൺ വിവരങ്ങൾ ലഭിച്ചില്ല: ":"Could not load owner phone details: ", "ഉടമയുടെ കോൺടാക്റ്റ് വിവരങ്ങൾ ലഭിച്ചില്ല: ":"Could not load owner contact details: ",
+    "Admin പരസ്യങ്ങൾ ലഭിച്ചില്ല: ":"Could not load admin listings: ", "Report status അപ്ഡേറ്റ് ചെയ്തു.":"Report status updated."
+  };
+  let currentInterfaceLanguage = "ml";
+  function translateTextNode(node, language) {
+    if (!node || !node.nodeValue) return;
+    let value = node.nodeValue;
     const map = language === "en" ? uiTranslations : uiMalayalam;
-    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-    let node;
-    while ((node = walker.nextNode())) {
-      const key = node.nodeValue.trim();
-      if (map[key]) node.nodeValue = node.nodeValue.replace(key, map[key]);
+    const entries = Object.entries(map).sort((a,b) => b[0].length - a[0].length);
+    for (const [from,to] of entries) {
+      if (from && value.includes(from)) value = value.split(from).join(to);
     }
-    const attrs = ["placeholder", "aria-label"];
-    document.querySelectorAll("input,textarea,select,button").forEach(el => attrs.forEach(attr => {
-      if (el.hasAttribute(attr)) { const value = el.getAttribute(attr); if (map[value]) el.setAttribute(attr,map[value]); }
+    if (value !== node.nodeValue) node.nodeValue = value;
+  }
+  function translateElement(element, language) {
+    if (!element) return;
+    const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+    let node; while ((node = walker.nextNode())) translateTextNode(node, language);
+    const map = language === "en" ? uiTranslations : uiMalayalam;
+    const attrs = ["placeholder", "aria-label", "title"];
+    const controls = [];
+    if (element.matches?.("input,textarea,select,button,a,option,label")) controls.push(element);
+    element.querySelectorAll?.("input,textarea,select,button,a,option,label").forEach(el => controls.push(el));
+    controls.forEach(el => attrs.forEach(attr => {
+      if (el.hasAttribute(attr)) {
+        const value = el.getAttribute(attr);
+        if (map[value]) el.setAttribute(attr, map[value]);
+      }
     }));
-    document.documentElement.lang = language === "en" ? "en" : "ml";
+  }
+  function setInterfaceLanguage(language) {
+    currentInterfaceLanguage = language === "en" ? "en" : "ml";
+    translateElement(document.body, currentInterfaceLanguage);
+    document.documentElement.lang = currentInterfaceLanguage;
     const toggle = document.getElementById("languageToggle");
-    if (toggle) toggle.textContent = language === "en" ? "മലയാളം" : "English";
-    localStorage.setItem("easyDealsLanguage", language);
+    if (toggle) toggle.textContent = currentInterfaceLanguage === "en" ? "മലയാളം" : "English";
+    try { localStorage.setItem("easyDealsLanguage", currentInterfaceLanguage); } catch (error) {}
   }
   document.getElementById("languageToggle").addEventListener("click", () => {
-    const current = document.documentElement.lang === "en" ? "en" : "ml";
-    setInterfaceLanguage(current === "ml" ? "en" : "ml");
+    setInterfaceLanguage(currentInterfaceLanguage === "ml" ? "en" : "ml");
   });
-  // Language is switched on demand; default is Malayalam for Kerala users.
+  // Translate newly rendered interface sections without watching text-node edits.
+  // Observing characterData here can repeatedly react to our own translations and
+  // create unnecessary work while large listing/admin panels are being rendered.
+  const languageObserver = new MutationObserver(records => {
+    for (const record of records) {
+      for (const node of record.addedNodes) {
+        if (node.nodeType === Node.TEXT_NODE) {
+          translateTextNode(node, currentInterfaceLanguage);
+        } else if (node.nodeType === Node.ELEMENT_NODE) {
+          translateElement(node, currentInterfaceLanguage);
+        }
+      }
+    }
+  });
+  languageObserver.observe(document.body, { childList:true, subtree:true });
+  let savedLanguage = "ml";
+  try { savedLanguage = localStorage.getItem("easyDealsLanguage") || "ml"; }
+  catch (error) { savedLanguage = "ml"; }
+  if (savedLanguage === "en" || savedLanguage === "ml") setInterfaceLanguage(savedLanguage);
 
   const waLink = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent("Hello EASY DEALS, കൂടുതൽ വിവരങ്ങൾ അറിയണം.");
   document.getElementById("contactWhatsApp").href = waLink;
@@ -1383,6 +1521,105 @@ window.showMessage = showMessage;
   });
   
 // EASY DEALS - Load property advertisements
+// Short enquiry form for a specific property. The general Buy form remains unchanged.
+function ensurePropertyEnquiryModal() {
+  let modal = document.getElementById("propertyEnquiryModal");
+  if (modal) return modal;
+  modal = document.createElement("div");
+  modal.id = "propertyEnquiryModal";
+  modal.setAttribute("role", "dialog");
+  modal.setAttribute("aria-modal", "true");
+  modal.setAttribute("aria-labelledby", "propertyEnquiryTitle");
+  modal.style.cssText = "display:none;position:fixed;inset:0;z-index:10050;background:rgba(8,22,38,.72);padding:16px;align-items:center;justify-content:center;";
+  modal.innerHTML = `
+    <div style="width:min(440px,100%);background:#fff;border-radius:14px;padding:20px;box-shadow:0 12px 40px #0004;max-height:90vh;overflow:auto;">
+      <button type="button" id="propertyEnquiryClose" aria-label="Close" style="float:right;border:0;border-radius:8px;background:#e8eef5;color:#102b46;padding:6px 11px;font-size:20px;cursor:pointer;">×</button>
+      <h2 id="propertyEnquiryTitle" style="margin:0 35px 8px 0;color:#102b46;">പ്രോപ്പർട്ടിയിൽ താൽപര്യമുണ്ടോ?</h2>
+      <p id="propertyEnquirySummary" style="margin:0 0 14px;color:#657487;font-size:14px;"></p>
+      <form id="propertyEnquiryForm">
+        <label for="propertyEnquiryName">നിങ്ങളുടെ പേര് *</label>
+        <input id="propertyEnquiryName" name="name" type="text" autocomplete="name" required maxlength="100" placeholder="നിങ്ങളുടെ പേര്">
+        <label for="propertyEnquiryPhone">മൊബൈൽ നമ്പർ *</label>
+        <input id="propertyEnquiryPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required maxlength="20" placeholder="മൊബൈൽ നമ്പർ">
+        <p id="propertyEnquiryStatus" role="status" aria-live="polite" style="font-size:13px;"></p>
+        <button id="propertyEnquirySubmit" type="submit" class="btn blue" style="width:100%;margin-top:8px;">സമർപ്പിക്കുക</button>
+      </form>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.querySelector("#propertyEnquiryClose").addEventListener("click", closePropertyEnquiry);
+  modal.addEventListener("click", e => { if (e.target === modal) closePropertyEnquiry(); });
+  modal.querySelector("#propertyEnquiryForm").addEventListener("submit", submitPropertyEnquiry);
+  return modal;
+}
+
+let easyDealsEnquiryProperty = null;
+function openPropertyEnquiry(property) {
+  easyDealsEnquiryProperty = property;
+  const modal = ensurePropertyEnquiryModal();
+  const title = property.title || "പ്രോപ്പർട്ടി";
+  modal.querySelector("#propertyEnquirySummary").textContent = title + " · " + (property.location || "") + (property.price ? " · " + property.price : "");
+  modal.querySelector("#propertyEnquiryForm").reset();
+  modal.querySelector("#propertyEnquiryStatus").textContent = "";
+  modal.style.display = "flex";
+  document.body.style.overflow = "hidden";
+  setTimeout(() => modal.querySelector("#propertyEnquiryName").focus(), 50);
+}
+function closePropertyEnquiry() {
+  const modal = document.getElementById("propertyEnquiryModal");
+  if (modal) modal.style.display = "none";
+  document.body.style.overflow = "";
+  easyDealsEnquiryProperty = null;
+}
+async function submitPropertyEnquiry(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const name = form.querySelector("#propertyEnquiryName").value.trim();
+  const phone = form.querySelector("#propertyEnquiryPhone").value.trim();
+  const status = form.querySelector("#propertyEnquiryStatus");
+  const button = form.querySelector("#propertyEnquirySubmit");
+  const property = easyDealsEnquiryProperty;
+  if (!property) { status.textContent = "പരസ്യവിവരങ്ങൾ ലഭ്യമല്ല. വീണ്ടും ശ്രമിക്കുക."; return; }
+  // Open a blank tab synchronously from the submit gesture to avoid popup blocking.
+  const whatsappWindow = window.open("about:blank", "_blank");
+  button.disabled = true;
+  status.textContent = "വിവരങ്ങൾ സേവ് ചെയ്യുന്നു...";
+  try {
+    if (!window.db) throw new Error("Database connection ലഭ്യമല്ല. വീണ്ടും ശ്രമിക്കുക.");
+    const leadId = window.crypto && typeof window.crypto.randomUUID === "function" ? window.crypto.randomUUID() : null;
+    if (!leadId) throw new Error("ഈ ബ്രൗസറിൽ സുരക്ഷിത ID സൃഷ്ടിക്കാൻ കഴിയുന്നില്ല.");
+    const category = property.category || "Property";
+    const location = property.location || "Not provided";
+    const price = property.price != null && property.price !== "" ? String(property.price) : "Not provided";
+    const area = property.area || "Not provided";
+    const description = property.description || "Not provided";
+    const { error } = await window.db.from("buyer_leads").insert({
+      id: leadId,
+      buyer_name: name,
+      buyer_phone: phone,
+      need_type: category,
+      need_location: location,
+      budget: price,
+      need_area: area,
+      need_details: `Interested property: ${property.title || "Property"}\nProperty ID: ${property.id}\nDescription: ${description}`,
+      property_id: property.id,
+      status: "new"
+    });
+    if (error) throw error;
+    const message = `EASY DEALS - Property Enquiry\nLead ID: ${leadId}\nCustomer Name: ${name}\nCustomer Mobile: ${phone}\n\nPROPERTY DETAILS\nTitle: ${property.title || "Property"}\nProperty ID: ${property.id}\nCategory: ${category}\nLocation: ${location}\nPrice: ${price}\nArea: ${area}\nDescription: ${description}`;
+    const url = "https://wa.me/917289985855?text=" + encodeURIComponent(message);
+    if (whatsappWindow && !whatsappWindow.closed) whatsappWindow.location.href = url;
+    else window.location.href = url;
+    status.textContent = "Enquiry saved. WhatsApp തുറന്ന് Send അമർത്തുക.";
+    form.reset();
+    setTimeout(closePropertyEnquiry, 900);
+  } catch (error) {
+    if (whatsappWindow && !whatsappWindow.closed) whatsappWindow.close();
+    status.textContent = "സേവ് ചെയ്യാനായില്ല: " + (error.message || "വീണ്ടും ശ്രമിക്കുക.");
+  } finally {
+    button.disabled = false;
+  }
+}
+
 async function loadPropertyListings() {
   const container = document.getElementById("propertyListings");
   if (!container) return;
@@ -1462,21 +1699,7 @@ if (imageUrls.length > 0) {
     contactButton.textContent = "Easy Deals വഴി ബന്ധപ്പെടുക";
     contactButton.className = "btn primary";
     contactButton.style.marginTop = "10px";
-    contactButton.addEventListener("click", () => {
-      window.easyDealsSelectedProperty = { id: item.id, title: item.title || "പ്രോപ്പർട്ടി" };
-      const needType = document.getElementById("needType");
-      const needLocation = document.getElementById("needLocation");
-      const needDetails = document.getElementById("needDetails");
-      if (needType) {
-        const categoryLabels = { Land: "സ്ഥലം / പ്ലോട്ട്", House: "വീട്", Flat: "ഫ്ലാറ്റ്", Villa: "വില്ല", Commercial: "കമേഴ്സ്യൽ കെട്ടിടം" };
-        const match = [...needType.options].find(option => option.text.includes(categoryLabels[item.category] || item.category || ""));
-        if (match) needType.value = match.value;
-      }
-      if (needLocation) needLocation.value = item.location || "";
-      if (needDetails) needDetails.value = `Easy Deals പരസ്യം: ${item.title || "പ്രോപ്പർട്ടി"} (ID: ${item.id})\n${item.description || ""}`;
-      document.getElementById("buy").scrollIntoView({ behavior: "smooth" });
-      setTimeout(() => document.getElementById("buyer")?.focus(), 350);
-    });
+    contactButton.addEventListener("click", () => openPropertyEnquiry(item));
     body.appendChild(contactButton);
 
     const reportButton = document.createElement("button");
