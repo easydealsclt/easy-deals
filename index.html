@@ -238,6 +238,13 @@
     #account { display:none; position:fixed; inset:0; z-index:9999; overflow-y:auto; align-items:center; justify-content:center; padding:18px!important; background:rgba(8,22,38,.68)!important; }
     #account.account-modal-open { display:flex; }
     #account #auth { width:min(650px,100%); max-height:calc(100vh - 36px); overflow-y:auto; box-sizing:border-box; }
+    #account #auth { border:1px solid #e2eaf2; box-shadow:0 18px 55px rgba(5,20,38,.28); }
+    #auth input { border:1px solid #d5deea; border-radius:9px; transition:border-color .18s, box-shadow .18s; }
+    #auth input:focus { border-color:#1769aa; box-shadow:0 0 0 3px rgba(23,105,170,.12); outline:none; }
+    #auth button[type="submit"] { min-height:40px; border-radius:8px!important; font-weight:700; }
+    #auth .ed-password-help { display:block; margin:0 2px 5px; color:#657487; font-size:11px; line-height:1.35; }
+    #edForgotPasswordBtn { font-size:13px; }
+
     #accountClose { float:right; border:0; border-radius:8px; background:#e8eef5; color:#102b46; padding:7px 11px; font-size:20px; cursor:pointer; }
     @media(max-width:540px){ #account{padding:10px!important} #account #auth{max-height:calc(100vh - 20px)} }
 
@@ -679,7 +686,30 @@
       .top-search-button{grid-column:1/-1;padding:9px 16px;min-height:44px}
     }
 
-  </style>
+  
+    /* Small hover and tap feedback for Forgot Password */
+    #edForgotPasswordBtn {
+      display:inline-block;
+      border-radius:6px;
+      -webkit-tap-highlight-color:transparent;
+      transition:color .18s ease, transform .18s ease, background-color .18s ease;
+    }
+    #edForgotPasswordBtn:hover,
+    #edForgotPasswordBtn:focus-visible {
+      color:#0d4f86;
+      background-color:#eef6fc;
+      transform:translateY(-1px);
+      outline:none;
+    }
+    #edForgotPasswordBtn:active {
+      transform:scale(.96);
+      background-color:#e1effa;
+    }
+    @media(prefers-reduced-motion:reduce) {
+      #edForgotPasswordBtn { transition:none; }
+    }
+
+</style>
 </head>
 <body>
 <header>
@@ -915,7 +945,8 @@
     "Inbox-ൽ ഇമെയിൽ കാണുന്നില്ലെങ്കിൽ Spam / Junk ഫോൾഡറും പരിശോധിക്കുക.":"If you cannot find the email in your Inbox, check your Spam / Junk folder.",
     "Verification Link തുറന്ന് അക്കൗണ്ട് സ്ഥിരീകരിച്ചശേഷം Login ചെയ്ത് പരസ്യം ചേർക്കാം.":"Open the verification link to confirm your account, then log in to post your advertisement.",
     "IMPORTANT NOTICE":"IMPORTANT NOTICE", "പ്രധാന അറിയിപ്പ് / IMPORTANT NOTICE":"IMPORTANT NOTICE",
-    "Forgot Password? / പാസ്‌വേഡ് മറന്നോ?":"Forgot Password?",
+    "Forgot Password?":"Forgot Password?",
+    "Easy Deals-നായി പുതിയ പാസ്‌വേഡ്. ഇമെയിൽ പാസ്‌വേഡ് വേണ്ട.":"Create a new Easy Deals password. Not your email password.",
     "Reset Password / പാസ്‌വേഡ് വീണ്ടെടുക്കുക":"Reset Password",
     "രജിസ്റ്റർ ചെയ്ത Email വിലാസം നൽകുക. പാസ്‌വേഡ് മാറ്റാനുള്ള ലിങ്ക് ഇമെയിലിൽ അയക്കും.":"Enter your registered email address. A password reset link will be sent to your email.",
     "Set New Password / പുതിയ പാസ്‌വേഡ്":"Set New Password",
@@ -1445,7 +1476,8 @@ Property ID: ${propertyContext?.id || "നൽകിയിട്ടില്ല"}
       <form id="edSignup">
         <input id="edName" type="text" placeholder="നിങ്ങളുടെ പേര്" required style="width:100%;padding:9px 11px;margin:4px 0;box-sizing:border-box;">
         <input id="edSignupEmail" type="email" placeholder="Email address" required style="width:100%;padding:9px 11px;margin:4px 0;box-sizing:border-box;">
-        <input id="edSignupPassword" type="password" placeholder="Password (കുറഞ്ഞത് 8 അക്ഷരങ്ങൾ)" minlength="8" required style="width:100%;padding:9px 11px;margin:4px 0;box-sizing:border-box;">
+        <input id="edSignupPassword" type="password" placeholder="Password (കുറഞ്ഞത് 8 അക്ഷരങ്ങൾ)" minlength="8" required style="width:100%;padding:9px 11px;margin:4px 0 2px;box-sizing:border-box;">
+        <small class="ed-password-help">Easy Deals-നായി പുതിയ പാസ്‌വേഡ്. ഇമെയിൽ പാസ്‌വേഡ് വേണ്ട.</small>
         <button type="submit" style="background:#1769aa;color:white;padding:9px 16px;border:0;border-radius:7px;cursor:pointer;">Create Account</button>
       </form>
     </div>
@@ -1463,7 +1495,7 @@ Property ID: ${propertyContext?.id || "നൽകിയിട്ടില്ല"}
         <button type="submit" style="background:#1769aa;color:white;padding:9px 16px;border:0;border-radius:7px;cursor:pointer;">Login</button>
       </form>
       <p style="margin:8px 0 0;text-align:left;">
-        <button type="button" id="edForgotPasswordBtn" style="border:0;background:transparent;color:#1769aa;text-decoration:underline;padding:4px 0;cursor:pointer;font-weight:700;">Forgot Password? / പാസ്‌വേഡ് മറന്നോ?</button>
+        <button type="button" id="edForgotPasswordBtn" style="border:0;background:transparent;color:#1769aa;text-decoration:underline;padding:4px 0;cursor:pointer;font-weight:700;">Forgot Password?</button>
       </p>
     </div>
 
@@ -1493,6 +1525,48 @@ Property ID: ${propertyContext?.id || "നൽകിയിട്ടില്ല"}
     </div>
   </div>
 </section>
+
+<!-- EASY DEALS ACCOUNT MODAL CONTROLS: independent of Supabase initialization -->
+<script>
+(function () {
+  const accountPanel = document.getElementById("account");
+  if (!accountPanel) return;
+
+  function openAccountPanel() {
+    accountPanel.classList.add("account-modal-open");
+    window.setTimeout(() => {
+      const emailInput = document.getElementById("edLoginEmail");
+      if (emailInput) emailInput.focus();
+    }, 30);
+  }
+
+  function closeAccountPanel() {
+    accountPanel.classList.remove("account-modal-open");
+  }
+
+  // Capture the click before the browser follows href="#account".
+  document.addEventListener("click", function (event) {
+    const loginLink = event.target.closest && event.target.closest(".login-nav");
+    if (loginLink) {
+      event.preventDefault();
+      openAccountPanel();
+      return;
+    }
+
+    if (event.target.id === "accountClose") {
+      event.preventDefault();
+      closeAccountPanel();
+      return;
+    }
+
+    if (event.target === accountPanel) closeAccountPanel();
+  }, true);
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") closeAccountPanel();
+  });
+})();
+</script>
 
 <!-- SUPABASE CONNECTION -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1563,7 +1637,7 @@ window.showMessage = showMessage;
     const email = document.getElementById("edResetEmail").value.trim();
     showMessage("Reset link അയക്കുന്നു...");
     const { error } = await db.auth.resetPasswordForEmail(email, {
-      redirectTo: "https://easy-deals.pages.dev/?recovery=1"
+      redirectTo: "https://easydealsonline.in/?recovery=1"
     });
     if (error) {
       showMessage("Reset Error: " + error.message);
@@ -1641,7 +1715,7 @@ window.showMessage = showMessage;
       password: password,
       options: {
         data: { display_name: name },
-        emailRedirectTo: "https://easy-deals.pages.dev/"
+        emailRedirectTo: "https://easydealsonline.in/"
       }
     });
 
