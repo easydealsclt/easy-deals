@@ -238,13 +238,6 @@
     #account { display:none; position:fixed; inset:0; z-index:9999; overflow-y:auto; align-items:center; justify-content:center; padding:18px!important; background:rgba(8,22,38,.68)!important; }
     #account.account-modal-open { display:flex; }
     #account #auth { width:min(650px,100%); max-height:calc(100vh - 36px); overflow-y:auto; box-sizing:border-box; }
-    #account #auth { border:1px solid #e2eaf2; box-shadow:0 18px 55px rgba(5,20,38,.28); }
-    #auth input { border:1px solid #d5deea; border-radius:9px; transition:border-color .18s, box-shadow .18s; }
-    #auth input:focus { border-color:#1769aa; box-shadow:0 0 0 3px rgba(23,105,170,.12); outline:none; }
-    #auth button[type="submit"] { min-height:40px; border-radius:8px!important; font-weight:700; }
-    #auth .ed-password-help { display:block; margin:0 2px 5px; color:#657487; font-size:11px; line-height:1.35; }
-    #edForgotPasswordBtn { font-size:13px; }
-
     #accountClose { float:right; border:0; border-radius:8px; background:#e8eef5; color:#102b46; padding:7px 11px; font-size:20px; cursor:pointer; }
     @media(max-width:540px){ #account{padding:10px!important} #account #auth{max-height:calc(100vh - 20px)} }
 
@@ -448,85 +441,91 @@
 
   
 
-    /* Header contact links match the standard navigation buttons. */
-    .nav nav a.nav-contact,
-    .nav nav a.nav-contact.whatsapp,
-    .nav nav a.nav-contact.email {
-      background: transparent !important;
-      border: 1px solid #ffffff55 !important;
-      color: #fff !important;
-      box-shadow: none !important;
-      filter: none;
-    }
-    .nav nav a.nav-contact:hover,
-    .nav nav a.nav-contact:focus-visible,
-    .nav nav a.nav-contact.whatsapp:hover,
-    .nav nav a.nav-contact.email:hover {
-      background: #ffffff1c !important;
-      border-color: var(--gold) !important;
-      color: var(--gold) !important;
-      transform: translateY(-1px);
-      box-shadow: none !important;
-      outline: none;
-    }
-    .nav nav a.nav-contact:active { transform: scale(.95); }
-
-    /* Gentle attention glow for Install App; keep its existing teal look. */
-    @keyframes easyDealsInstallGlow {
-      0%, 100% { box-shadow: 0 4px 12px rgba(20,126,113,.25), 0 0 0 0 rgba(53,183,165,0); }
-      50% { box-shadow: 0 5px 16px rgba(20,126,113,.38), 0 0 12px 3px rgba(53,183,165,.42); }
-    }
-    #installAppBtn.visible {
-      animation: easyDealsInstallGlow 2.8s ease-in-out infinite;
-    }
-    #installAppBtn:hover,
-    #installAppBtn:focus-visible {
-      animation-play-state: paused;
-    }
-    @media (prefers-reduced-motion: reduce) {
-      #installAppBtn.visible { animation: none; }
+    /* Easy Deals top property search */
+    .top-search-section{padding:22px 0 26px;background:linear-gradient(180deg,#eaf2fb 0%,#f4f7fb 100%)}
+    .top-search-panel{max-width:1000px;margin:0 auto;padding:20px 22px;background:#fff;border:1px solid #dce7f2;border-radius:18px;box-shadow:0 9px 28px rgba(16,43,70,.10)}
+    .top-search-title{text-align:center;color:#102b46;font-size:23px;margin:0 0 14px;font-weight:900}
+    .top-search-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:12px;align-items:stretch}
+    .top-search-row select{width:100%;min-width:0;min-height:48px;border:1px solid #cbd8e6;border-radius:11px;background:#fff;padding:10px 13px;font-size:15px;color:#172536}
+    .top-search-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 20px;border:1px solid #4b9ce0;border-radius:11px;background:linear-gradient(180deg,#2389d4,#1769aa 65%,#10578f);color:#fff;font-weight:800;font-size:15px;box-shadow:0 4px 0 #0e4c7b,0 7px 14px rgba(16,43,70,.2),inset 0 1px 0 #ffffff66;cursor:pointer;transition:transform .2s,box-shadow .2s}
+    .top-search-button svg{width:20px;height:20px}
+    .top-search-button:hover{transform:translateY(-2px);box-shadow:0 6px 0 #0e4c7b,0 10px 18px rgba(16,43,70,.23),inset 0 1px 0 #ffffff77}
+    .top-search-button:active{transform:translateY(2px);box-shadow:0 1px 0 #0e4c7b,0 3px 7px rgba(16,43,70,.18)}
+    .property-listings{margin-top:22px}
+    @media(max-width:680px){
+      .top-search-section{padding:16px 0 20px}
+      .top-search-panel{padding:15px 13px;border-radius:14px}
+      .top-search-title{font-size:20px;margin-bottom:11px}
+      .top-search-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:9px}
+      .top-search-row select{min-height:44px}
+      .top-search-button{grid-column:1/-1;padding:9px 16px;min-height:44px}
     }
 
 
-    /* Final requested refinements: compact controls and clear contact actions. */
-    button:not(#installAppBtn), .btn, nav a, #languageToggle {
-      padding: 8px 13px;
-    }
-    button:not(#installAppBtn) { min-height: 34px; }
-    .contact-action {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 9px;
-      min-height: 42px;
-      padding: 9px 16px;
-      border-radius: 9px;
-      font-size: 14px;
-      font-weight: 800;
-      line-height: 1.35;
+
+    /* Easy Deals homepage: image-free premium blue gradient hero */
+    .hero {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      background-color: #07549a !important;
+      background-image:
+        radial-gradient(ellipse at 88% 18%, rgba(20, 190, 255, .34) 0%, rgba(20, 190, 255, 0) 38%),
+        radial-gradient(ellipse at 12% 100%, rgba(0, 34, 91, .72) 0%, rgba(0, 34, 91, 0) 52%),
+        linear-gradient(112deg, #073b78 0%, #086bb5 54%, #087bc1 100%) !important;
       color: #fff;
-      border: 1px solid transparent;
-      box-shadow: 0 3px 10px rgba(0,0,0,.18);
     }
-    .contact-action svg { width: 21px; height: 21px; flex: 0 0 21px; fill: currentColor; }
-    #contact .contact-whatsapp { background: #25D366 !important; color: #073b20 !important; border-color: #65e895 !important; }
-    #contact .contact-email { background: #d9efff !important; color: #124c78 !important; border-color: #9bcff2 !important; }
-    #contact .contact-action:hover,
-    #contact .contact-action:focus-visible { filter: brightness(1.04); transform: translateY(-1px); }
-    @media(max-width:700px) {
-      .hero .wrap { padding-top: 64px; }
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+      z-index: -1;
+      border: 1px solid rgba(116, 218, 255, .18);
+      border-radius: 50%;
+      transform: rotate(-19deg);
     }
-    @media(max-width:540px) {
-      .hero { padding-top: 28px; }
-      button:not(#installAppBtn), .btn, nav a, #languageToggle {
-        padding: 7px 10px;
-        font-size: 12px;
-      }
-      button:not(#installAppBtn) { min-height: 33px; }
-      #contact .contact-action { min-height: 38px; padding: 8px 12px; font-size: 13px; }
-      #contact .contact-action svg { width: 19px; height: 19px; flex-basis: 19px; }
+    .hero::before {
+      width: 78%;
+      height: 145%;
+      right: -25%;
+      top: 16%;
+      background: linear-gradient(145deg, rgba(36, 190, 255, .16), rgba(4, 54, 125, .02) 64%);
+      box-shadow: 0 0 70px rgba(31, 173, 255, .10);
+    }
+    .hero::after {
+      width: 70%;
+      height: 105%;
+      right: -31%;
+      top: 37%;
+      border-color: rgba(154, 231, 255, .13);
+      background: linear-gradient(145deg, rgba(84, 208, 255, .11), rgba(5, 49, 112, .02) 70%);
+    }
+    .hero > .wrap { position: relative; z-index: 1; }
+    .hero .tag {
+      background: rgba(235, 247, 255, .96);
+      color: #123d68;
+      box-shadow: 0 3px 12px rgba(0, 18, 50, .16);
+    }
+    .hero h1 { text-shadow: 0 2px 12px rgba(0, 24, 64, .18); }
+    .hero p { color: #eaf6ff; }
+    @media (max-width: 700px) {
+      .hero::before { width: 115%; height: 105%; right: -52%; top: 37%; }
+      .hero::after { width: 100%; height: 78%; right: -48%; top: 55%; }
     }
 
+  
+    /* Remove the old flat photo and use a clean blue gradient */
+    .hero{
+      background:
+        radial-gradient(ellipse at 82% 18%,rgba(76,164,230,.34),transparent 42%),
+        linear-gradient(125deg,#0c2946 0%,#124b78 55%,#1769aa 100%) !important;
+      background-image:
+        radial-gradient(ellipse at 82% 18%,rgba(76,164,230,.34),transparent 42%),
+        linear-gradient(125deg,#0c2946 0%,#124b78 55%,#1769aa 100%) !important;
+    }
+
+    
 
     /* Contact buttons: glossy 3D pill style matching the Home navigation button */
     #contact a.contact-action {
@@ -605,88 +604,49 @@
 
 
 
-    /* Easy Deals homepage: image-free premium blue gradient hero */
-    .hero {
-      position: relative;
-      isolation: isolate;
-      overflow: hidden;
-      background-color: #07549a !important;
-      background-image:
-        radial-gradient(ellipse at 88% 18%, rgba(20, 190, 255, .34) 0%, rgba(20, 190, 255, 0) 38%),
-        radial-gradient(ellipse at 12% 100%, rgba(0, 34, 91, .72) 0%, rgba(0, 34, 91, 0) 52%),
-        linear-gradient(112deg, #073b78 0%, #086bb5 54%, #087bc1 100%) !important;
-      color: #fff;
+    /* Gentle attention glow for Install App; keep its existing teal look. */
+    @keyframes easyDealsInstallGlow {
+      0%, 100% { box-shadow: 0 4px 12px rgba(20,126,113,.25), 0 0 0 0 rgba(53,183,165,0); }
+      50% { box-shadow: 0 5px 16px rgba(20,126,113,.38), 0 0 12px 3px rgba(53,183,165,.42); }
     }
-    .hero::before,
-    .hero::after {
-      content: "";
-      position: absolute;
-      pointer-events: none;
-      z-index: -1;
-      border: 1px solid rgba(116, 218, 255, .18);
-      border-radius: 50%;
-      transform: rotate(-19deg);
+    #installAppBtn.visible {
+      animation: easyDealsInstallGlow 2.8s ease-in-out infinite;
     }
-    .hero::before {
-      width: 78%;
-      height: 145%;
-      right: -25%;
-      top: 16%;
-      background: linear-gradient(145deg, rgba(36, 190, 255, .16), rgba(4, 54, 125, .02) 64%);
-      box-shadow: 0 0 70px rgba(31, 173, 255, .10);
+    #installAppBtn:hover,
+    #installAppBtn:focus-visible {
+      animation-play-state: paused;
     }
-    .hero::after {
-      width: 70%;
-      height: 105%;
-      right: -31%;
-      top: 37%;
-      border-color: rgba(154, 231, 255, .13);
-      background: linear-gradient(145deg, rgba(84, 208, 255, .11), rgba(5, 49, 112, .02) 70%);
-    }
-    .hero > .wrap { position: relative; z-index: 1; }
-    .hero .tag {
-      background: rgba(235, 247, 255, .96);
-      color: #123d68;
-      box-shadow: 0 3px 12px rgba(0, 18, 50, .16);
-    }
-    .hero h1 { text-shadow: 0 2px 12px rgba(0, 24, 64, .18); }
-    .hero p { color: #eaf6ff; }
-    @media (max-width: 700px) {
-      .hero::before { width: 115%; height: 105%; right: -52%; top: 37%; }
-      .hero::after { width: 100%; height: 78%; right: -48%; top: 55%; }
+    @media (prefers-reduced-motion: reduce) {
+      #installAppBtn.visible { animation: none; }
     }
 
-  
-    /* Remove the old flat photo and use a clean blue gradient */
-    .hero{
-      background:
-        radial-gradient(ellipse at 82% 18%,rgba(76,164,230,.34),transparent 42%),
-        linear-gradient(125deg,#0c2946 0%,#124b78 55%,#1769aa 100%) !important;
-      background-image:
-        radial-gradient(ellipse at 82% 18%,rgba(76,164,230,.34),transparent 42%),
-        linear-gradient(125deg,#0c2946 0%,#124b78 55%,#1769aa 100%) !important;
-    }
-    /* Easy Deals top property search */
-    .top-search-section{padding:22px 0 26px;background:linear-gradient(180deg,#eaf2fb 0%,#f4f7fb 100%)}
-    .top-search-panel{max-width:1000px;margin:0 auto;padding:20px 22px;background:#fff;border:1px solid #dce7f2;border-radius:18px;box-shadow:0 9px 28px rgba(16,43,70,.10)}
-    .top-search-title{text-align:center;color:#102b46;font-size:23px;margin:0 0 14px;font-weight:900}
-    .top-search-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:12px;align-items:stretch}
-    .top-search-row select{width:100%;min-width:0;min-height:48px;border:1px solid #cbd8e6;border-radius:11px;background:#fff;padding:10px 13px;font-size:15px;color:#172536}
-    .top-search-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 20px;border:1px solid #4b9ce0;border-radius:11px;background:linear-gradient(180deg,#2389d4,#1769aa 65%,#10578f);color:#fff;font-weight:800;font-size:15px;box-shadow:0 4px 0 #0e4c7b,0 7px 14px rgba(16,43,70,.2),inset 0 1px 0 #ffffff66;cursor:pointer;transition:transform .2s,box-shadow .2s}
-    .top-search-button svg{width:20px;height:20px}
-    .top-search-button:hover{transform:translateY(-2px);box-shadow:0 6px 0 #0e4c7b,0 10px 18px rgba(16,43,70,.23),inset 0 1px 0 #ffffff77}
-    .top-search-button:active{transform:translateY(2px);box-shadow:0 1px 0 #0e4c7b,0 3px 7px rgba(16,43,70,.18)}
-    .property-listings{margin-top:22px}
-    @media(max-width:680px){
-      .top-search-section{padding:16px 0 20px}
-      .top-search-panel{padding:15px 13px;border-radius:14px}
-      .top-search-title{font-size:20px;margin-bottom:11px}
-      .top-search-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:9px}
-      .top-search-row select{min-height:44px}
-      .top-search-button{grid-column:1/-1;padding:9px 16px;min-height:44px}
+
+
+    /* Stage 22: careful signup, confirmation, login and account-state fixes */
+    #account #auth { max-width:520px!important; padding:22px!important; }
+    #auth #edSignup input, #auth #edLogin input { min-height:48px; font-size:15px; }
+    #auth #edSignup button[type="submit"], #auth #edLogin button[type="submit"] { min-height:38px!important; padding:8px 14px!important; }
+    #auth button[type="submit"] { min-height:38px!important; padding:8px 14px!important; }
+    #auth #edSignupView h3, #auth #edLoginView h3 { color:#102b46; }
+    #auth #edConfirmationView p { line-height:1.5; }
+    @media(max-width:540px) {
+      #account #auth { padding:18px!important; }
+      #auth #edSignupPassword { font-size:14px; }
     }
 
-  
+    /* Stage 6: account form visual polish only */
+    #account #auth { border:1px solid #e2eaf2; box-shadow:0 18px 55px rgba(5,20,38,.28); }
+    #auth input { border:1px solid #d5deea; border-radius:9px; transition:border-color .18s, box-shadow .18s; }
+    #auth input:focus { border-color:#1769aa; box-shadow:0 0 0 3px rgba(23,105,170,.12); outline:none; }
+    #auth button[type="submit"] { min-height:40px; border-radius:8px!important; font-weight:700; }
+    #auth .ed-password-help { display:block; margin:0 2px 5px; color:#657487; font-size:11px; line-height:1.35; }
+    #edForgotPasswordBtn { font-size:13px; }
+
+    /* Stage 22: compact account action buttons; leave site-wide buttons unchanged. */
+    #account #auth button[type="submit"] { min-height:38px!important; height:auto; padding:8px 14px!important; }
+
+
+
     /* Small hover and tap feedback for Forgot Password */
     #edForgotPasswordBtn {
       display:inline-block;
@@ -710,8 +670,737 @@
     }
 
 
-    /* Fallback: clicking the Login / Register anchor opens the panel via #account */
-    #account:target { display:flex; }
+
+    /* Header contact links match the standard navigation buttons. */
+    .nav nav a.nav-contact,
+    .nav nav a.nav-contact.whatsapp,
+    .nav nav a.nav-contact.email {
+      background: transparent !important;
+      border: 1px solid #ffffff55 !important;
+      color: #fff !important;
+      box-shadow: none !important;
+      filter: none;
+    }
+    .nav nav a.nav-contact:hover,
+    .nav nav a.nav-contact:focus-visible,
+    .nav nav a.nav-contact.whatsapp:hover,
+    .nav nav a.nav-contact.email:hover {
+      background: #ffffff1c !important;
+      border-color: var(--gold) !important;
+      color: var(--gold) !important;
+      transform: translateY(-1px);
+      box-shadow: none !important;
+      outline: none;
+    }
+    .nav nav a.nav-contact:active { transform: scale(.95); }
+
+
+
+    /* Stage 9: responsive Home hero spacing */
+@media (max-width: 700px) {
+  .hero .wrap { padding-top: 64px; }
+}
+@media (max-width: 540px) {
+  .hero { padding-top: 28px; }
+}
+
+
+
+    /* Stage 10: compact and consistent control sizing */
+button:not(#installAppBtn), .btn, nav a, #languageToggle {
+      padding: 8px 13px;
+    }
+    button:not(#installAppBtn) { min-height: 34px; }
+
+@media(max-width:540px) {
+    button:not(#installAppBtn), .btn, nav a, #languageToggle {
+        padding: 7px 10px;
+        font-size: 12px;
+      }
+      button:not(#installAppBtn) { min-height: 33px; }
+}
+
+
+/* Stage 12: live property cards directly below the Home search */
+.homepage-available-properties {
+  background: linear-gradient(180deg, #f4f8fd 0%, #ffffff 100%);
+  padding: 26px 0 34px;
+}
+.homepage-available-properties .property-listings {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.homepage-available-properties .property-listings > .section-title {
+  margin-top: 0;
+}
+.homepage-available-properties #propertyListings {
+  scroll-margin-top: 18px;
+}
+@media (max-width: 640px) {
+  .homepage-available-properties {
+    padding: 20px 0 26px;
+  }
+}
+
+
+
+/* Stage 13: responsive Home search and live property cards */
+.homepage-available-properties .property-listings {
+  width: min(100% - 32px, 1180px);
+}
+.homepage-available-properties #propertyListings {
+  align-items: stretch;
+}
+.homepage-available-properties .listing {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.homepage-available-properties .listing-gallery {
+  min-width: 0;
+}
+.homepage-available-properties .listing-gallery img {
+  display: block;
+  max-width: 100%;
+}
+.homepage-available-properties .listing .body {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.homepage-available-properties .listing .body button,
+.homepage-available-properties .listing .body a {
+  max-width: 100%;
+  white-space: normal;
+}
+#propertySearchSection .top-search-panel {
+  width: min(100% - 32px, 1180px);
+  margin-left: auto;
+  margin-right: auto;
+}
+#propertySearchSection .top-search-row > * {
+  min-width: 0;
+}
+@media (min-width: 641px) and (max-width: 1000px) {
+  .homepage-available-properties #propertyListings {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .homepage-available-properties .listing {
+    margin: 0 !important;
+  }
+}
+@media (max-width: 640px) {
+  #propertySearchSection {
+    padding: 22px 0 12px;
+  }
+  #propertySearchSection .top-search-panel {
+    padding: 18px 14px;
+    border-radius: 16px;
+  }
+  #propertySearchSection .top-search-title {
+    font-size: 22px;
+    line-height: 1.35;
+    margin-bottom: 14px;
+  }
+  #propertySearchSection .top-search-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+  #propertySearchSection .top-search-row select,
+  #propertySearchSection .top-search-row button {
+    width: 100%;
+    min-height: 44px;
+    font-size: 14px;
+  }
+  .homepage-available-properties {
+    padding: 18px 0 24px;
+  }
+  .homepage-available-properties .property-listings {
+    width: calc(100% - 28px);
+  }
+  .homepage-available-properties .property-listings > .section-title {
+    font-size: 24px;
+    line-height: 1.35;
+    margin-bottom: 16px;
+  }
+  .homepage-available-properties #propertyListings {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+  .homepage-available-properties .listing {
+    margin: 0 !important;
+    border-radius: 14px;
+  }
+  .homepage-available-properties .listing-gallery {
+    gap: 6px;
+    padding: 9px 9px 0;
+  }
+  .homepage-available-properties .listing-gallery img {
+    height: 205px;
+    flex-basis: 100%;
+    object-fit: cover;
+  }
+  .homepage-available-properties .listing .body {
+    padding: 13px 14px 15px;
+  }
+  .homepage-available-properties .listing .body h3 {
+    font-size: 17px;
+    line-height: 1.35;
+  }
+  .homepage-available-properties .listing .body p {
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .homepage-available-properties .listing .body .btn,
+  .homepage-available-properties .listing .body .report-listing-btn {
+    min-height: 40px;
+    font-size: 13px;
+  }
+}
+@media (max-width: 380px) {
+  .homepage-available-properties .listing-gallery img {
+    height: 180px;
+  }
+  .homepage-available-properties .property-listings > .section-title {
+    font-size: 21px;
+  }
+}
+
+
+
+/* Stage 13 correction: the Home search already provides these filters.
+   Keep the legacy controls in the DOM for existing JavaScript, but do not show them twice. */
+.homepage-available-properties .property-listings > .filter-grid {
+  display: none !important;
+}
+
+
+
+/* Stage 14: premium Easy Deals property cards */
+.homepage-available-properties .property-listings {
+  width: min(100% - 32px, 1480px);
+}
+.homepage-available-properties #propertyListings {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+.homepage-available-properties .premium-listing-card {
+  min-width: 0;
+  margin: 0 !important;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #dce8f5;
+  border-radius: 18px;
+  box-shadow: 0 7px 20px rgba(16, 43, 70, .12);
+  transition: transform .22s ease, box-shadow .22s ease;
+}
+.homepage-available-properties .premium-listing-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 26px rgba(16, 43, 70, .18);
+}
+.premium-listing-media {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  border-radius: 13px;
+  background: #eaf1f8;
+}
+.premium-listing-cover {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  object-fit: cover;
+  border-radius: 0 !important;
+  transition: transform .35s ease;
+}
+.premium-listing-card:hover .premium-listing-cover {
+  transform: scale(1.035);
+}
+.premium-listing-placeholder {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: #52677c;
+  font-weight: 700;
+}
+.premium-category-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 7px 13px;
+  border-radius: 999px;
+  background: #0877d1;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: 0 3px 10px #0003;
+}
+.premium-photo-count {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: rgba(10, 25, 40, .82);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+.homepage-available-properties .premium-listing-body {
+  min-width: 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 13px 7px 5px;
+  overflow-wrap: anywhere;
+}
+.premium-listing-title {
+  margin: 0 0 7px;
+  color: #102b46;
+  font-size: 19px;
+  line-height: 1.35;
+  font-weight: 850;
+}
+.premium-listing-location {
+  margin: 0 0 9px;
+  color: #43566a;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.premium-listing-price {
+  margin: 0 0 10px;
+  color: #d51f1f;
+  font-size: 23px;
+  line-height: 1.2;
+  font-weight: 900;
+}
+.premium-listing-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  padding: 9px 0 12px;
+  margin: 0 0 10px;
+  border-top: 1px solid #e7edf4;
+  color: #25384d;
+  font-size: 13px;
+  font-weight: 700;
+}
+.premium-listing-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 9px;
+  margin-top: auto;
+}
+.premium-listing-actions button {
+  min-width: 0;
+  min-height: 43px;
+  padding: 9px 8px;
+  border: 0;
+  border-radius: 11px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 9px rgba(0,0,0,.13);
+  transition: transform .18s ease, filter .18s ease;
+}
+.premium-listing-actions button:hover,
+.premium-listing-actions button:focus-visible {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+}
+.premium-whatsapp-button {
+  background: linear-gradient(135deg, #16a34a, #087d39);
+}
+.premium-details-button {
+  background: linear-gradient(135deg, #087bd1, #0755b5);
+}
+.homepage-available-properties .premium-report-button {
+  display: block;
+  width: 100%;
+  min-height: 39px;
+  margin: 10px 0 0;
+  border: 1px solid #ef4444;
+  border-radius: 10px;
+  background: #fff7f7;
+  color: #b91c1c;
+  font-size: 13px;
+  font-weight: 800;
+}
+.property-details-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10060;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(8, 22, 38, .76);
+}
+.property-details-dialog {
+  position: relative;
+  width: min(760px, 100%);
+  max-height: 92vh;
+  overflow: auto;
+  padding: 20px;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 18px 55px rgba(0,0,0,.3);
+}
+.property-details-close {
+  position: sticky;
+  top: 0;
+  float: right;
+  z-index: 2;
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  background: #eaf0f6;
+  color: #102b46;
+  font-size: 25px;
+  cursor: pointer;
+}
+.property-details-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  clear: both;
+  margin-bottom: 16px;
+}
+.property-details-gallery img {
+  display: block;
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+  border-radius: 11px;
+}
+.property-details-content h2 {
+  margin: 8px 0;
+  color: #102b46;
+}
+.property-details-location {
+  color: #43566a;
+}
+.property-details-price {
+  color: #d51f1f;
+  font-size: 25px;
+  font-weight: 900;
+}
+.property-details-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+}
+.property-details-facts span {
+  padding: 7px 10px;
+  border-radius: 8px;
+  background: #eef4fa;
+  color: #263d54;
+  font-weight: 700;
+}
+.property-details-description {
+  white-space: pre-wrap;
+  line-height: 1.65;
+  color: #34495e;
+}
+.property-details-whatsapp {
+  width: 100%;
+  min-height: 46px;
+  margin-top: 12px;
+  border: 0;
+  border-radius: 11px;
+  background: #159447;
+  color: #fff;
+  font-weight: 800;
+  cursor: pointer;
+}
+@media (max-width: 1000px) {
+  .homepage-available-properties #propertyListings {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .homepage-available-properties .property-listings {
+    width: calc(100% - 28px);
+  }
+  .homepage-available-properties #propertyListings {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 15px;
+  }
+  .premium-listing-media {
+    height: 215px;
+  }
+  .premium-listing-title {
+    font-size: 18px;
+  }
+  .premium-listing-price {
+    font-size: 22px;
+  }
+  .property-details-dialog {
+    padding: 14px;
+  }
+  .property-details-gallery {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .property-details-gallery img {
+    height: 220px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .homepage-available-properties .premium-listing-card,
+  .premium-listing-cover,
+  .premium-listing-actions button {
+    transition: none;
+  }
+}
+
+
+
+    /* Stage 23: compact, clean account dialogs across desktop and mobile.
+       Scoped only to the account modal; authentication logic is unchanged. */
+    #account { padding: 12px !important; }
+    #account #auth {
+      width: min(520px, 100%) !important; max-width: 520px !important;
+      padding: 16px !important; border: 1px solid #dce5ef !important;
+      border-radius: 14px !important; box-shadow: 0 12px 36px rgba(5,20,38,.22) !important;
+      overflow-x: hidden;
+    }
+    #account #auth #edSignupView, #account #auth #edLoginView { margin: 2px 0 !important; }
+    #account #auth #edSignupView h3, #account #auth #edLoginView h3 {
+      margin: 0 0 10px !important; line-height: 1.3; font-size: 19px;
+    }
+    #account #auth #edSignup input, #account #auth #edLogin input,
+    #account #auth #edPasswordResetForm input {
+      min-height: 42px !important; height: 42px !important; padding: 8px 11px !important;
+      margin: 3px 0 !important; border: 1px solid #d5deea !important;
+      border-radius: 8px !important; box-sizing: border-box !important; font-size: 15px;
+    }
+    #account #auth #edLoginPassword { padding-right: 44px !important; }
+    #account #auth #edSignup button[type="submit"], #account #auth #edLogin button[type="submit"],
+    #account #auth #edPasswordResetForm button {
+      min-height: 38px !important; height: 38px !important; padding: 7px 13px !important;
+      margin-top: 5px; border-radius: 8px !important; line-height: 1.2; font-size: 14px;
+    }
+    #account #auth #edSignup small { margin: 2px 1px 5px !important; line-height: 1.3 !important; }
+    #account #auth #edSignupView p, #account #auth #edCreateAccountPrompt { margin: 9px 0 0 !important; line-height: 1.35; }
+    #account #auth #edLoginView > p:last-child { margin: 5px 0 0 !important; }
+    #account #auth #edForgotPasswordBtn { padding: 3px 0 !important; }
+    #account #auth #edConfirmationView { margin: 2px 0 !important; padding: 8px 4px !important; }
+    #account #auth #edConfirmationView > div { font-size: 32px !important; line-height: 1.15; }
+    #account #auth #edConfirmationView h3 { margin: 7px 0 !important; font-size: 19px; line-height: 1.3; }
+    #account #auth #edConfirmationView p { margin: 6px 0 2px !important; line-height: 1.45 !important; }
+    #account #auth #edPasswordReset {
+      margin: 2px 0 !important; padding: 12px !important; border: 1px solid #e2eaf2;
+      border-radius: 10px !important;
+    }
+    #account #auth #edPasswordReset h3 { margin: 0 0 6px !important; font-size: 18px; line-height: 1.3; color: #102b46; }
+    #account #auth #edPasswordReset p { margin: 4px 0 7px !important; line-height: 1.4; }
+    #account #auth #edPasswordResetForm { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    #account #auth #edPasswordResetForm input { flex: 1 1 100%; width: 100%; }
+    #account #auth #edPasswordResetForm button { margin: 0 !important; }
+    #account #auth #edAccountStatus:empty { display: none; }
+    #account #auth #edAccountStatus { padding: 3px 1px !important; margin-top: 5px !important; line-height: 1.35; font-size: 13px; }
+    #account #auth #edLoggedIn { margin-top: 6px; }
+    #accountClose { padding: 5px 9px !important; font-size: 19px !important; }
+    @media (max-width: 540px) {
+      #account { padding: 8px !important; align-items: center; }
+      #account #auth { width: 100% !important; max-height: calc(100dvh - 16px) !important; padding: 13px !important; border-radius: 12px !important; }
+      #account #auth #edSignupView h3, #account #auth #edLoginView h3 { font-size: 18px; margin-bottom: 8px !important; }
+      #account #auth #edSignup input, #account #auth #edLogin input,
+      #account #auth #edPasswordResetForm input { height: 40px !important; min-height: 40px !important; font-size: 14px; }
+      #account #auth #edSignup button[type="submit"], #account #auth #edLogin button[type="submit"],
+      #account #auth #edPasswordResetForm button { height: 37px !important; min-height: 37px !important; font-size: 13px; }
+      #account #auth #edSignup small { font-size: 11px !important; }
+      #account #auth #edConfirmationView { padding: 6px 2px !important; }
+      #account #auth #edConfirmationView p { font-size: 14px; }
+      #account #auth #edPasswordReset { padding: 10px !important; }
+    }
+
+</style>
+
+<style>
+.stage15-search .top-search-panel{padding:22px 24px 16px;border-radius:20px;background:linear-gradient(145deg,#fff,#f4f8ff);box-shadow:0 8px 24px rgba(15,45,95,.12)}
+.stage15-search .top-search-title{text-align:center;font-size:clamp(22px,2.2vw,30px);margin:0 0 18px;color:#101d55}
+.stage15-search-grid{display:grid;grid-template-columns:1.05fr 1.05fr 1.25fr .9fr .9fr .95fr auto;gap:12px;align-items:end}
+.stage15-field{display:flex;flex-direction:column;gap:7px;font-weight:700;color:#101d55;font-size:14px;min-width:0}
+.stage15-field select,.stage15-field input{width:100%;min-width:0;height:48px;border:1px solid #bfd0ee;border-radius:12px;background:#fff;padding:0 12px;color:#172044;font:inherit;font-weight:600;box-shadow:0 2px 5px rgba(20,50,100,.06)}
+.stage15-field input:focus,.stage15-field select:focus{outline:2px solid #1674ed;outline-offset:1px}
+.stage15-search .top-search-button{height:48px;white-space:nowrap;padding:0 20px;border-radius:12px}
+.stage15-quick-filter{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:1px solid #e3ebf8;color:#101d55}
+.stage15-quick-filter button{border:1px solid #bfd0ee;border-radius:22px;background:#fff;color:#101d55;padding:9px 17px;font-weight:700;cursor:pointer}
+.stage15-quick-filter button:hover{background:#eaf3ff;border-color:#1674ed}
+.stage15-no-results{text-align:center;padding:28px 16px;color:#35436b;background:#f5f8ff;border:1px solid #dbe6f8;border-radius:14px;font-weight:700}
+@media(max-width:1100px){.stage15-search-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.stage15-search .top-search-button{width:100%}}
+@media(max-width:640px){.stage15-search .top-search-panel{padding:16px 12px}.stage15-search-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.stage15-field{font-size:12px}.stage15-field select,.stage15-field input{height:44px;font-size:13px;padding:0 8px}.stage15-search .top-search-button{grid-column:1/-1}.stage15-quick-filter{gap:7px}.stage15-quick-filter strong{width:100%}.stage15-quick-filter button{padding:8px 11px;font-size:12px}}
+</style>
+
+<style>
+
+/* Stage 15 refinement: Malayalam labels, compact buttons and mobile location field */
+.stage15-search .stage15-field select,
+.stage15-search .stage15-field input{
+  height:42px; min-height:42px; padding:7px 10px; font-size:14px; line-height:1.2;
+}
+.stage15-search .top-search-button{
+  height:42px; min-height:42px; padding:7px 14px; font-size:14px; line-height:1.15;
+  display:inline-flex; align-items:center; justify-content:center; white-space:nowrap;
+}
+.stage15-search .stage15-quick-filter button{
+  min-height:34px; padding:6px 13px; line-height:1.15; font-size:13px;
+}
+.stage15-search .stage15-field input::placeholder{
+  opacity:1; color:#68758b; font-size:13px;
+}
+@media(max-width:640px){
+  .stage15-search-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .stage15-search .stage15-field:nth-child(3){grid-column:1/-1;}
+  .stage15-search .stage15-field:nth-child(3) input{
+    width:100%; height:46px; min-height:46px; font-size:14px;
+  }
+  .stage15-search .stage15-field select,
+  .stage15-search .stage15-field input{font-size:13px;}
+  .stage15-search .top-search-button{height:40px;min-height:40px;font-size:13px;}
+}
+
+</style>
+<style>
+
+/* Stage 16: simplified homepage hero and compact contact section */
+.hero .hero-tagline{font-size:clamp(17px,2vw,22px);line-height:1.55;max-width:820px;margin:18px 0 22px}
+.contact .wrap>p{margin:0 auto 18px;text-align:center;line-height:1.55}
+@media(max-width:640px){
+  .hero .hero-tagline{font-size:16px;line-height:1.45;margin:12px 0 16px}
+  .hero .actions{gap:10px;flex-wrap:wrap}
+  .contact .wrap>p{font-size:14px;margin-bottom:14px}
+}
+
+</style>
+<style>
+
+/* Stage 17: mobile-first compact spacing and controls.
+   Desktop layout is intentionally unchanged. */
+@media (max-width: 640px) {
+  /* Reduce the tall blank hero area on phones. */
+  .hero { padding: 22px 0 26px !important; }
+  .hero .wrap { padding-top: 14px !important; padding-bottom: 4px !important; }
+  .hero .hero-tagline {
+    margin: 8px 0 14px !important;
+    font-size: 15px !important;
+    line-height: 1.45 !important;
+    max-width: 100%;
+  }
+  .hero .actions {
+    margin-top: 12px !important;
+    gap: 8px !important;
+  }
+  .hero .actions .btn {
+    min-height: 40px;
+    padding: 9px 13px !important;
+    font-size: 13px !important;
+    line-height: 1.2;
+    border-radius: 9px;
+  }
+
+  /* Bring Search Properties closer to the hero and compact its controls. */
+  .top-search-section { padding: 22px 0 !important; }
+  .stage15-search .top-search-panel { padding: 15px 12px 13px !important; border-radius: 16px; }
+  .stage15-search .top-search-title { font-size: 21px !important; margin-bottom: 13px !important; }
+  .stage15-search-grid { gap: 9px !important; }
+  .stage15-field { gap: 5px !important; font-size: 12px !important; }
+  .stage15-field select,
+  .stage15-field input {
+    height: 40px !important;
+    min-height: 40px !important;
+    padding: 6px 8px !important;
+    font-size: 12px !important;
+    border-radius: 9px !important;
+  }
+  .stage15-search .top-search-button {
+    height: 40px !important;
+    min-height: 40px !important;
+    padding: 7px 12px !important;
+    font-size: 12px !important;
+    border-radius: 9px !important;
+  }
+  .stage15-quick-filter { margin-top: 12px !important; padding-top: 10px !important; gap: 6px !important; }
+  .stage15-quick-filter button {
+    min-height: 32px !important;
+    padding: 6px 10px !important;
+    font-size: 11px !important;
+  }
+
+  /* One listing should feel compact without cropping its key information. */
+  .homepage-available-properties { padding-top: 22px !important; padding-bottom: 24px !important; }
+  .homepage-available-properties .property-listings { width: calc(100% - 20px) !important; }
+  .homepage-available-properties #propertyListings { gap: 11px !important; }
+  .homepage-available-properties .premium-listing-card {
+    padding: 8px !important;
+    border-radius: 15px !important;
+  }
+  .premium-listing-media { height: clamp(135px, 42vw, 165px) !important; border-radius: 10px !important; }
+  .premium-category-badge { top: 8px !important; left: 8px !important; padding: 5px 9px !important; font-size: 11px !important; }
+  .premium-photo-count { right: 7px !important; bottom: 7px !important; padding: 4px 7px !important; font-size: 10px !important; }
+  .homepage-available-properties .premium-listing-body { padding: 9px 5px 3px !important; }
+  .premium-listing-title { margin-bottom: 4px !important; font-size: 16px !important; line-height: 1.25 !important; }
+  .premium-listing-location { margin-bottom: 5px !important; font-size: 12px !important; line-height: 1.3 !important; }
+  .premium-listing-price { margin-bottom: 6px !important; font-size: 18px !important; line-height: 1.2 !important; }
+  .premium-listing-facts { gap: 5px 10px !important; padding: 7px 0 8px !important; margin-bottom: 7px !important; font-size: 11px !important; }
+  .premium-listing-actions { gap: 7px !important; }
+  .premium-listing-actions button {
+    min-height: 38px !important;
+    padding: 7px 6px !important;
+    font-size: 12px !important;
+    border-radius: 9px !important;
+  }
+  .homepage-available-properties .premium-report-button {
+    min-height: 35px !important;
+    margin-top: 7px !important;
+    padding: 6px 8px !important;
+    font-size: 11px !important;
+    border-radius: 8px !important;
+  }
+
+  /* Compact other common buttons, while retaining a comfortable tap target. */
+  .site-header nav a,
+  .site-header nav button,
+  header nav a,
+  header nav button {
+    min-height: 38px !important;
+    padding: 7px 11px !important;
+    font-size: 12px !important;
+  }
+  .contact { padding: 22px 0 !important; }
+  #contact a.contact-action {
+    min-height: 40px !important;
+    padding: 8px 14px !important;
+    font-size: 12px !important;
+    gap: 7px !important;
+  }
+  .property-details-dialog { padding: 11px !important; }
+  .property-details-gallery img { height: 150px !important; }
+  .property-details-whatsapp { min-height: 40px !important; font-size: 13px !important; }
+}
+
+/* Compact tablet controls too, without changing desktop spacing. */
+@media (min-width: 641px) and (max-width: 1000px) {
+  .premium-listing-media { height: 180px; }
+  .premium-listing-title { font-size: 17px; }
+  .premium-listing-price { font-size: 20px; }
+  .premium-listing-actions button { min-height: 40px; padding: 8px 7px; }
+}
 
 </style>
 </head>
@@ -726,17 +1415,8 @@
 <a href="#contact">ബന്ധപ്പെടുക</a>
 
 <a href="#myListings">എന്റെ പരസ്യങ്ങൾ</a>
-      <a href="#adminPanel" id="adminNavLink" hidden>Admin</a>
       <a href="#account" class="login-nav">Login / Register</a>
       <button type="button" id="installAppBtn">Install App</button>
-      <a class="nav-contact whatsapp" href="https://wa.me/917289985855" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp വഴി ബന്ധപ്പെടുക">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.08 0C5.5 0 .15 5.34.15 11.92c0 2.1.55 4.15 1.6 5.96L0 24l6.28-1.65a11.9 11.9 0 0 0 5.8 1.48h.01c6.57 0 11.92-5.35 11.92-11.92 0-3.19-1.24-6.18-3.49-8.43ZM12.09 21.8a9.9 9.9 0 0 1-5.05-1.38l-.36-.21-3.73.98 1-3.64-.24-.37a9.85 9.85 0 1 1 8.38 4.62Zm5.41-7.38c-.3-.15-1.77-.87-2.05-.97-.28-.1-.48-.15-.68.15-.2.3-.78.97-.96 1.17-.18.2-.35.22-.65.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.48-1.74-1.65-2.04-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.68-1.63-.93-2.23-.24-.58-.49-.5-.68-.51h-.58c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.08-.13-.28-.2-.58-.35Z"/></svg>
-        <span class="nav-contact-label">WhatsApp</span>
-      </a>
-      <a class="nav-contact email" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=easydealsclt@gmail.com" target="_blank" rel="noopener noreferrer" aria-label="Email അയക്കുക">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 4h19A2.5 2.5 0 0 1 24 6.5v11a2.5 2.5 0 0 1-2.5 2.5h-19A2.5 2.5 0 0 1 0 17.5v-11A2.5 2.5 0 0 1 2.5 4Zm9.5 8.1L21.3 6H2.7l9.3 6.1Zm0 2.4L2 7.8v9.7c0 .28.22.5.5.5h19a.5.5 0 0 0 .5-.5V7.8L12 14.5Z"/></svg>
-        <span class="nav-contact-label">Email</span>
-      </a>
       <button type="button" id="languageToggle" class="language-toggle" aria-label="Switch language">English</button>
     </nav>
   </div>
@@ -745,54 +1425,57 @@
 <main>
   <section class="hero" id="home">
 <div class="wrap">
-      <span class="tag">പ്രോപ്പർട്ടി വാങ്ങാനും വിൽക്കാനും എളുപ്പവഴി</span>
-      <h1>വീട്, ഫ്ലാറ്റ്, സ്ഥലം<br>എല്ലാം ഇവിടെ കണ്ടെത്താം!</h1>
-      <p>നിങ്ങളുടെ പ്രോപ്പർട്ടി വിൽക്കാനും ഇഷ്ടമുള്ള പ്രോപ്പർട്ടി വാങ്ങാനും ഒരിടം. വാങ്ങുന്നവരെയും വിൽക്കുന്നവരെയും നേരിട്ട് ബന്ധിപ്പിക്കുന്നു.</p>
+      <p class="hero-tagline">നിങ്ങളുടെ പ്രോപ്പർട്ടി വിൽക്കാനും ഇഷ്ടമുള്ള പ്രോപ്പർട്ടി വാങ്ങാനും ഒരിടം.</p>
       <div class="actions"><a class="btn primary" href="#sell">വിൽക്കാൻ പരസ്യം നൽകാം</a><a class="btn secondary" href="#buy">വാങ്ങാൻ പരസ്യം നൽകുക</a></div>
     </div>
   </section>
 
-<section class="top-search-section" id="propertySearchSection" aria-label="പ്രോപ്പർട്ടി തിരയുക">
-  <div class="wrap">
-    <div class="top-search-panel">
-      <h2 class="top-search-title">പ്രോപ്പർട്ടികൾ തിരയുക</h2>
-      <div class="top-search-row">
-        <select id="categoryFilter" aria-label="പ്രോപ്പർട്ടി വിഭാഗം">
-          <option value="">എല്ലാ വിഭാഗങ്ങളും</option>
-          <option value="Land">സ്ഥലം / പ്ലോട്ട്</option>
-          <option value="House">വീട്</option>
-          <option value="Flat">ഫ്ലാറ്റ്</option>
-          <option value="Villa">വില്ല</option>
-          <option value="Commercial">കമേഴ്സ്യൽ</option>
-          <option value="Rent">റെന്റ് (വാടകയ്ക്ക്)</option>
-        </select>
-        <select id="districtFilter" aria-label="ജില്ല തിരഞ്ഞെടുക്കുക">
+<section class="top-search-section stage15-search" id="propertySearchSection" data-no-translate="true" aria-label="Search Properties">
+<div class="wrap"><div class="top-search-panel">
+<h2 class="top-search-title">⌕ Search Properties</h2>
+<div class="stage15-search-grid">
+<label class="stage15-field">Property Type<select id="homeCategoryFilter" aria-label="Property Type">
+<option value="">All Types</option><option value="House">House</option><option value="Flat">Flat</option><option value="Villa">Villa</option><option value="Land">Land</option><option value="Commercial">Commercial</option></select></label>
+<label class="stage15-field">District<select id="homeDistrictFilter" aria-label="District">
+<option value="">All Kerala</option>
+<option value="Thiruvananthapuram">Thiruvananthapuram</option><option value="Kollam">Kollam</option><option value="Pathanamthitta">Pathanamthitta</option><option value="Alappuzha">Alappuzha</option><option value="Kottayam">Kottayam</option><option value="Idukki">Idukki</option><option value="Ernakulam">Ernakulam</option><option value="Thrissur">Thrissur</option><option value="Palakkad">Palakkad</option><option value="Malappuram">Malappuram</option><option value="Kozhikode">Kozhikode</option><option value="Wayanad">Wayanad</option><option value="Kannur">Kannur</option><option value="Kasaragod">Kasaragod</option></select></label>
+<label class="stage15-field">Location / Area<input id="homeLocationFilter" type="search" list="homeLocationSuggestions" placeholder="Type location (e.g. Mavoor)" autocomplete="off" aria-label="Location or Area">
+<datalist id="homeLocationSuggestions"><option value="Mavoor"></option><option value="Cheruppa"></option><option value="Perumanna"></option><option value="Pantheerankavu"></option><option value="Chathamangalam"></option><option value="Manassery"></option></datalist></label>
+<label class="stage15-field">Minimum Price<select id="homeMinPriceFilter" aria-label="Minimum Price"><option value="">Any Min</option><option value="500000">₹5 lakh</option><option value="1000000">₹10 lakh</option><option value="2000000">₹20 lakh</option><option value="3000000">₹30 lakh</option><option value="5000000">₹50 lakh</option><option value="10000000">₹1 crore</option></select></label>
+<label class="stage15-field">Maximum Price<select id="homeMaxPriceFilter" aria-label="Maximum Price"><option value="">Any Max</option><option value="1000000">₹10 lakh</option><option value="2000000">₹20 lakh</option><option value="3000000">₹30 lakh</option><option value="5000000">₹50 lakh</option><option value="10000000">₹1 crore</option><option value="20000000">₹2 crore</option></select></label>
+<label class="stage15-field">Size (Area)<select id="homeSizeFilter" aria-label="Size or Area"><option value="">Any Size</option><option value="3">Up to 3 Cent</option><option value="3-5">3–5 Cent</option><option value="5-10">5–10 Cent</option><option value="10-20">10–20 Cent</option><option value="20+">20 Cent & Above</option></select></label>
+<button type="button" id="homePropertySearchButton" class="top-search-button" aria-label="Search">⌕ Search</button>
+</div>
+<div class="stage15-quick-filter"><strong>Quick Filter:</strong>
+<button type="button" data-home-category="">All</button><button type="button" data-home-category="House">⌂ House</button><button type="button" data-home-category="Flat">▦ Flat</button><button type="button" data-home-category="Villa">⌂ Villa</button><button type="button" data-home-category="Land">▰ Land</button><button type="button" data-home-category="Commercial">▥ Commercial</button>
+</div></div></div></section>
+
+<section class="homepage-available-properties" id="homeAvailableProperties">
+<div class="property-listings">
+  <h2 class="section-title">ലഭ്യമായ പ്രോപ്പർട്ടികൾ</h2>
+  
+<div class="filter-grid" aria-label="പ്രോപ്പർട്ടി ഫിൽറ്ററുകൾ">
+  <input type="search" id="propertySearch" placeholder="പ്രദേശം, വീട്, ഫ്ലാറ്റ് എന്നിവ തിരയുക..." aria-label="Search properties">
+  <select id="categoryFilter" aria-label="Property type filter">
+    <option value="">എല്ലാ വിഭാഗങ്ങളും</option><option value="Land">സ്ഥലം / പ്ലോട്ട്</option><option value="House">വീട്</option><option value="Flat">ഫ്ലാറ്റ്</option><option value="Villa">വില്ല</option><option value="Commercial">കമേഴ്സ്യൽ</option>
+  </select>
+  <select id="districtFilter" aria-label="District filter">
     <option value="">കേരളം മുഴുവൻ</option>
     <option value="Thiruvananthapuram">തിരുവനന്തപുരം</option><option value="Kollam">കൊല്ലം</option><option value="Pathanamthitta">പത്തനംതിട്ട</option><option value="Alappuzha">ആലപ്പുഴ</option><option value="Kottayam">കോട്ടയം</option><option value="Idukki">ഇടുക്കി</option><option value="Ernakulam">എറണാകുളം</option><option value="Thrissur">തൃശ്ശൂർ</option><option value="Palakkad">പാലക്കാട്</option><option value="Malappuram">മലപ്പുറം</option><option value="Kozhikode">കോഴിക്കോട്</option><option value="Wayanad">വയനാട്</option><option value="Kannur">കണ്ണൂർ</option><option value="Kasaragod">കാസർഗോഡ്</option>
-        </select>
-        <button type="button" id="propertySearchButton" class="top-search-button" aria-label="തിരയുക">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="m16 16 5 5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
-          <span>തിരയുക</span>
-        </button>
-      </div>
-    </div>
+  </select>
+</div>
+
+  <div id="propertyListings">
+    <p>പരസ്യങ്ങൾ ലോഡ് ചെയ്യുന്നു...</p>
   </div>
+</div>
 </section>
+
 
   <section id="sell">
     <div class="wrap">
       <h2 class="section-title">പ്രോപ്പർട്ടി വിൽക്കണം</h2>
       <p class="sub">വീട്, സ്ഥലം തുടങ്ങിയവയുടെ വിവരങ്ങളും ഫോട്ടോകളും ചേർക്കൂ. പരിശോധിച്ചശേഷം നിങ്ങളെ ബന്ധപ്പെടാം.</p>
-      <div class="notice" role="note" style="margin:0 0 14px;line-height:1.65;">
-        <strong>📢 പ്രധാന അറിയിപ്പ് / IMPORTANT NOTICE</strong><br>
-        പരസ്യം ചേർക്കുന്നതിന് മുമ്പ് ദയവായി രജിസ്റ്റർ ചെയ്ത് Login ചെയ്യുക.<br>
-        പുതിയ അക്കൗണ്ട് രജിസ്റ്റർ ചെയ്താൽ നിങ്ങളുടെ ഇമെയിലിലേക്ക് Verification Link അയയ്ക്കുന്നതാണ്.
-        Inbox-ൽ ഇമെയിൽ കാണുന്നില്ലെങ്കിൽ Spam / Junk ഫോൾഡറും പരിശോധിക്കുക.
-        Verification Link തുറന്ന് അക്കൗണ്ട് സ്ഥിരീകരിച്ചശേഷം Login ചെയ്ത് പരസ്യം ചേർക്കാം.
-        <hr style="border:0;border-top:1px solid #e6d5ad;margin:8px 0;">
-        Please register and log in before posting an advertisement.
-        A verification link will be sent to your email address. If you cannot find it in your Inbox, please check your Spam / Junk folder. Verify your email, then log in to post your advertisement.
-      </div>
       <div class="panel">
         <form id="sellForm">
           <div class="forms">
@@ -841,11 +1524,7 @@
         </form>
       </div>
       
-<div class="property-listings">
-  <h2 class="section-title">ലഭ്യമായ പ്രോപ്പർട്ടികൾ</h2>
-  
-<div id="propertyListings"><p>പരസ്യങ്ങൾ ലോഡ് ചെയ്യുന്നു...</p></div>
-</div>
+
 
     </div>
   </section>
@@ -880,8 +1559,7 @@
 
   <section class="contact" id="contact">
     <div class="wrap">
-      <h2>നിങ്ങളുടെ അടുത്ത ഡീൽ ഇവിടെ തുടങ്ങട്ടെ!</h2>
-      <p>വിൽക്കാനോ വാങ്ങാനോ കൂടുതൽ വിവരങ്ങൾ അറിയാനോ ഞങ്ങളെ ബന്ധപ്പെടൂ.</p>
+      <p>വിൽക്കാനോ വാങ്ങാനോ കൂടുതൽ വിവരങ്ങൾ അറിയാനോ ഞങ്ങളുമായി ബന്ധപ്പെടുക.</p>
       <a class="btn contact-action contact-whatsapp" id="contactWhatsApp" href="#">
         <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M16.02 3.2A12.65 12.65 0 0 0 5.16 22.34L3.5 28.4l6.2-1.63A12.7 12.7 0 1 0 16.02 3.2Zm0 23.1c-1.95 0-3.86-.52-5.53-1.5l-.4-.24-3.68.97.98-3.58-.26-.42a10.4 10.4 0 1 1 8.89 4.77Zm5.7-7.8c-.31-.16-1.84-.91-2.13-1.02-.29-.1-.5-.16-.71.16-.21.31-.81 1.02-.99 1.23-.18.21-.36.23-.67.08-.31-.16-1.31-.48-2.49-1.52-.92-.82-1.54-1.84-1.72-2.15-.18-.31-.02-.48.14-.64.14-.14.31-.36.47-.54.16-.18.21-.31.31-.52.1-.21.05-.39-.03-.55-.08-.16-.71-1.7-.97-2.33-.25-.6-.51-.52-.71-.53h-.6c-.21 0-.55.08-.84.39-.29.31-1.1 1.07-1.1 2.61s1.13 3.03 1.28 3.24c.16.21 2.22 3.39 5.38 4.75.75.32 1.34.51 1.8.65.76.24 1.45.2 2 .12.61-.09 1.84-.75 2.1-1.49.26-.73.26-1.36.18-1.49-.08-.13-.29-.21-.6-.37Z"/></svg>
         <span>WhatsApp വഴി ബന്ധപ്പെടുക</span>
@@ -906,16 +1584,11 @@
   // Malayalam / English interface switch. Translate interface labels only;
   // user-entered property names, descriptions, locations and contact details stay as entered.
   const uiTranslations = {
-    "പ്രോപ്പർട്ടി വാങ്ങാനും വിൽക്കാനും എളുപ്പവഴി":"An easy place to buy and sell property",
-    "വീട്, ഫ്ലാറ്റ്, സ്ഥലം":"Houses, flats and land",
-    "എല്ലാം ഇവിടെ കണ്ടെത്താം!":"Find everything here!",
-    "വിൽക്കാൻ പരസ്യം നൽകാം":"Post an Ad to Sell",
-    "പ്രോപ്പർട്ടി തിരയാം":"Browse Properties",
+    "നിങ്ങളുടെ പ്രോപ്പർട്ടി വിൽക്കാനും ഇഷ്ടമുള്ള പ്രോപ്പർട്ടി വാങ്ങാനും ഒരിടം.":"Your One-Stop Destination to Sell Your Property and Find Your Dream Property.",
+    "വിൽക്കാൻ പരസ്യം നൽകാം":"Post Your Property for Sale",
+    "ഇമെയിൽ വഴി അയയ്ക്കുക":"Contact Us by Email",
     "വാങ്ങാൻ പരസ്യം നൽകുക":"Post a Requirement to Buy",
-    "നിങ്ങളുടെ പ്രോപ്പർട്ടി വിൽക്കാനും ഇഷ്ടമുള്ള പ്രോപ്പർട്ടി വാങ്ങാനും ഒരിടം. വാങ്ങുന്നവരെയും വിൽക്കുന്നവരെയും നേരിട്ട് ബന്ധിപ്പിക്കുന്നു.":"A place to sell your property and buy the property you like.",
     "ഹോം":"Home", "വിൽക്കാം":"Sell", "വാങ്ങാം":"Buy", "ബന്ധപ്പെടുക":"Contact", "എന്റെ പരസ്യങ്ങൾ":"My Listings",
-    "നിങ്ങളുടെ അടുത്ത ഡീൽ ഇവിടെ തുടങ്ങട്ടെ!":"Your next deal starts here!",
-    "വിൽക്കാനോ വാങ്ങാനോ കൂടുതൽ വിവരങ്ങൾ അറിയാനോ ഞങ്ങളെ ബന്ധപ്പെടൂ.":"Contact us for help with buying or selling.",
     "WhatsApp വഴി ബന്ധപ്പെടുക":"Contact on WhatsApp", "Email അയക്കുക":"Send Email",
     "പ്രോപ്പർട്ടി വിൽക്കണം":"List a Property", "വീട്, സ്ഥലം തുടങ്ങിയവയുടെ വിവരങ്ങളും ഫോട്ടോകളും ചേർക്കൂ. പരിശോധിച്ചശേഷം നിങ്ങളെ ബന്ധപ്പെടാം.":"Add property details and photos. We will contact you after review.",
     "പേര് *":"Name *", "ഫോൺ നമ്പർ *":"Phone Number *", "പ്രോപ്പർട്ടി തരം *":"Property Type *", "സ്ഥലം / ജില്ല *":"Location / District *",
@@ -949,8 +1622,7 @@
     "Inbox-ൽ ഇമെയിൽ കാണുന്നില്ലെങ്കിൽ Spam / Junk ഫോൾഡറും പരിശോധിക്കുക.":"If you cannot find the email in your Inbox, check your Spam / Junk folder.",
     "Verification Link തുറന്ന് അക്കൗണ്ട് സ്ഥിരീകരിച്ചശേഷം Login ചെയ്ത് പരസ്യം ചേർക്കാം.":"Open the verification link to confirm your account, then log in to post your advertisement.",
     "IMPORTANT NOTICE":"IMPORTANT NOTICE", "പ്രധാന അറിയിപ്പ് / IMPORTANT NOTICE":"IMPORTANT NOTICE",
-    "Forgot Password?":"Forgot Password?",
-    "Easy Deals-നായി പുതിയ പാസ്‌വേഡ്. ഇമെയിൽ പാസ്‌വേഡ് വേണ്ട.":"Create a new Easy Deals password. Not your email password.",
+    "Forgot Password? / പാസ്‌വേഡ് മറന്നോ?":"Forgot Password?",
     "Reset Password / പാസ്‌വേഡ് വീണ്ടെടുക്കുക":"Reset Password",
     "രജിസ്റ്റർ ചെയ്ത Email വിലാസം നൽകുക. പാസ്‌വേഡ് മാറ്റാനുള്ള ലിങ്ക് ഇമെയിലിൽ അയക്കും.":"Enter your registered email address. A password reset link will be sent to your email.",
     "Set New Password / പുതിയ പാസ്‌വേഡ്":"Set New Password",
@@ -966,22 +1638,9 @@
     "പരസ്യങ്ങളൊന്നുമില്ല.":"No listings found.", "ലോഡ് ചെയ്യാനായില്ല":"Could not load",
     "പരസ്യം പ്രസിദ്ധീകരിച്ചു.":"Listing published.", "പരസ്യം Hide ചെയ്തു.":"Listing hidden.",
     "Report ചെയ്ത പരസ്യം Hide ചെയ്തു.":"Reported listing hidden.", "Report status അപ്ഡേറ്റ് ചെയ്തു.":"Report status updated.",
-    "കേരളം മുഴുവൻ":"All Kerala",
-    "തിരുവനന്തപുരം":"Thiruvananthapuram", "കൊല്ലം":"Kollam", "പത്തനംതിട്ട":"Pathanamthitta",
-    "ആലപ്പുഴ":"Alappuzha", "കോട്ടയം":"Kottayam", "ഇടുക്കി":"Idukki",
-    "എറണാകുളം":"Ernakulam", "തൃശ്ശൂർ":"Thrissur", "പാലക്കാട്":"Palakkad",
-    "മലപ്പുറം":"Malappuram", "കോഴിക്കോട്":"Kozhikode", "വയനാട്":"Wayanad",
-    "കണ്ണൂർ":"Kannur", "കാസർഗോഡ്":"Kasaragod",
-    "പ്രദേശം, വീട്, ഫ്ലാറ്റ് എന്നിവ തിരയുക...":"Search area, house, flat...",
-    "പ്രോപ്പർട്ടികൾ തിരയുക":"Search Properties", "പ്രോപ്പർട്ടികൾ തിരയുക":"Search Properties",
-    "ഇവിടെ തിരയുക...":"Search here...",
-    "തിരയുക":"Search",
-    "പ്രോപ്പർട്ടി വിഭാഗം":"Property category",
-    "റെന്റ് (വാടകയ്ക്ക്)":"Rent (For Rent)", "ജില്ല തിരഞ്ഞെടുക്കുക":"Select District",
-    "ഫോട്ടോകൾ തിരഞ്ഞെടുത്താൽ പ്രിവ്യൂ കാണാം.":"A preview appears after you select photos.",
-    "നിങ്ങളുടെ ഫോണിൽ Share സൗകര്യം ലഭ്യമെങ്കിൽ വിവരങ്ങളും ഫോട്ടോകളും ഒരുമിച്ച് WhatsApp-ലേക്ക് പങ്കിടാം.":"If your phone supports sharing, you can share details and photos together on WhatsApp.",
-    "നിങ്ങളുടെ വിവരങ്ങൾ സ്വകാര്യമായി കൈകാര്യം ചെയ്യും.":"Your information will be handled privately.",
-    "വാടക":"Rent", "വാടകയ്ക്ക്":"For Rent"
+
+    "സ്ഥലം":"Land",
+
   };
   const uiMalayalam = Object.fromEntries(Object.entries(uiTranslations).map(([ml,en])=>[en,ml]));
   const uiPrefixes = {
@@ -994,29 +1653,30 @@
   let currentInterfaceLanguage = "ml";
   function translateTextNode(node, language) {
     if (!node || !node.nodeValue) return;
-    let value = node.nodeValue;
+    if (node.parentElement?.closest?.("[data-no-translate]")) return;
+    const value = node.nodeValue;
+    const trimmed = value.trim();
     const map = language === "en" ? uiTranslations : uiMalayalam;
-    const entries = Object.entries(map).sort((a,b) => b[0].length - a[0].length);
-    for (const [from,to] of entries) {
-      if (from && value.includes(from)) value = value.split(from).join(to);
+    if (map[trimmed]) { node.nodeValue = value.replace(trimmed, map[trimmed]); return; }
+    // Translate only known interface prefixes in mixed status/metadata strings.
+    const prefixes = language === "en" ? uiPrefixes : Object.fromEntries(Object.entries(uiPrefixes).map(([ml,en])=>[en,ml]));
+    for (const [from,to] of Object.entries(prefixes)) {
+      if (trimmed.startsWith(from)) { node.nodeValue = value.replace(from,to); return; }
     }
-    if (value !== node.nodeValue) node.nodeValue = value;
   }
   function translateElement(element, language) {
     if (!element) return;
+    if (element.closest?.("[data-no-translate]")) return;
     const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
     let node; while ((node = walker.nextNode())) translateTextNode(node, language);
     const map = language === "en" ? uiTranslations : uiMalayalam;
-    const attrs = ["placeholder", "aria-label", "title"];
-    const controls = [];
-    if (element.matches?.("input,textarea,select,button,a,option,label")) controls.push(element);
-    element.querySelectorAll?.("input,textarea,select,button,a,option,label").forEach(el => controls.push(el));
-    controls.forEach(el => attrs.forEach(attr => {
-      if (el.hasAttribute(attr)) {
-        const value = el.getAttribute(attr);
-        if (map[value]) el.setAttribute(attr, map[value]);
-      }
+    const attrs = ["placeholder", "aria-label", "title", "label"];
+    element.querySelectorAll?.("input,textarea,select,button,a").forEach(el => attrs.forEach(attr => {
+      if (el.hasAttribute(attr)) { const value = el.getAttribute(attr); if (map[value]) el.setAttribute(attr, map[value]); }
     }));
+    if (element.matches?.("input,textarea,select,button,a")) attrs.forEach(attr => {
+      if (element.hasAttribute(attr)) { const value = element.getAttribute(attr); if (map[value]) element.setAttribute(attr, map[value]); }
+    });
   }
   function setInterfaceLanguage(language) {
     currentInterfaceLanguage = language === "en" ? "en" : "ml";
@@ -1472,38 +2132,42 @@ Property ID: ${propertyContext?.id || "നൽകിയിട്ടില്ല"}
 <section id="account" style="padding:24px 15px;background:#eef3f8;">
  <div id="auth" style="max-width:650px;margin:auto;background:white;padding:18px;border-radius:14px;box-shadow:0 3px 15px #0001;">
     <button type="button" id="accountClose" aria-label="Close login panel">×</button>
-    <h2 style="text-align:center;color:#102b46;">EASY DEALS - എന്റെ അക്കൗണ്ട്</h2>
-    <p style="text-align:center;">പുതിയ അക്കൗണ്ട് ഉണ്ടാക്കാം അല്ലെങ്കിൽ Login ചെയ്യാം.</p>
 
-    <div style="margin:12px 0;">
-      <h3>പുതിയ അക്കൗണ്ട് (Sign Up)</h3>
-      <form id="edSignup">
-        <input id="edName" type="text" placeholder="നിങ്ങളുടെ പേര്" required style="width:100%;padding:9px 11px;margin:4px 0;box-sizing:border-box;">
-        <input id="edSignupEmail" type="email" placeholder="Email address" required style="width:100%;padding:9px 11px;margin:4px 0;box-sizing:border-box;">
-        <input id="edSignupPassword" type="password" placeholder="Password (കുറഞ്ഞത് 8 അക്ഷരങ്ങൾ)" minlength="8" required style="width:100%;padding:9px 11px;margin:4px 0 2px;box-sizing:border-box;">
-        <small class="ed-password-help">Easy Deals-നായി പുതിയ പാസ്‌വേഡ്. ഇമെയിൽ പാസ്‌വേഡ് വേണ്ട.</small>
-        <button type="submit" style="background:#1769aa;color:white;padding:9px 16px;border:0;border-radius:7px;cursor:pointer;">Create Account</button>
-      </form>
-    </div>
+     <div id="edSignupView" style="margin:8px 0;">
+       <h3 style="text-align:center;margin:0 0 14px;">Create New Account</h3>
+       <form id="edSignup">
+         <input id="edName" type="text" autocomplete="name" placeholder="Your Name" required style="width:100%;padding:11px 12px;margin:5px 0;box-sizing:border-box;">
+         <input id="edSignupEmail" type="email" autocomplete="email" placeholder="Email Address" required style="width:100%;padding:11px 12px;margin:5px 0;box-sizing:border-box;">
+         <input id="edSignupPassword" type="password" autocomplete="new-password" placeholder="Create Easy Deals password" minlength="8" required style="width:100%;padding:11px 12px;margin:5px 0;box-sizing:border-box;">
+         <small style="display:block;color:#657487;font-size:12px;margin:2px 2px 8px;">Use at least 8 characters. This password is for your Easy Deals account, not your email account.</small>
+         <button type="submit" style="width:100%;background:#1769aa;color:white;padding:12px 16px;border:0;border-radius:8px;cursor:pointer;margin-top:8px;">Create Account</button>
+       </form>
+       <p style="text-align:center;margin:14px 0 2px;">Already have an account? <button type="button" id="edShowLogin" style="border:0;background:transparent;color:#1769aa;font-weight:700;cursor:pointer;">Login</button></p>
+     </div>
 
-    <hr>
+     <div id="edConfirmationView" hidden style="text-align:center;margin:12px 0;padding:16px 10px;">
+       <div aria-hidden="true" style="font-size:38px;color:#16a05a;">✉</div>
+       <h3 style="margin:8px 0;color:#102b46;">Confirmation Email Sent!</h3>
+       <p style="margin:8px 0 14px;">We have sent a confirmation link to your email address. Please check your Inbox or Spam folder and click the link to confirm your email.</p>
+     </div>
 
-    <div style="margin:12px 0;">
-      <h3>Login</h3>
-      <form id="edLogin">
-        <input id="edLoginEmail" type="email" placeholder="Email address" required style="width:100%;padding:9px 11px;margin:4px 0;box-sizing:border-box;">
-        <div class="ed-password-field" style="position:relative;width:100%;">
-          <input id="edLoginPassword" type="password" placeholder="Password" autocomplete="current-password" required style="width:100%;padding:9px 44px 9px 11px;margin:4px 0;box-sizing:border-box;">
-          <button type="button" id="edToggleLoginPassword" aria-label="Show password" aria-pressed="false" title="Show password" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:transparent;padding:6px;cursor:pointer;font-size:19px;line-height:1;color:#526477;">👁</button>
-        </div>
-        <button type="submit" style="background:#1769aa;color:white;padding:9px 16px;border:0;border-radius:7px;cursor:pointer;">Login</button>
-      </form>
-      <p style="margin:8px 0 0;text-align:left;">
-        <button type="button" id="edForgotPasswordBtn" style="border:0;background:transparent;color:#1769aa;text-decoration:underline;padding:4px 0;cursor:pointer;font-weight:700;">Forgot Password?</button>
-      </p>
-    </div>
+     <div id="edLoginView" hidden style="margin:8px 0;">
+       <h3 style="text-align:center;margin:0 0 14px;">Login to Your Account</h3>
+       <form id="edLogin">
+         <input id="edLoginEmail" type="email" autocomplete="email" placeholder="Email Address" required style="width:100%;padding:11px 12px;margin:5px 0;box-sizing:border-box;">
+         <div class="ed-password-field" style="position:relative;width:100%;">
+           <input id="edLoginPassword" type="password" placeholder="Password" autocomplete="current-password" required style="width:100%;padding:11px 44px 11px 12px;margin:5px 0;box-sizing:border-box;">
+           <button type="button" id="edToggleLoginPassword" aria-label="Show password" aria-pressed="false" title="Show password" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:transparent;padding:6px;cursor:pointer;font-size:19px;line-height:1;color:#526477;">👁</button>
+         </div>
+         <button type="submit" style="width:100%;background:#1769aa;color:white;padding:12px 16px;border:0;border-radius:8px;cursor:pointer;margin-top:8px;">Login</button>
+       </form>
+       <p id="edCreateAccountPrompt" style="text-align:center;margin:14px 0 2px;">New to Easy Deals? <button type="button" id="edShowSignup" style="border:0;background:transparent;color:#1769aa;font-weight:700;cursor:pointer;">Create Account</button></p>
+       <p style="margin:8px 0 0;text-align:center;">
+         <button type="button" id="edForgotPasswordBtn" style="border:0;background:transparent;color:#1769aa;text-decoration:underline;padding:4px 0;cursor:pointer;font-weight:700;">Forgot Password?</button>
+       </p>
+     </div>
 
-    <div id="edPasswordReset" hidden style="margin:12px 0;padding:14px;background:#f4f7fb;border-radius:10px;">
+     <div id="edPasswordReset" hidden style="margin:12px 0;padding:14px;background:#f4f7fb;border-radius:10px;">
       <h3>Reset Password / പാസ്‌വേഡ് വീണ്ടെടുക്കുക</h3>
       <p style="margin:5px 0 10px;">രജിസ്റ്റർ ചെയ്ത Email വിലാസം നൽകുക. പാസ്‌വേഡ് മാറ്റാനുള്ള ലിങ്ക് ഇമെയിലിൽ അയക്കും.</p>
       <form id="edPasswordResetForm">
@@ -1530,38 +2194,6 @@ Property ID: ${propertyContext?.id || "നൽകിയിട്ടില്ല"}
   </div>
 </section>
 
-<!-- Easy Deals account modal controls (independent of Supabase loading) -->
-<script>
-(function () {
-  const accountPanel = document.getElementById("account");
-  const closeButton = document.getElementById("accountClose");
-  const loginLinks = document.querySelectorAll(".login-nav");
-  if (!accountPanel || !closeButton || !loginLinks.length) return;
-
-  function openAccountPanel(event) {
-    if (event) event.preventDefault();
-    accountPanel.classList.add("account-modal-open");
-    const emailInput = document.getElementById("edLoginEmail");
-    if (emailInput) emailInput.focus();
-  }
-
-  function closeAccountModal() {
-    accountPanel.classList.remove("account-modal-open");
-  }
-
-  loginLinks.forEach(function (link) {
-    link.addEventListener("click", openAccountPanel);
-  });
-  closeButton.addEventListener("click", closeAccountModal);
-  accountPanel.addEventListener("click", function (event) {
-    if (event.target === accountPanel) closeAccountModal();
-  });
-  document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape") closeAccountModal();
-  });
-})();
-</script>
-
 <!-- SUPABASE CONNECTION -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -1574,6 +2206,9 @@ Property ID: ${propertyContext?.id || "നൽകിയിട്ടില്ല"}
       query.get("type") === "recovery" ||
       hash.get("type") === "recovery";
   })();
+  const emailConfirmedRedirect = new URLSearchParams(window.location.search).get("email_confirmed") === "1";
+  // Ignore the transient confirmation-created session until the user explicitly submits Login.
+  let manualLoginStarted = false;
 
   const SUPABASE_URL = "https://twlpfijvwernyzuqdqjz.supabase.co";
 
@@ -1598,12 +2233,53 @@ window.showMessage = showMessage;
   const loginForm = document.getElementById("edLogin");
   const resetPanel = document.getElementById("edPasswordReset");
   const newPasswordPanel = document.getElementById("edNewPasswordPanel");
+  const signupView = document.getElementById("edSignupView");
+  const loginView = document.getElementById("edLoginView");
+  const confirmationView = document.getElementById("edConfirmationView");
+
+  function hideAllAccountForms() {
+    signupView.hidden = true;
+    loginView.hidden = true;
+    confirmationView.hidden = true;
+    resetPanel.hidden = true;
+    newPasswordPanel.hidden = true;
+  }
+
+  function showSignupView() {
+    hideAllAccountForms();
+    loggedIn.hidden = true;
+    signupView.hidden = false;
+    showMessage("");
+  }
+
+  function showLoginView(email = "") {
+    hideAllAccountForms();
+    loggedIn.hidden = true;
+    loginView.hidden = false;
+    document.getElementById("edCreateAccountPrompt").hidden = emailConfirmedRedirect;
+    if (email) document.getElementById("edLoginEmail").value = email;
+    showMessage("");
+  }
+
+  function showConfirmationView() {
+    hideAllAccountForms();
+    loggedIn.hidden = true;
+    confirmationView.hidden = false;
+    showMessage("");
+  }
+
+  document.getElementById("edShowLogin").addEventListener("click", () => {
+    showLoginView(document.getElementById("edSignupEmail").value.trim());
+  });
+  document.getElementById("edShowSignup").addEventListener("click", showSignupView);
 
   function showPasswordRecoveryForm() {
-    signupForm.hidden = true;
-    loginForm.hidden = true;
+    signupView.hidden = true;
+    loginView.hidden = true;
+    confirmationView.hidden = true;
     resetPanel.hidden = true;
     newPasswordPanel.hidden = false;
+    loggedIn.hidden = true;
     accountPanel.classList.add("account-modal-open");
     showMessage("പുതിയ പാസ്‌വേഡ് നൽകുക.");
   }
@@ -1611,19 +2287,16 @@ window.showMessage = showMessage;
   document.getElementById("edForgotPasswordBtn").addEventListener("click", () => {
     document.getElementById("edResetEmail").value =
       document.getElementById("edLoginEmail").value.trim();
-    signupForm.hidden = true;
-    loginForm.hidden = true;
+    signupView.hidden = true;
+    loginView.hidden = true;
+    confirmationView.hidden = true;
     resetPanel.hidden = false;
     newPasswordPanel.hidden = true;
-    showMessage("രജിസ്റ്റർ ചെയ്ത Email വിലാസം നൽകുക.");
+    showMessage("");
   });
 
   document.getElementById("edResetBack").addEventListener("click", () => {
-    resetPanel.hidden = true;
-    newPasswordPanel.hidden = true;
-    signupForm.hidden = false;
-    loginForm.hidden = false;
-    showMessage("");
+    showLoginView(document.getElementById("edLoginEmail").value.trim());
   });
 
   document.getElementById("edPasswordResetForm").addEventListener("submit", async function(e) {
@@ -1659,26 +2332,76 @@ window.showMessage = showMessage;
       return;
     }
     updateAccount(data.user);
-    newPasswordPanel.hidden = true;
-    signupForm.hidden = false;
-    loginForm.hidden = false;
+    showLoginView(document.getElementById("edLoginEmail").value.trim());
     showMessage("പാസ്‌വേഡ് വിജയകരമായി മാറ്റി. ഇനി പുതിയ പാസ്‌വേഡ് ഉപയോഗിച്ച് Login ചെയ്യാം.");
   });
 
   const accountPanel = document.getElementById("account");
+  const accountClose = document.getElementById("accountClose");
   function closeAccountPanel() {
     accountPanel.classList.remove("account-modal-open");
   }
+  document.querySelectorAll(".login-nav").forEach(link => {
+    link.addEventListener("click", event => {
+      event.preventDefault();
+      accountPanel.classList.add("account-modal-open");
+      if (window.easyDealsCurrentUser) {
+        updateAccount(window.easyDealsCurrentUser);
+      } else {
+        showSignupView();
+        document.getElementById("edName").focus();
+      }
+    });
+  });
+  accountClose.addEventListener("click", closeAccountPanel);
+  accountPanel.addEventListener("click", event => {
+    if (event.target === accountPanel) accountPanel.classList.remove("account-modal-open");
+  });
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") accountPanel.classList.remove("account-modal-open");
+  });
   function updateAccount(user) {
     window.easyDealsCurrentUser = user || null;
     if (user) {
+      hideAllAccountForms();
       loggedIn.hidden = false;
       userEmail.textContent = "Login ചെയ്തിരിക്കുന്നത്: " + user.email;
     } else {
       loggedIn.hidden = true;
       userEmail.textContent = "";
+      showSignupView();
     }
   }
+
+  // Stage 25: require Login before opening the Sell section.
+  // Keep the existing submit-time Supabase session check as a second safety layer.
+  document.querySelectorAll('a[href="#sell"]').forEach(link => {
+    link.addEventListener("click", async event => {
+      event.preventDefault();
+
+      let user = window.easyDealsCurrentUser || null;
+      if (!user && window.db?.auth?.getSession) {
+        try {
+          const sessionResult = await window.db.auth.getSession();
+          user = sessionResult?.data?.session?.user || null;
+        } catch (error) {
+          user = null;
+        }
+      }
+
+      if (!user) {
+        accountPanel.classList.add("account-modal-open");
+        showLoginView();
+        showMessage("പരസ്യം നൽകാൻ ആദ്യം Login ചെയ്യുക. Login ചെയ്തശേഷം വീണ്ടും Sell അമർത്തുക.");
+        document.getElementById("edLoginEmail").focus();
+        return;
+      }
+
+      updateAccount(user);
+      window.location.hash = "sell";
+      document.getElementById("sell")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
 
   document.getElementById("edSignup").addEventListener("submit", async function(e) {
     e.preventDefault();
@@ -1694,7 +2417,7 @@ window.showMessage = showMessage;
       password: password,
       options: {
         data: { display_name: name },
-        emailRedirectTo: "https://easydealsonline.in/"
+        emailRedirectTo: "https://easydealsonline.in/?email_confirmed=1"
       }
     });
 
@@ -1708,7 +2431,7 @@ window.showMessage = showMessage;
       updateAccount(data.user);
       closeAccountPanel();
     } else {
-      showMessage("Registration വിജയിച്ചു! നിങ്ങളുടെ Email തുറന്ന് Confirmation Link ക്ലിക്ക് ചെയ്യുക.");
+      showConfirmationView();
     }
   });
 
@@ -1730,6 +2453,7 @@ window.showMessage = showMessage;
     const email = document.getElementById("edLoginEmail").value.trim();
     const password = document.getElementById("edLoginPassword").value;
 
+    manualLoginStarted = true;
     showMessage("Login ചെയ്യുന്നു...");
 
     const { data, error } = await db.auth.signInWithPassword({
@@ -1777,19 +2501,35 @@ window.showMessage = showMessage;
     }, 1200);
   });
 
-  db.auth.getSession().then(({ data, error }) => {
+  db.auth.getSession().then(async ({ data, error }) => {
     if (error) {
       showMessage(error.message);
       return;
     }
-    updateAccount(data.session?.user || null);
-    if (recoveryRedirect && data.session?.user) {
-      showPasswordRecoveryForm();
+    if (emailConfirmedRedirect) {
+      // Require a fresh manual login after the email confirmation link returns.
+      // Supabase may create a session during confirmation, so clear that session first.
+      if (data.session?.user) {
+        const { error: signOutError } = await db.auth.signOut();
+        if (signOutError) {
+          showMessage("Email confirmed, but automatic sign-out failed. Please log out before continuing.");
+        }
+      }
+      updateAccount(null);
+      accountPanel.classList.add("account-modal-open");
+      showLoginView();
+      showMessage("Email confirmed. Please log in to your Easy Deals account.");
+    } else {
+      updateAccount(data.session?.user || null);
+      if (recoveryRedirect && data.session?.user) {
+        showPasswordRecoveryForm();
+      }
     }
     refreshAdminPanel();
   });
 
   db.auth.onAuthStateChange((event, session) => {
+    if (emailConfirmedRedirect && !manualLoginStarted) return;
     updateAccount(session?.user || null);
     if (event === "PASSWORD_RECOVERY" || (recoveryRedirect && session?.user)) {
       showPasswordRecoveryForm();
@@ -1798,6 +2538,7 @@ window.showMessage = showMessage;
     refreshAdminPanel();
   });
   
+// EASY DEALS - Load property advertisements
 // EASY DEALS - Load property advertisements
 // Short enquiry form for a specific property. The general Buy form remains unchanged.
 function ensurePropertyEnquiryModal() {
@@ -1898,6 +2639,110 @@ async function submitPropertyEnquiry(event) {
   }
 }
 
+
+// Stage 14: full property details dialog (uses only data already loaded from Supabase).
+function closePropertyDetails() {
+  const modal = document.getElementById("propertyDetailsModal");
+  if (modal) modal.style.display = "none";
+  document.body.style.overflow = "";
+}
+function openPropertyDetails(property) {
+  let modal = document.getElementById("propertyDetailsModal");
+  if (!modal) {
+    modal = document.createElement("div");
+    modal.id = "propertyDetailsModal";
+    modal.setAttribute("role", "dialog");
+    modal.setAttribute("aria-modal", "true");
+    modal.setAttribute("aria-labelledby", "propertyDetailsTitle");
+    modal.className = "property-details-modal";
+    modal.innerHTML = `
+      <div class="property-details-dialog">
+        <button type="button" class="property-details-close" aria-label="Close">×</button>
+        <div class="property-details-content"></div>
+      </div>`;
+    document.body.appendChild(modal);
+    modal.querySelector(".property-details-close").addEventListener("click", closePropertyDetails);
+    modal.addEventListener("click", event => {
+      if (event.target === modal) closePropertyDetails();
+    });
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") closePropertyDetails();
+    });
+  }
+
+  const content = modal.querySelector(".property-details-content");
+  content.innerHTML = "";
+  const images = Array.isArray(property.image_urls)
+    ? property.image_urls
+    : (property.image_urls ? [property.image_urls] : []);
+  const validImages = images.filter(Boolean);
+
+  if (validImages.length) {
+    const gallery = document.createElement("div");
+    gallery.className = "property-details-gallery";
+    validImages.forEach((url, index) => {
+      const image = document.createElement("img");
+      image.src = url;
+      image.alt = (property.title || "Property") + " photo " + (index + 1);
+      image.loading = "lazy";
+      gallery.appendChild(image);
+    });
+    content.appendChild(gallery);
+  }
+
+  const heading = document.createElement("h2");
+  heading.id = "propertyDetailsTitle";
+  heading.textContent = property.title || "പ്രോപ്പർട്ടി";
+  content.appendChild(heading);
+
+  const location = document.createElement("p");
+  location.className = "property-details-location";
+  location.textContent = "📍 " + (property.location || "സ്ഥലം നൽകിയിട്ടില്ല");
+  content.appendChild(location);
+
+  const price = document.createElement("p");
+  price.className = "property-details-price";
+  price.textContent = property.price != null && property.price !== ""
+    ? "₹ " + String(property.price)
+    : "വില ചോദിക്കുക";
+  content.appendChild(price);
+
+  const facts = document.createElement("div");
+  facts.className = "property-details-facts";
+  const addFact = (label, value) => {
+    if (value == null || String(value).trim() === "") return;
+    const fact = document.createElement("span");
+    fact.textContent = label + " " + String(value);
+    facts.appendChild(fact);
+  };
+  addFact("വിഭാഗം:", property.category);
+  addFact("വിസ്തീർണം:", property.area);
+  if (facts.childElementCount) content.appendChild(facts);
+
+  if (property.description && String(property.description).trim()) {
+    const descriptionTitle = document.createElement("h3");
+    descriptionTitle.textContent = "വിവരണം";
+    content.appendChild(descriptionTitle);
+    const description = document.createElement("p");
+    description.className = "property-details-description";
+    description.textContent = property.description;
+    content.appendChild(description);
+  }
+
+  const enquiry = document.createElement("button");
+  enquiry.type = "button";
+  enquiry.className = "property-details-whatsapp";
+  enquiry.textContent = "WhatsApp വഴി ബന്ധപ്പെടുക";
+  enquiry.addEventListener("click", () => {
+    closePropertyDetails();
+    openPropertyEnquiry(property);
+  });
+  content.appendChild(enquiry);
+
+  modal.style.display = "flex";
+  document.body.style.overflow = "hidden";
+}
+
 async function loadPropertyListings() {
   const container = document.getElementById("propertyListings");
   if (!container) return;
@@ -1923,67 +2768,100 @@ async function loadPropertyListings() {
 
   data.forEach(item => {
     const card = document.createElement("article");
-    card.className = "listing";
+    card.className = "listing premium-listing-card";
     card.dataset.category = String(item.category || "").toLowerCase();
     card.dataset.location = String(item.location || "").toLowerCase();
-    card.style.margin = "15px 0";
 
-    const title = document.createElement("h3");
-    title.textContent = item.title || "പ്രോപ്പർട്ടി";
+    const imageUrls = Array.isArray(item.image_urls)
+      ? item.image_urls.filter(Boolean)
+      : (item.image_urls ? [item.image_urls] : []);
 
-   
-const imageUrls = Array.isArray(item.image_urls)
-  ? item.image_urls
-  : (item.image_urls ? [item.image_urls] : []);
+    const media = document.createElement("div");
+    media.className = "premium-listing-media";
+    if (imageUrls.length) {
+      const cover = document.createElement("img");
+      cover.src = imageUrls[0];
+      cover.alt = (item.title || "Property") + " പ്രധാന ഫോട്ടോ";
+      cover.loading = "lazy";
+      cover.className = "premium-listing-cover";
+      media.appendChild(cover);
+    } else {
+      const placeholder = document.createElement("div");
+      placeholder.className = "premium-listing-placeholder";
+      placeholder.textContent = "ഫോട്ടോ ലഭ്യമല്ല";
+      media.appendChild(placeholder);
+    }
 
-if (imageUrls.length > 0) {
-  const gallery = document.createElement("div");
-  gallery.className = "listing-gallery";
+    const categoryBadge = document.createElement("span");
+    categoryBadge.className = "premium-category-badge";
+    categoryBadge.textContent = item.category || "Property";
+    media.appendChild(categoryBadge);
 
-  imageUrls.forEach((url, index) => {
-    if (!url) return;
-
-    const img = document.createElement("img");
-    img.src = url;
-    img.alt = (item.title || "Property") + " Photo " + (index + 1);
-    img.style.cssText =
-      "width:160px;height:140px;object-fit:cover;border-radius:8px;flex:0 0 160px;";
-
-    gallery.appendChild(img);
-  });
-
-  card.appendChild(gallery);
-}
-
+    if (imageUrls.length > 1) {
+      const photoCount = document.createElement("span");
+      photoCount.className = "premium-photo-count";
+      photoCount.textContent = "📷 " + imageUrls.length + " Photos";
+      media.appendChild(photoCount);
+    }
+    card.appendChild(media);
 
     const body = document.createElement("div");
-    body.className = "body";
-    body.prepend(title);
-    const details = document.createElement("p");
-    details.textContent =
-      "വിഭാഗം: " + (item.category || "") +
-      " | സ്ഥലം: " + (item.location || "") +
-      " | വില: " + (item.price != null && item.price !== "" ? item.price : "വില ചോദിക്കുക") +
-      " | വിസ്തീർണം: " + (item.area || "");
+    body.className = "body premium-listing-body";
 
-    body.appendChild(details);
+    const title = document.createElement("h3");
+    title.className = "premium-listing-title";
+    title.textContent = item.title || "പ്രോപ്പർട്ടി";
+    body.appendChild(title);
 
-    const description = document.createElement("p");
-    description.textContent = item.description || "";
-    body.appendChild(description);
+    const location = document.createElement("p");
+    location.className = "premium-listing-location";
+    location.textContent = "📍 " + (item.location || "സ്ഥലം നൽകിയിട്ടില്ല");
+    body.appendChild(location);
+
+    const price = document.createElement("p");
+    price.className = "premium-listing-price";
+    price.textContent = item.price != null && item.price !== ""
+      ? "₹ " + String(item.price)
+      : "വില ചോദിക്കുക";
+    body.appendChild(price);
+
+    const facts = document.createElement("div");
+    facts.className = "premium-listing-facts";
+    if (item.category) {
+      const typeFact = document.createElement("span");
+      typeFact.textContent = "⌂ " + item.category;
+      facts.appendChild(typeFact);
+    }
+    if (item.area) {
+      const areaFact = document.createElement("span");
+      areaFact.textContent = "↗ " + item.area;
+      facts.appendChild(areaFact);
+    }
+    if (facts.childElementCount) body.appendChild(facts);
+
+    const actions = document.createElement("div");
+    actions.className = "premium-listing-actions";
 
     const contactButton = document.createElement("button");
     contactButton.type = "button";
-    contactButton.textContent = "Easy Deals വഴി ബന്ധപ്പെടുക";
-    contactButton.className = "btn primary";
-    contactButton.style.marginTop = "10px";
+    contactButton.className = "premium-whatsapp-button";
+    contactButton.textContent = "WhatsApp";
+    contactButton.setAttribute("aria-label", "Easy Deals വഴി ഈ പ്രോപ്പർട്ടിയെക്കുറിച്ച് ബന്ധപ്പെടുക");
     contactButton.addEventListener("click", () => openPropertyEnquiry(item));
-    body.appendChild(contactButton);
+
+    const detailsButton = document.createElement("button");
+    detailsButton.type = "button";
+    detailsButton.className = "premium-details-button";
+    detailsButton.textContent = "View Details";
+    detailsButton.addEventListener("click", () => openPropertyDetails(item));
+
+    actions.append(contactButton, detailsButton);
+    body.appendChild(actions);
 
     const reportButton = document.createElement("button");
     reportButton.type = "button";
-    reportButton.className = "report-listing-btn";
-    reportButton.textContent = "Report Ad / റിപ്പോർട്ട് ചെയ്യുക";
+    reportButton.className = "report-listing-btn premium-report-button";
+    reportButton.textContent = "⚠ Report Ad / റിപ്പോർട്ട് ചെയ്യുക";
     reportButton.addEventListener("click", () => reportProperty(item));
     body.appendChild(reportButton);
 
@@ -1993,6 +2871,7 @@ if (imageUrls.length > 0) {
 }
 
 
+const searchBox = document.getElementById("propertySearch");
 const categoryFilter = document.getElementById("categoryFilter");
 const districtFilter = document.getElementById("districtFilter");
 const districtAliases = {
@@ -2003,23 +2882,109 @@ const districtAliases = {
   Kozhikode:["kozhikode","കോഴിക്കോട്","calicut"], Wayanad:["wayanad","വയനാട്"], Kannur:["kannur","കണ്ണൂർ","കണ്ണൂര്"], Kasaragod:["kasaragod","കാസർഗോഡ്","കാസര്‍ഗോഡ്"]
 };
 function applyPropertyFilters() {
+  const term = (searchBox.value || "").toLowerCase().trim();
   const category = (categoryFilter.value || "").toLowerCase();
   const district = districtFilter.value;
   const aliases = district ? districtAliases[district] || [district.toLowerCase()] : [];
   document.querySelectorAll("#propertyListings .listing").forEach(card => {
     const text = card.textContent.toLowerCase();
-    const matchesCategory = !category ||
-      (category === "rent"
-        ? /rent|വാടക|വാടകയ്ക്ക്|വാടകയ്ക്കു|for rent/i.test(text) || card.dataset.category.includes("rent")
-        : card.dataset.category === category.toLowerCase());
+    const matchesTerm = !term || text.includes(term);
+    const matchesCategory = !category || card.dataset.category === category;
     const matchesDistrict = !district || aliases.some(alias => card.dataset.location.includes(alias) || text.includes(alias));
-    card.style.display = matchesCategory && matchesDistrict ? "" : "none";
+    card.style.display = matchesTerm && matchesCategory && matchesDistrict ? "" : "none";
   });
 }
+[searchBox,categoryFilter,districtFilter].forEach(control => control.addEventListener("input",applyPropertyFilters));
 [categoryFilter,districtFilter].forEach(control => control.addEventListener("change",applyPropertyFilters));
-const propertySearchButton = document.getElementById("propertySearchButton");
-if (propertySearchButton) propertySearchButton.addEventListener("click", () => {
-  applyPropertyFilters();
+
+// Stage 15 homepage search: separate from the existing Buy-page filters.
+const homeCategoryFilter = document.getElementById("homeCategoryFilter");
+const homeDistrictFilter = document.getElementById("homeDistrictFilter");
+const homeLocationFilter = document.getElementById("homeLocationFilter");
+const homeMinPriceFilter = document.getElementById("homeMinPriceFilter");
+const homeMaxPriceFilter = document.getElementById("homeMaxPriceFilter");
+const homeSizeFilter = document.getElementById("homeSizeFilter");
+const homeSearchButton = document.getElementById("homePropertySearchButton");
+
+function stage15Amount(value) {
+  const raw = String(value || "").toLowerCase().replace(/,/g, "");
+  const m = raw.match(/(\d+(?:\.\d+)?)\s*(crore|cr|കോടി|lakh|lac|ലക്ഷം)?/i);
+  if (!m) return null;
+  const n = Number(m[1]), unit = (m[2] || "").toLowerCase();
+  return ["crore","cr","കോടി"].includes(unit) ? n*10000000 :
+    ["lakh","lac","ലക്ഷം"].includes(unit) ? n*100000 : n;
+}
+function stage15Cent(value) {
+  const m = String(value || "").toLowerCase().match(/(\d+(?:\.\d+)?)\s*(?:cent|സെന്റ്)/i);
+  return m ? Number(m[1]) : null;
+}
+function applyHomePropertyFilters() {
+  const category = (homeCategoryFilter?.value || "").toLowerCase();
+  const district = (homeDistrictFilter?.value || "").toLowerCase();
+  const location = (homeLocationFilter?.value || "").trim().toLowerCase();
+  const min = homeMinPriceFilter?.value ? Number(homeMinPriceFilter.value) : null;
+  const max = homeMaxPriceFilter?.value ? Number(homeMaxPriceFilter.value) : null;
+  const size = homeSizeFilter?.value || "";
+  const aliases = {
+    thiruvananthapuram:["thiruvananthapuram","trivandrum","തിരുവനന്തപുരം"], kollam:["kollam","കൊല്ലം"],
+    pathanamthitta:["pathanamthitta","പത്തനംതിട്ട"], alappuzha:["alappuzha","alleppey","ആലപ്പുഴ"],
+    kottayam:["kottayam","കോട്ടയം"], idukki:["idukki","ഇടുക്കി"], ernakulam:["ernakulam","കൊച്ചി","എറണാകുളം"],
+    thrissur:["thrissur","തൃശ്ശൂർ"], palakkad:["palakkad","പാലക്കാട്"], malappuram:["malappuram","മലപ്പുറം"],
+    kozhikode:["kozhikode","calicut","കോഴിക്കോട്"], wayanad:["wayanad","വയനാട്"],
+    kannur:["kannur","കണ്ണൂർ"], kasaragod:["kasaragod","കാസർഗോഡ്"]
+  };
+  document.querySelectorAll("#propertyListings .listing").forEach(card => {
+    const text = (card.textContent || "").toLowerCase();
+    const cat = (card.dataset.category || "").toLowerCase();
+    const loc = (card.dataset.location || "").toLowerCase();
+    const categoryOK = !category || cat === category || text.includes(category);
+    const districtOK = !district || (aliases[district] || [district]).some(a => loc.includes(a) || text.includes(a));
+    const locationOK = !location || loc.includes(location) || text.includes(location);
+    const price = stage15Amount(card.querySelector(".premium-listing-price")?.textContent || "");
+    const priceOK = (min === null || (price !== null && price >= min)) && (max === null || (price !== null && price <= max));
+    const area = stage15Cent(card.querySelector(".premium-listing-facts")?.textContent || text);
+    let sizeOK = !size;
+    if (size && area !== null) {
+      if (size === "3") sizeOK = area <= 3;
+      else if (size === "3-5") sizeOK = area >= 3 && area <= 5;
+      else if (size === "5-10") sizeOK = area >= 5 && area <= 10;
+      else if (size === "10-20") sizeOK = area >= 10 && area <= 20;
+      else if (size === "20+") sizeOK = area >= 20;
+    }
+    card.style.display = categoryOK && districtOK && locationOK && priceOK && sizeOK ? "" : "none";
+  });
+  const visible = [...document.querySelectorAll("#propertyListings .listing")].some(card => card.style.display !== "none");
+  let empty = document.getElementById("stage15NoResults");
+  if (!visible && !empty) {
+    empty = document.createElement("p");
+    empty.id = "stage15NoResults";
+    empty.className = "stage15-no-results";
+    empty.textContent = "No properties found. Please change your search filters.";
+    document.getElementById("propertyListings")?.appendChild(empty);
+  } else if (visible && empty) empty.remove();
+}
+[homeCategoryFilter,homeDistrictFilter,homeMinPriceFilter,homeMaxPriceFilter,homeSizeFilter].forEach(el => el?.addEventListener("change",applyHomePropertyFilters));
+homeLocationFilter?.addEventListener("input",applyHomePropertyFilters);
+document.querySelectorAll("[data-home-category]").forEach(btn => btn.addEventListener("click", () => {
+  const selectedCategory = (btn.dataset.homeCategory || "").trim();
+
+  // "All" is a full reset: clear every homepage search field so no
+  // previous district, location, price, or size value can restrict results.
+  if (!selectedCategory) {
+    [homeCategoryFilter, homeDistrictFilter, homeLocationFilter,
+     homeMinPriceFilter, homeMaxPriceFilter, homeSizeFilter]
+      .forEach(field => {
+        if (field) field.value = "";
+      });
+  } else if (homeCategoryFilter) {
+    // A specific quick filter changes only the property type.
+    homeCategoryFilter.value = selectedCategory;
+  }
+
+  applyHomePropertyFilters();
+}));
+homeSearchButton?.addEventListener("click", () => {
+  applyHomePropertyFilters();
   document.querySelector(".property-listings")?.scrollIntoView({behavior:"smooth",block:"start"});
 });
 
@@ -2182,7 +3147,6 @@ card.appendChild(actions);
 
 // ADMIN DASHBOARD: Supabase role and RLS enforce access; hiding UI is not the security boundary.
 const adminSection = document.getElementById("adminPanel");
-const adminNavLink = document.getElementById("adminNavLink");
 const adminListings = document.getElementById("adminListings");
 const adminReports = document.getElementById("adminReports");
 const adminStatus = document.getElementById("adminStatus");
@@ -2202,10 +3166,11 @@ async function isCurrentUserAdmin() {
 }
 
 async function refreshAdminPanel() {
-  if (!adminSection || !adminNavLink) return;
+  if (!adminSection) return;
   const isAdmin = await isCurrentUserAdmin();
+  // No Admin navigation button: the dashboard itself remains available
+  // only after the signed-in user passes the Supabase admin-role check.
   adminSection.hidden = !isAdmin;
-  adminNavLink.hidden = !isAdmin;
   if (isAdmin) {
     await Promise.all([loadAdminListings(), loadAdminReports()]);
   }
@@ -2545,6 +3510,54 @@ if (myListingsLink) {
   }
 })();
 </script>
+
+
+<style id="stage24-auth-button-height-refinement">
+/* Stage 24: slightly shorter account action buttons.
+   Scoped to the Easy Deals account dialog; authentication logic is untouched. */
+#account #auth #edSignup button[type="submit"],
+#account #auth #edLogin button[type="submit"],
+#account #auth #edPasswordResetForm button,
+#account #auth #edResetBack {
+  height: 34px !important;
+  min-height: 34px !important;
+  padding: 5px 12px !important;
+  margin-top: 4px;
+  line-height: 1.15 !important;
+  font-size: 13px !important;
+  box-sizing: border-box !important;
+}
+#account #auth #edPasswordResetForm button {
+  margin: 0 !important;
+}
+#account #auth #edShowLogin,
+#account #auth #edShowSignup,
+#account #auth #edForgotPasswordBtn {
+  min-height: 0 !important;
+  height: auto !important;
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+  line-height: 1.25 !important;
+}
+#account #auth #edToggleLoginPassword {
+  width: 30px !important;
+  height: 30px !important;
+  min-height: 30px !important;
+  padding: 4px !important;
+  line-height: 1 !important;
+}
+@media (max-width: 540px) {
+  #account #auth #edSignup button[type="submit"],
+  #account #auth #edLogin button[type="submit"],
+  #account #auth #edPasswordResetForm button,
+  #account #auth #edResetBack {
+    height: 33px !important;
+    min-height: 33px !important;
+    padding: 4px 10px !important;
+    font-size: 12.5px !important;
+  }
+}
+</style>
 
 </body>
 </html>
