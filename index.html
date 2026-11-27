@@ -935,18 +935,6 @@ button:not(#installAppBtn), .btn, nav a, #languageToggle {
   color: #52677c;
   font-weight: 700;
 }
-.premium-category-badge {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  padding: 7px 13px;
-  border-radius: 999px;
-  background: #0877d1;
-  color: #fff;
-  font-size: 13px;
-  font-weight: 800;
-  box-shadow: 0 3px 10px #0003;
-}
 .premium-photo-count {
   position: absolute;
   right: 10px;
@@ -1426,6 +1414,29 @@ button:not(#installAppBtn), .btn, nav a, #languageToggle {
   }
 }
 
+
+/* Easy Deals favourites + compact mobile listing layout */
+.ed-listing-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.ed-listing-heading .section-title{margin:0}
+.ed-favourites-filter{min-height:42px;padding:9px 14px;border:1px solid #d83b55;border-radius:10px;background:#fff;color:#b4233c;font-weight:800;cursor:pointer}
+.ed-favourites-filter[aria-pressed="true"]{background:#b4233c;color:#fff}
+.premium-favourite-button{position:absolute;top:9px;right:9px;z-index:3;width:44px;height:44px;display:grid;place-items:center;border:0;border-radius:50%;background:rgba(255,255,255,.96);color:#9aa4af;font-size:25px;line-height:1;box-shadow:0 2px 9px #0003;cursor:pointer}
+.premium-favourite-button.is-favourite{color:#e11d48}
+.premium-favourite-button:focus-visible{outline:3px solid #f5b942;outline-offset:2px}
+@media(max-width:640px){
+ .homepage-available-properties .premium-listing-card{display:grid!important;grid-template-columns:minmax(112px,36%) minmax(0,1fr);column-gap:10px;row-gap:8px;align-items:start}
+ .homepage-available-properties .premium-listing-media{grid-column:1;grid-row:1;height:clamp(150px,42vw,190px)!important;min-height:150px}
+ .homepage-available-properties .premium-listing-body{display:contents!important}
+ .premium-listing-info{grid-column:2;grid-row:1;min-width:0;padding:2px 0!important}
+ .premium-listing-title{margin:0 0 5px!important;font-size:15px!important;line-height:1.3!important}
+ .premium-listing-location{margin:0 0 6px!important;font-size:12px!important;line-height:1.3!important}
+ .premium-listing-price{margin:0 0 6px!important;font-size:17px!important;line-height:1.2!important}
+ .premium-listing-facts{display:flex;gap:4px 8px!important;padding:5px 0!important;margin:0!important;font-size:11px!important}
+ .premium-listing-actions{grid-column:1 / -1;grid-row:2;display:grid;grid-template-columns:1fr 1fr;gap:8px!important;margin-top:0!important}
+ .premium-listing-actions button{min-height:44px!important;padding:8px 5px!important;font-size:12px!important}
+ .homepage-available-properties .premium-report-button{grid-column:1 / -1;grid-row:3;min-height:42px!important;margin:0!important;padding:8px!important;font-size:12px!important}
+ .premium-favourite-button{width:42px;height:42px;top:7px;right:7px}
+}
 </style>
 
 <style>
@@ -1548,7 +1559,6 @@ button:not(#installAppBtn), .btn, nav a, #languageToggle {
     border-radius: 15px !important;
   }
   .premium-listing-media { height: clamp(135px, 42vw, 165px) !important; border-radius: 10px !important; }
-  .premium-category-badge { top: 8px !important; left: 8px !important; padding: 5px 9px !important; font-size: 11px !important; }
   .premium-photo-count { right: 7px !important; bottom: 7px !important; padding: 4px 7px !important; font-size: 10px !important; }
   .homepage-available-properties .premium-listing-body { padding: 9px 5px 3px !important; }
   .premium-listing-title { margin-bottom: 4px !important; font-size: 16px !important; line-height: 1.25 !important; }
@@ -1600,6 +1610,116 @@ button:not(#installAppBtn), .btn, nav a, #languageToggle {
 }
 
 </style>
+
+<style id="easy-deals-mobile-right-actions-final">
+/* Mobile premium card: photo on the left, details and all actions on the right. */
+@media (max-width: 640px) {
+  .homepage-available-properties .premium-listing-card {
+    display: grid !important;
+    grid-template-columns: minmax(112px, 38%) minmax(0, 1fr) !important;
+    column-gap: 10px !important;
+    row-gap: 9px !important;
+    align-items: stretch !important;
+  }
+  .homepage-available-properties .premium-listing-media {
+    grid-column: 1 !important;
+    grid-row: 1 / span 3 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 225px !important;
+    align-self: stretch !important;
+    border-radius: 11px !important;
+  }
+  .homepage-available-properties .premium-listing-cover {
+    position: absolute;
+    inset: 0;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+  .homepage-available-properties .premium-listing-info {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    min-width: 0 !important;
+    padding: 2px 0 0 !important;
+  }
+  .homepage-available-properties .premium-listing-title {
+    font-size: 15px !important;
+    line-height: 1.28 !important;
+    overflow-wrap: anywhere;
+  }
+  .homepage-available-properties .premium-listing-location {
+    font-size: 12px !important;
+    line-height: 1.3 !important;
+  }
+  .homepage-available-properties .premium-listing-price {
+    font-size: 17px !important;
+    line-height: 1.2 !important;
+  }
+  .homepage-available-properties .premium-listing-facts {
+    gap: 5px 8px !important;
+    padding: 6px 0 7px !important;
+    margin: 0 !important;
+    font-size: 11px !important;
+  }
+  .homepage-available-properties .premium-listing-actions {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    gap: 6px !important;
+    margin: 0 !important;
+    align-self: end !important;
+  }
+  .homepage-available-properties .premium-listing-actions button {
+    min-width: 0 !important;
+    min-height: 42px !important;
+    padding: 7px 4px !important;
+    border-radius: 9px !important;
+    font-size: 11px !important;
+    line-height: 1.15 !important;
+    white-space: normal !important;
+  }
+  .homepage-available-properties .premium-report-button {
+    grid-column: 2 !important;
+    grid-row: 3 !important;
+    width: 100% !important;
+    min-height: 40px !important;
+    margin: 0 !important;
+    padding: 6px 5px !important;
+    border-radius: 9px !important;
+    font-size: 10px !important;
+    line-height: 1.2 !important;
+    align-self: start !important;
+  }
+  .homepage-available-properties .premium-favourite-button {
+    width: 40px !important;
+    height: 40px !important;
+    top: 7px !important;
+    right: 7px !important;
+    font-size: 23px !important;
+  }
+  .homepage-available-properties .premium-photo-count {
+    right: 5px !important;
+    bottom: 5px !important;
+    padding: 4px 6px !important;
+    font-size: 9px !important;
+  }
+}
+/* Very narrow phones: keep action labels readable and tap targets usable. */
+@media (max-width: 360px) {
+  .homepage-available-properties .premium-listing-card {
+    grid-template-columns: minmax(100px, 36%) minmax(0, 1fr) !important;
+    column-gap: 8px !important;
+  }
+  .homepage-available-properties .premium-listing-actions button {
+    font-size: 10px !important;
+    min-height: 42px !important;
+  }
+  .homepage-available-properties .premium-report-button { font-size: 9px !important; }
+}
+</style>
+
 </head>
 <body>
 <header>
@@ -1649,7 +1769,7 @@ button:not(#installAppBtn), .btn, nav a, #languageToggle {
 
 <section class="homepage-available-properties" id="homeAvailableProperties">
 <div class="property-listings">
-  <h2 class="section-title">ലഭ്യമായ പ്രോപ്പർട്ടികൾ</h2>
+  <div class="ed-listing-heading"><h2 class="section-title">ലഭ്യമായ പ്രോപ്പർട്ടികൾ</h2><button type="button" id="toggleMyFavourites" class="ed-favourites-filter" aria-pressed="false">♥ എന്റെ Favourite പരസ്യങ്ങൾ</button></div>
   
 <div class="filter-grid" aria-label="പ്രോപ്പർട്ടി ഫിൽറ്ററുകൾ">
   <input type="search" id="propertySearch" placeholder="പ്രദേശം, വീട്, ഫ്ലാറ്റ് എന്നിവ തിരയുക..." aria-label="Search properties">
@@ -2732,6 +2852,7 @@ window.showMessage = showMessage;
       showPasswordRecoveryForm();
     }
     if (session?.user) loadMyListings();
+    loadPropertyListings();
     refreshAdminPanel();
   });
   
@@ -2940,11 +3061,58 @@ function openPropertyDetails(property) {
   document.body.style.overflow = "hidden";
 }
 
+let easyDealsFavouriteIds = new Set();
+let easyDealsShowFavouritesOnly = false;
+
+async function loadEasyDealsFavourites() {
+  const { data: { user } } = await db.auth.getUser();
+  easyDealsFavouriteIds = new Set();
+  if (!user) return;
+  const { data, error } = await db.from("property_favorites").select("property_id").eq("user_id", user.id);
+  if (error) { console.warn("Could not load favourites:", error.message); return; }
+  (data || []).forEach(row => easyDealsFavouriteIds.add(String(row.property_id)));
+}
+
+async function toggleEasyDealsFavourite(property, button) {
+  const { data: { user } } = await db.auth.getUser();
+  if (!user) {
+    const panel = document.getElementById("account");
+    panel?.classList.add("account-modal-open");
+    document.getElementById("edLoginView")?.removeAttribute("hidden");
+    document.getElementById("edSignupView")?.setAttribute("hidden", "");
+    window.showMessage?.("Favourite-ൽ ചേർക്കാൻ ആദ്യം Login ചെയ്യുക.");
+    return;
+  }
+  const id = String(property.id);
+  button.disabled = true;
+  try {
+    if (easyDealsFavouriteIds.has(id)) {
+      const { error } = await db.from("property_favorites").delete().eq("user_id", user.id).eq("property_id", property.id);
+      if (error) throw error;
+      easyDealsFavouriteIds.delete(id);
+    } else {
+      const { error } = await db.from("property_favorites").insert({ user_id:user.id, property_id:property.id });
+      if (error) throw error;
+      easyDealsFavouriteIds.add(id);
+    }
+    button.classList.toggle("is-favourite", easyDealsFavouriteIds.has(id));
+    button.textContent = easyDealsFavouriteIds.has(id) ? "♥" : "♡";
+    button.setAttribute("aria-pressed", String(easyDealsFavouriteIds.has(id)));
+    button.setAttribute("aria-label", easyDealsFavouriteIds.has(id) ? "Favourite-ൽ നിന്ന് നീക്കുക" : "Favourite-ൽ ചേർക്കുക");
+    if (easyDealsShowFavouritesOnly && !easyDealsFavouriteIds.has(id)) {
+      const card = button.closest(".premium-listing-card"); if (card) card.remove();
+    }
+  } catch (error) {
+    alert("Favourite സേവ് ചെയ്യാനായില്ല. Supabase SQL setup പരിശോധിക്കുക. " + (error.message || ""));
+  } finally { button.disabled = false; }
+}
+
 async function loadPropertyListings() {
   const container = document.getElementById("propertyListings");
   if (!container) return;
 
   container.textContent = "പരസ്യങ്ങൾ ലോഡ് ചെയ്യുന്നു...";
+  await loadEasyDealsFavourites();
 
   const { data, error } = await db
     .from("properties")
@@ -2961,9 +3129,11 @@ async function loadPropertyListings() {
     return;
   }
 
+  const visibleListings = easyDealsShowFavouritesOnly ? data.filter(item => easyDealsFavouriteIds.has(String(item.id))) : data;
   container.innerHTML = "";
+  if (easyDealsShowFavouritesOnly && visibleListings.length === 0) { container.textContent = "Favourite ചെയ്ത പരസ്യങ്ങളൊന്നുമില്ല."; return; }
 
-  data.forEach(item => {
+  visibleListings.forEach(item => {
     const card = document.createElement("article");
     card.className = "listing premium-listing-card";
     card.dataset.category = String(item.category || "").toLowerCase();
@@ -2989,10 +3159,14 @@ async function loadPropertyListings() {
       media.appendChild(placeholder);
     }
 
-    const categoryBadge = document.createElement("span");
-    categoryBadge.className = "premium-category-badge";
-    categoryBadge.textContent = item.category || "Property";
-    media.appendChild(categoryBadge);
+    const favouriteButton = document.createElement("button");
+    favouriteButton.type = "button";
+    favouriteButton.className = "premium-favourite-button" + (easyDealsFavouriteIds.has(String(item.id)) ? " is-favourite" : "");
+    favouriteButton.textContent = easyDealsFavouriteIds.has(String(item.id)) ? "♥" : "♡";
+    favouriteButton.setAttribute("aria-pressed", String(easyDealsFavouriteIds.has(String(item.id))));
+    favouriteButton.setAttribute("aria-label", easyDealsFavouriteIds.has(String(item.id)) ? "Favourite-ൽ നിന്ന് നീക്കുക" : "Favourite-ൽ ചേർക്കുക");
+    favouriteButton.addEventListener("click", () => toggleEasyDealsFavourite(item, favouriteButton));
+    media.appendChild(favouriteButton);
 
     if (imageUrls.length > 1) {
       const photoCount = document.createElement("span");
@@ -3004,23 +3178,25 @@ async function loadPropertyListings() {
 
     const body = document.createElement("div");
     body.className = "body premium-listing-body";
+    const info = document.createElement("div");
+    info.className = "premium-listing-info";
 
     const title = document.createElement("h3");
     title.className = "premium-listing-title";
     title.textContent = item.title || "പ്രോപ്പർട്ടി";
-    body.appendChild(title);
+    info.appendChild(title);
 
     const location = document.createElement("p");
     location.className = "premium-listing-location";
     location.textContent = "📍 " + (item.location || "സ്ഥലം നൽകിയിട്ടില്ല");
-    body.appendChild(location);
+    info.appendChild(location);
 
     const price = document.createElement("p");
     price.className = "premium-listing-price";
     price.textContent = item.price != null && item.price !== ""
       ? "₹ " + String(item.price)
       : "വില ചോദിക്കുക";
-    body.appendChild(price);
+    info.appendChild(price);
 
     const facts = document.createElement("div");
     facts.className = "premium-listing-facts";
@@ -3034,7 +3210,8 @@ async function loadPropertyListings() {
       areaFact.textContent = "↗ " + item.area;
       facts.appendChild(areaFact);
     }
-    if (facts.childElementCount) body.appendChild(facts);
+    if (facts.childElementCount) info.appendChild(facts);
+    body.appendChild(info);
 
     const actions = document.createElement("div");
     actions.className = "premium-listing-actions";
@@ -3066,6 +3243,23 @@ async function loadPropertyListings() {
     container.appendChild(card);
   });
 }
+
+
+const favouritesToggle = document.getElementById("toggleMyFavourites");
+favouritesToggle?.addEventListener("click", async () => {
+  const { data: { user } } = await db.auth.getUser();
+  if (!user) {
+    document.getElementById("account")?.classList.add("account-modal-open");
+    document.getElementById("edLoginView")?.removeAttribute("hidden");
+    document.getElementById("edSignupView")?.setAttribute("hidden", "");
+    window.showMessage?.("നിങ്ങളുടെ Favourite പരസ്യങ്ങൾ കാണാൻ Login ചെയ്യുക.");
+    return;
+  }
+  easyDealsShowFavouritesOnly = !easyDealsShowFavouritesOnly;
+  favouritesToggle.setAttribute("aria-pressed", String(easyDealsShowFavouritesOnly));
+  favouritesToggle.textContent = easyDealsShowFavouritesOnly ? "♥ എല്ലാ പരസ്യങ്ങളും കാണുക" : "♥ എന്റെ Favourite പരസ്യങ്ങൾ";
+  await loadPropertyListings();
+});
 
 
 const searchBox = document.getElementById("propertySearch");
