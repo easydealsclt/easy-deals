@@ -1230,6 +1230,202 @@ button:not(#installAppBtn), .btn, nav a, #languageToggle {
       #account #auth #edPasswordReset { padding: 10px !important; }
     }
 
+
+/* Easy Deals: compact two-row mobile header only. Desktop layout is unchanged. */
+@media (max-width: 640px) {
+  header .nav {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 5px;
+    min-height: 0;
+    padding: 6px 0 7px;
+  }
+
+  header .nav > .brand {
+    align-self: flex-start;
+    display: block;
+    margin-left: 2px;
+    font-size: 18px;
+    line-height: 1.2;
+    letter-spacing: .7px;
+  }
+
+  header .nav > nav {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-areas:
+      "home sell buy contact"
+      "mine mine login language"
+      "install install install install";
+    align-items: stretch;
+    gap: 5px;
+    margin: 0;
+    font-size: 11px;
+  }
+
+  header .nav > nav > a,
+  header .nav > nav > button {
+    min-width: 0;
+    min-height: 32px;
+    width: 100%;
+    margin: 0;
+    padding: 5px 3px !important;
+    border-radius: 8px;
+    font-size: 11px !important;
+    line-height: 1.2;
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  header .nav > nav > a:nth-child(1) { grid-area: home; }
+  header .nav > nav > a:nth-child(2) { grid-area: sell; }
+  header .nav > nav > a:nth-child(3) { grid-area: buy; }
+  header .nav > nav > a:nth-child(4) { grid-area: contact; }
+  header .nav > nav > a:nth-child(5) { grid-area: mine; }
+  header .nav > nav > a:nth-child(6) { grid-area: login; }
+  header .nav > nav > button#installAppBtn {
+    grid-area: install;
+    justify-self: center;
+    width: min(100%, 180px);
+  }
+  header .nav > nav > button#languageToggle { grid-area: language; }
+
+  /* The compact header needs a smaller anchor offset on phones. */
+  html { scroll-padding-top: 112px; }
+  #home, #sell, #buy, #contact, #myListings, #account, #adminPanel {
+    scroll-margin-top: 112px;
+  }
+}
+
+
+/* Easy Deals mobile refinement: compact pill navigation and shorter sell form.
+   All rules are limited to mobile widths; desktop styling and functionality stay intact. */
+@media (max-width: 640px) {
+  header .nav {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 5px;
+    min-height: 0;
+    padding: 6px 0 7px;
+  }
+
+  header .nav > .brand {
+    align-self: flex-start;
+    margin-left: 2px;
+    font-size: 18px;
+    line-height: 1.15;
+    letter-spacing: .6px;
+  }
+
+  header .nav > nav {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-areas:
+      "home sell buy contact"
+      "mine mine login language";
+    align-items: center;
+    gap: 5px;
+    margin: 0;
+  }
+
+  header .nav > nav > a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 30px;
+    width: 100%;
+    margin: 0;
+    padding: 5px 3px !important;
+    border-radius: 999px !important;
+    font-size: 11px !important;
+    line-height: 1.15;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  header .nav > nav > a:nth-child(1) { grid-area: home; }
+  header .nav > nav > a:nth-child(2) { grid-area: sell; }
+  header .nav > nav > a:nth-child(3) { grid-area: buy; }
+  header .nav > nav > a:nth-child(4) {
+    grid-area: contact;
+    font-size: 10px !important;
+    white-space: nowrap;
+    letter-spacing: -.25px;
+  }
+  header .nav > nav > a:nth-child(5) { grid-area: mine; }
+  header .nav > nav > a:nth-child(6) { grid-area: login; }
+  header .nav > nav > button#languageToggle { grid-area: language; }
+
+  header .nav > nav > button#installAppBtn.visible {
+    display: flex;
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: min(100%, 180px);
+    min-height: 30px;
+    margin: 1px auto 0;
+    padding: 5px 12px;
+    font-size: 11px;
+  }
+
+  /* Keep the sticky-header anchor offset proportional to the shorter header. */
+  html { scroll-padding-top: 116px; }
+  #home, #sell, #buy, #contact, #myListings, #account, #adminPanel {
+    scroll-margin-top: 116px;
+  }
+
+  /* Two-line explanatory copy under the List a Property heading. */
+  #sell > .wrap > .sub {
+    max-width: 100%;
+    font-size: 13px;
+    line-height: 1.38;
+    margin: 5px auto 12px;
+    letter-spacing: -.15px;
+  }
+
+  /* Compact the property submission form without reducing readability. */
+  #sell .panel {
+    padding: 9px;
+  }
+  #sell label {
+    margin: 5px 0 2px;
+    font-size: 13px;
+    line-height: 1.3;
+  }
+  #sell input:not([type="file"]),
+  #sell select {
+    min-height: 37px;
+    height: 37px;
+    padding: 6px 9px;
+    font-size: 13px;
+  }
+  #sell input[type="file"] {
+    min-height: 36px;
+    padding: 5px 7px;
+    font-size: 12px;
+  }
+  #sell textarea {
+    min-height: 58px;
+    padding: 7px 9px;
+    font-size: 13px;
+  }
+  #sell .hint {
+    margin: 4px 0;
+    font-size: 11px;
+    line-height: 1.35;
+  }
+  #sell .forms {
+    gap: 7px;
+  }
+}
+
 </style>
 
 <style>
@@ -1491,7 +1687,7 @@ button:not(#installAppBtn), .btn, nav a, #languageToggle {
               <label for="price">പ്രതീക്ഷിക്കുന്ന വില</label><input id="price" placeholder="ഉദാ: ₹25 ലക്ഷം">
               <label for="photos">ഫോട്ടോകൾ തിരഞ്ഞെടുക്കുക</label><input id="photos" type="file" accept="image/*" multiple>
               <div class="preview" id="photoPreview"></div>
-              <p class="hint">ഫോട്ടോകൾ തിരഞ്ഞെടുത്താൽ പ്രിവ്യൂ കാണാം. നിങ്ങളുടെ ഫോണിൽ Share സൗകര്യം ലഭ്യമെങ്കിൽ വിവരങ്ങളും ഫോട്ടോകളും ഒരുമിച്ച് WhatsApp-ലേക്ക് പങ്കിടാം.</p>
+              
             </div>
           </div>
           <label for="details">കൂടുതൽ വിവരങ്ങൾ</label><textarea id="details" placeholder="റോഡ് സൗകര്യം, വെള്ളം, രേഖകൾ തുടങ്ങിയ വിവരങ്ങൾ"></textarea>
